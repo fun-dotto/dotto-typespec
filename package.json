@@ -1,0 +1,20 @@
+{
+  "name": "dotto-typespec",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/http": "latest",
+    "@typespec/openapi": "latest",
+    "@typespec/openapi3": "latest",
+    "@typespec/rest": "latest"
+  },
+  "devDependencies": {
+    "@redocly/cli": "latest"
+  },
+  "scripts": {
+    "build": "tsp compile .",
+    "preview": "redocly preview -d ./tsp-output/schema/ -p 4041"
+  }
+}
