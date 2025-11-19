@@ -18,6 +18,6 @@ namespace AnnouncementService {
   @tag("Announcements")
   interface Announcements {
     /** List announcements */
-    @get list(): Announcement[];
+    @get list(@query isActive?: boolean): Announcement[];
   }
 }
