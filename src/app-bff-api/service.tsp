@@ -11,7 +11,6 @@ namespace AppBFFService {
     title: string;
     date: utcDateTime;
     url: url;
-    isActive: boolean;
   }
 
   @route("/announcements")
