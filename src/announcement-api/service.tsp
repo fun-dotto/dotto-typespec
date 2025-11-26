@@ -2,7 +2,6 @@ import "@typespec/http";
 import "@typespec/openapi";
 
 using Http;
-using OpenAPI;
 
 @service(#{ title: "Announcement Service" })
 namespace AnnouncementService {
@@ -17,7 +16,9 @@ namespace AnnouncementService {
   @route("/announcements")
   @tag("Announcements")
   interface Announcements {
-    /** List announcements */
-    @get list(): Announcement[];
+    /**
+     * @param sort
+     */
+    @get list(@query sort?: string): Announcement[];
   }
 }
