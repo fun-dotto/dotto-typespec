@@ -14,7 +14,9 @@
     "@redocly/cli": "latest"
   },
   "scripts": {
-    "build": "tsp compile .",
-    "preview": "redocly preview -d ./tsp-output/schema/ -p 4041"
+    "build": "pnpm run compile && pnpm run docs:build",
+    "compile": "tsp compile .",
+    "docs:build": "redocly build-docs -o ./dist/announcement-api.html ./tsp-output/schema/AnnouncementService/openapi.AnnouncementService.yaml && redocly build-docs -o ./dist/app-bff-api.html ./tsp-output/schema/AppBFFService/openapi.AppBFFService.yaml",
+    "docs:preview": "redocly preview -d ./tsp-output/schema/ -p 4041"
   }
 }
