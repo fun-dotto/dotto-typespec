@@ -6,4 +6,9 @@ namespace AnnouncementService {
     url: url;
     isActive: boolean;
   }
+
+  enum SortDirection {
+    Asc: "asc",
+    Desc: "desc",
+  }
 }

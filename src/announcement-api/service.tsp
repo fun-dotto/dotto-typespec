@@ -40,7 +40,7 @@ namespace AnnouncementService {
      * @returns おしらせのリスト
      */
     @get list(
-      @query sortByDate?: string = "asc",
+      @query sortByDate?: SortDirection = SortDirection.Asc,
       @query filterIsActive?: boolean = false,
     ): Announcement[];
   }
