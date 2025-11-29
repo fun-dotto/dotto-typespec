@@ -29,23 +29,19 @@ namespace AnnouncementService {
   @tag("Announcements")
   interface Announcements {
     /**
-     * @param sortByDateAsc
-     * 日時昇順ソートするか
+     * @param sortByDate
+     * 日時ソート
      *
-     * 降順ソートの場合はfalseを指定
-     *
-     * デフォルト値はtrue (昇順ソート)
+     * 昇順ソートの場合は`asc`を指定、降順ソートの場合は`desc`を指定
      * @param filterIsActive
      * 公開状態で絞り込むか
      *
-     * 公開状態ではないもののみを抽出する場合はfalseを指定
-     *
-     * デフォルト値はnull (すべての公開状態を含む)
+     * 公開状態のみを抽出する場合は`true`を指定
      * @returns おしらせのリスト
      */
     @get list(
-      @query sortByDateAsc?: boolean,
-      @query filterIsActive?: boolean,
+      @query sortByDate?: string = "asc",
+      @query filterIsActive?: boolean = false,
     ): Announcement[];
   }
 }
