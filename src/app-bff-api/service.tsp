@@ -25,7 +25,9 @@ namespace AppBFFService {
   @route("/announcements")
   @tag("Announcements")
   interface Announcements {
-    /** List announcements */
+    /**
+     * @returns おしらせのリスト
+     */
     @get list(): Announcement[];
   }
 }

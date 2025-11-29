@@ -28,7 +28,24 @@ namespace AnnouncementService {
   @route("/announcements")
   @tag("Announcements")
   interface Announcements {
-    /** List announcements */
-    @get list(@query isActive?: boolean): Announcement[];
+    /**
+     * @param sortByDateAsc
+     * 日時昇順ソートするか
+     *
+     * 降順ソートの場合はfalseを指定
+     *
+     * デフォルト値はtrue (昇順ソート)
+     * @param filterIsActive
+     * 公開状態で絞り込むか
+     *
+     * 公開状態ではないもののみを抽出する場合はfalseを指定
+     *
+     * デフォルト値はnull (すべての公開状態を含む)
+     * @returns おしらせのリスト
+     */
+    @get list(
+      @query sortByDateAsc?: boolean,
+      @query filterIsActive?: boolean,
+    ): Announcement[];
   }
 }
