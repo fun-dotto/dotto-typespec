@@ -3,6 +3,7 @@ import "@typespec/openapi";
 import "./model.tsp";
 
 using Http;
+using OpenAPI;
 
 @service(#{ title: "Announcement Service" })
 @info(#{ version: "1.0.0" })
@@ -28,8 +29,23 @@ namespace AnnouncementService {
   @tag("Announcements")
   interface Announcements {
     /**
-     * @param sort
+     * @param sortByDateAsc
+     * 日時昇順ソートするか
+     *
+     * 降順ソートの場合はfalseを指定
+     *
+     * デフォルト値はtrue (昇順ソート)
+     * @param filterIsActive
+     * 公開状態で絞り込むか
+     *
+     * 公開状態ではないもののみを抽出する場合はfalseを指定
+     *
+     * デフォルト値はnull (すべての公開状態を含む)
+     * @returns おしらせのリスト
      */
-    @get list(@query sort?: string): Announcement[];
+    @get list(
+      @query sortByDateAsc?: boolean,
+      @query filterIsActive?: boolean,
+    ): Announcement[];
   }
 }
