@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@10.24.0",
   "dependencies": {
     "@typespec/compiler": "latest",
     "@typespec/http": "latest",
@@ -14,7 +15,10 @@
     "@redocly/cli": "latest"
   },
   "scripts": {
-    "build": "tsp compile .",
-    "preview": "redocly preview -d ./tsp-output/schema/ -p 4041"
+    "build": "pnpm run compile && pnpm run docs:build",
+    "compile": "tsp compile .",
+    "watch": "tsp compile . --watch",
+    "docs:build": "redocly build-docs announcement-api -o ./dist/announcement-api.html && redocly build-docs app-bff-api -o ./dist/app-bff-api.html",
+    "docs:preview": "redocly preview --project-dir=./tsp-output/schema/"
   }
 }
