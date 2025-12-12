@@ -30,4 +30,60 @@ namespace AppBFFService {
      */
     @get list(): Announcement[];
   }
+  @route("/cources")
+  @tag("Cources")
+  interface Cources {
+    /**
+     * @returns コースのリスト
+     */
+    @get list(@query name?: string): Cource[];
+  }
+  @route("/grades")
+  @tag("Grades")
+  interface Grades {
+    /**
+     * @returns 学年のリスト
+     */
+    @get list(@query name?: string): Grade[];
+  }
+  @route("/classes")
+  @tag("Classes")
+  interface Classes {
+    /**
+     * @returns クラスのリスト
+     */
+    @get list(@query name?: string): Class[];
+  }
+  @route("/academic-areas")
+  @tag("AcademicAreas")
+  interface AcademicAreas {
+    /**
+     * @returns 所属コースのリスト
+     */
+    @get list(@query name?: string): AcademicArea[];
+  }
+  @route("ooening-peripds")
+  @tag("OpeningPeriods")
+  interface OpeningPeriods {
+    /**
+     * @returns 学期のリスト
+     */
+    @get list(@query name?: string): OpeningPeriod[];
+  }
+  @route("course-intermediate-categories")
+  @tag("CourseIntermediateCategories")
+  interface CourseIntermediateCategories {
+    /**
+     * @returns コースのリスト
+     */
+    @get list(@query name?: string): CourseIntermediateCategory[];
+  }
+  @route("course-child-categories")
+  @tag("CourseChildCategories")
+  interface CourseChildCategories {
+    /**
+     * @returns コースのリスト
+     */
+    @get list(@query name?: string): CourseChildCategory[];
+  }
 }
