@@ -5,4 +5,25 @@ namespace AppBFFService {
     date: utcDateTime;
     url: url;
   }
+  model Cource {
+    id: string;
+  }
+  model Grade {
+    id: string;
+  }
+  model Class {
+    id: string;
+  }
+  model AcademicArea {
+    id: string;
+  }
+  model OpeningPeriod {
+    id: string;
+  }
+  model CourseIntermediateCategory {
+    id: string;
+  }
+  model CourseChildCategory {
+    id: string;
+  }
 }
