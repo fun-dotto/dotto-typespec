@@ -44,4 +44,26 @@ namespace AnnouncementService {
       @query filterIsActive?: boolean = false,
     ): Announcement[];
   }
+
+  @route("/v1/announcements")
+  @tag("V1 Announcements")
+  interface V1Announcements {
+    /**
+     * @param sortByDate
+     * 日時ソート
+     *
+     * 昇順ソートの場合は`asc`を指定、降順ソートの場合は`desc`を指定
+     * @param filterIsActive
+     * 公開状態で絞り込むか
+     *
+     * 公開状態のみを抽出する場合は`true`を指定
+     * @returns おしらせのリスト
+     */
+    @get list(
+      @query
+      sortByDate?: AnnouncementServiceV1.SortDirection = AnnouncementServiceV1.SortDirection.Asc,
+
+      @query filterIsActive?: boolean = false,
+    ): AnnouncementServiceV1.V1Announcement[];
+  }
 }
