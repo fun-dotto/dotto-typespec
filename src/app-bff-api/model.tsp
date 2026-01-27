@@ -1,4 +1,4 @@
-namespace AppBFFService {
+namespace AppBFFServiceV0 {
   model Announcement {
     id: string;
     title: string;

@@ -1,4 +1,4 @@
-namespace AnnouncementService {
+namespace AnnouncementServiceV0 {
   model Announcement {
     id: string;
     title: string;

@@ -25,7 +25,7 @@ using OpenAPI;
   "Development"
 )
 @server("http://localhost:8080", "Local")
-namespace AnnouncementService {
+namespace AnnouncementServiceV0 {
   @route("/announcements")
   @tag("Announcements")
   interface Announcements {

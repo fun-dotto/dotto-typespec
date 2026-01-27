@@ -21,7 +21,7 @@ using OpenAPI;
   "Development"
 )
 @server("http://localhost:8080", "Local")
-namespace AppBFFService {
+namespace AppBFFServiceV0 {
   @route("/announcements")
   @tag("Announcements")
   interface Announcements {
