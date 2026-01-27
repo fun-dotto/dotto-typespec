@@ -1,12 +1,13 @@
 import "@typespec/http";
 import "@typespec/openapi";
 import "./model.tsp";
+import "../foundation/sortDirection.tsp";
 
 using Http;
 using OpenAPI;
 
-@service(#{ title: "Announcement Service" })
-@info(#{ version: "1.0.0" })
+@service(#{ title: "Announcement Service v0" })
+@info(#{ version: "0.0.0" })
 @server(
   "https://announcement-api-107577467292.asia-northeast1.run.app",
   "Production"
@@ -40,14 +41,37 @@ namespace AnnouncementService {
      * @returns おしらせのリスト
      */
     @get list(
-      @query sortByDate?: SortDirection = SortDirection.Asc,
+      @query
+      sortByDate?: FoundationV1.SortDirection = FoundationV1.SortDirection.Asc,
+
       @query filterIsActive?: boolean = false,
     ): Announcement[];
   }
+}
 
+@service(#{ title: "Announcement Service v1" })
+@info(#{ version: "1.0.0" })
+@server(
+  "https://announcement-api-107577467292.asia-northeast1.run.app",
+  "Production"
+)
+@server(
+  "https://announcement-api-qa-107577467292.asia-northeast1.run.app",
+  "QA"
+)
+@server(
+  "https://announcement-api-stg-107577467292.asia-northeast1.run.app",
+  "Staging"
+)
+@server(
+  "https://announcement-api-dev-107577467292.asia-northeast1.run.app",
+  "Development"
+)
+@server("http://localhost:8080", "Local")
+namespace AnnouncementServiceV1 {
   @route("/v1/announcements")
-  @tag("V1 Announcements")
-  interface V1Announcements {
+  @tag("Announcements")
+  interface Announcements {
     /**
      * @param sortByDate
      * 日時ソート
@@ -61,9 +85,11 @@ namespace AnnouncementService {
      */
     @get list(
       @query
-      sortByDate?: AnnouncementServiceV1.SortDirection = AnnouncementServiceV1.SortDirection.Asc,
+      sortByDate?: FoundationV1.SortDirection = FoundationV1.SortDirection.Asc,
 
       @query filterIsActive?: boolean = false,
-    ): AnnouncementServiceV1.V1Announcement[];
+    ): {
+      announcements: Announcement[];
+    };
   }
 }
