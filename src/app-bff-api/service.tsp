@@ -30,13 +30,13 @@ namespace AppBFFService {
      */
     @get list(): Announcement[];
   }
-  @route("/cources")
-  @tag("Cources")
-  interface Cources {
+  @route("/courses")
+  @tag("Courses")
+  interface Courses {
     /**
      * @returns コースのリスト
      */
-    @get list(@query name?: string): Cource[];
+    @get list(@query name?: string): Course[];
   }
   @route("/grades")
   @tag("Grades")
@@ -62,7 +62,7 @@ namespace AppBFFService {
      */
     @get list(@query name?: string): AcademicArea[];
   }
-  @route("ooening-peripds")
+  @route("opening-periods")
   @tag("OpeningPeriods")
   interface OpeningPeriods {
     /**

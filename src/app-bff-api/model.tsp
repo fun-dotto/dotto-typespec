@@ -5,7 +5,7 @@ namespace AppBFFService {
     date: utcDateTime;
     url: url;
   }
-  model Cource {
+  model Course {
     id: string;
   }
   model Grade {
