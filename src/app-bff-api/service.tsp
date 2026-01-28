@@ -5,34 +5,7 @@ import "./model.tsp";
 using Http;
 using OpenAPI;
 
-@service(#{ title: "App BFF Service v0" })
-@info(#{ version: "0.0.0" })
-@server(
-  "https://app-bff-api-107577467292.asia-northeast1.run.app",
-  "Production"
-)
-@server("https://app-bff-api-qa-107577467292.asia-northeast1.run.app", "QA")
-@server(
-  "https://app-bff-api-stg-107577467292.asia-northeast1.run.app",
-  "Staging"
-)
-@server(
-  "https://app-bff-api-dev-107577467292.asia-northeast1.run.app",
-  "Development"
-)
-@server("http://localhost:8080", "Local")
-namespace AppBFFServiceV0 {
-  @route("/announcements")
-  @tag("Announcements")
-  interface Announcements {
-    /**
-     * @returns おしらせのリスト
-     */
-    @get list(): Announcement[];
-  }
-}
-
-@service(#{ title: "App BFF Service v1" })
+@service(#{ title: "App BFF Service" })
 @info(#{ version: "1.0.0" })
 @server(
   "https://app-bff-api-107577467292.asia-northeast1.run.app",
@@ -48,10 +21,19 @@ namespace AppBFFServiceV0 {
   "Development"
 )
 @server("http://localhost:8080", "Local")
-namespace AppBFFServiceV1 {
+namespace AppBFFService {
+  @route("/announcements")
+  @tag("Announcements")
+  interface AnnouncementsV0 {
+    /**
+     * @returns おしらせのリスト
+     */
+    @get list(): Announcement[];
+  }
+
   @route("/v1/announcements")
   @tag("Announcements")
-  interface Announcements {
+  interface AnnouncementsV1 {
     /**
      * @returns おしらせのリスト
      */
