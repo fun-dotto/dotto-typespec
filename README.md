@@ -4,6 +4,7 @@
 
 - [App BFF API (v0)](https://fun-dotto.github.io/dotto-typespec/app-bff-api-v0.html)
 - [App BFF API (v1)](https://fun-dotto.github.io/dotto-typespec/app-bff-api-v1.html)
+- [Admin BFF API](https://fun-dotto.github.io/dotto-typespec/admin-bff-api.html)
 
 ## Service
 
