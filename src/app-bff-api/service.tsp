@@ -55,8 +55,8 @@ namespace AppBFFServiceV1 {
     /**
      * @returns おしらせのリスト
      */
-    @get list(): {
+    @get list(): Body<{
       announcements: Announcement[];
-    };
+    }>;
   }
 }

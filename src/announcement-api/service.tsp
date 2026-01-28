@@ -88,8 +88,8 @@ namespace AnnouncementServiceV1 {
       sortByDate?: FoundationV1.SortDirection = FoundationV1.SortDirection.Asc,
 
       @query filterIsActive?: boolean = false,
-    ): {
+    ): Body<{
       announcements: Announcement[];
-    };
+    }>;
   }
 }
