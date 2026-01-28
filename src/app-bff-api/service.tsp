@@ -28,8 +28,7 @@ namespace AppBFFService {
     /**
      * @returns おしらせのリスト
      */
-    @get
-    list(): Announcement[];
+    @get list(): Announcement[];
   }
 
   @route("/v1/announcements")
