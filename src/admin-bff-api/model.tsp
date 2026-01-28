@@ -7,17 +7,10 @@ namespace AdminBFFService {
     url: url;
   }
 
-  model AnnouncementCreateRequest {
+  model AnnouncementRequest {
     title: string;
     availableFrom: utcDateTime;
     availableUntil?: utcDateTime;
     url: url;
-  }
-
-  model AnnouncementUpdateRequest {
-    title?: string;
-    availableFrom?: utcDateTime;
-    availableUntil?: utcDateTime;
-    url?: url;
   }
 }

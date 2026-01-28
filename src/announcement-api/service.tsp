@@ -76,7 +76,7 @@ namespace AnnouncementService {
      * @param body 作成するおしらせの情報
      * @returns 作成されたおしらせ
      */
-    @post create(@body body: AnnouncementCreateRequest): Body<{
+    @post create(@body body: AnnouncementRequest): Body<{
       announcement: Announcement;
     }>;
 
@@ -86,7 +86,7 @@ namespace AnnouncementService {
      * @param body 更新するおしらせの情報
      * @returns 更新されたおしらせ
      */
-    @put update(@path id: string, @body body: AnnouncementUpdateRequest): Body<{
+    @put update(@path id: string, @body body: AnnouncementRequest): Body<{
       announcement: Announcement;
     }>;
 
