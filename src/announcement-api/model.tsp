@@ -4,20 +4,20 @@ namespace AnnouncementService {
     title: string;
     date: utcDateTime;
     url: url;
-    isActive: boolean;
+    isAvailable: boolean;
   }
 
   model AnnouncementCreateRequest {
     title: string;
     date: utcDateTime;
     url: url;
-    isActive: boolean;
+    isAvailable: boolean;
   }
 
   model AnnouncementUpdateRequest {
     title?: string;
     date?: utcDateTime;
     url?: url;
-    isActive?: boolean;
+    isAvailable?: boolean;
   }
 }
