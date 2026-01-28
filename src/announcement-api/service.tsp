@@ -91,5 +91,30 @@ namespace AnnouncementServiceV1 {
     ): Body<{
       announcements: Announcement[];
     }>;
+
+    /**
+     * おしらせを作成する
+     * @param body 作成するおしらせの情報
+     * @returns 作成されたおしらせ
+     */
+    @post create(@body body: AnnouncementCreateRequest): Body<{
+      announcement: Announcement;
+    }>;
+
+    /**
+     * おしらせを更新する
+     * @param id おしらせID
+     * @param body 更新するおしらせの情報
+     * @returns 更新されたおしらせ
+     */
+    @put update(@path id: string, @body body: AnnouncementUpdateRequest): Body<{
+      announcement: Announcement;
+    }>;
+
+    /**
+     * おしらせを削除する
+     * @param id おしらせID
+     */
+    @delete delete(@path id: string): void;
   }
 }
