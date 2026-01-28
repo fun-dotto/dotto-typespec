@@ -2,22 +2,22 @@ namespace AdminBFFService {
   model Announcement {
     id: string;
     title: string;
-    date: utcDateTime;
+    availableFrom: utcDateTime;
+    availableUntil?: utcDateTime;
     url: url;
-    isAvailable: boolean;
   }
 
   model AnnouncementCreateRequest {
     title: string;
-    date: utcDateTime;
+    availableFrom: utcDateTime;
+    availableUntil?: utcDateTime;
     url: url;
-    isAvailable: boolean;
   }
 
   model AnnouncementUpdateRequest {
     title?: string;
-    date?: utcDateTime;
+    availableFrom?: utcDateTime;
+    availableUntil?: utcDateTime;
     url?: url;
-    isAvailable?: boolean;
   }
 }
