@@ -22,9 +22,9 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace AdminBFFService {
-  @route("/announcements")
+  @route("/v1/announcements")
   @tag("Announcements")
-  interface Announcements {
+  interface AnnouncementsV1 {
     /**
      * @returns おしらせのリスト
      */
