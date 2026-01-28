@@ -6,16 +6,10 @@ namespace AnnouncementService {
     availableUntil?: utcDateTime;
     url: url;
 
-    /**
-     * @deprecated
-     * 非推奨: 代わりに`availableFrom`を使用してください
-     */
+    @doc("非推奨: 代わりに`availableFrom`を使用してください")
     date: utcDateTime;
 
-    /**
-     * @deprecated
-     * 非推奨: 代わりに`availableTo`を使用してください
-     */
+    @doc("非推奨: 代わりに`availableTo`を使用してください")
     isActive: boolean;
   }
 

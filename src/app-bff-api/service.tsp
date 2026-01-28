@@ -22,17 +22,14 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace AppBFFService {
-  /**
-   * @deprecated
-   * 非推奨: 代わりに`AnnouncementsV1`を使用してください
-   */
   @route("/announcements")
   @tag("Announcements")
   interface AnnouncementsV0 {
     /**
      * @returns おしらせのリスト
      */
-    @get list(): Announcement[];
+    @get
+    list(): Announcement[];
   }
 
   @route("/v1/announcements")
