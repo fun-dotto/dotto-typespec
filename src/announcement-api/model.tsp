@@ -5,6 +5,18 @@ namespace AnnouncementService {
     availableFrom: utcDateTime;
     availableUntil?: utcDateTime;
     url: url;
+
+    /**
+     * @deprecated
+     * 非推奨: 代わりに`availableFrom`を使用してください
+     */
+    date: utcDateTime;
+
+    /**
+     * @deprecated
+     * 非推奨: 代わりに`availableTo`を使用してください
+     */
+    isActive: boolean;
   }
 
   model AnnouncementRequest {

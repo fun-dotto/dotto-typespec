@@ -26,6 +26,10 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace AnnouncementService {
+  /**
+   * @deprecated
+   * 非推奨: 代わりに`AnnouncementsV1`を使用してください
+   */
   @route("/announcements")
   @tag("Announcements")
   interface AnnouncementsV0 {
