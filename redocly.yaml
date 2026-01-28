@@ -7,3 +7,5 @@ apis:
     root: ./tsp-output/schema/openapi.AppBFFServiceV0.yaml
   app-bff-api@v1:
     root: ./tsp-output/schema/openapi.AppBFFServiceV1.yaml
+  admin-bff-api:
+    root: ./tsp-output/schema/openapi.AdminBFFService.yaml
