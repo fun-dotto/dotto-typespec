@@ -9,7 +9,7 @@ namespace AnnouncementService {
     @doc("非推奨: 代わりに`availableFrom`を使用してください")
     date: utcDateTime;
 
-    @doc("非推奨: 代わりに`availableTo`を使用してください")
+    @doc("非推奨: 代わりに`availableUntil`を使用してください")
     isActive: boolean;
   }
 
