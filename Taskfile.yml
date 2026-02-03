@@ -14,21 +14,24 @@ tasks:
       - "{{.PNPM}} install"
   compile:
     cmds:
-      - task: clean
+      - task: clean-schema
       - "{{.PNPM}} compile"
   watch:
     cmds:
       - "{{.PNPM}} watch"
-  clean:
-    cmds:
-      - "{{.PNPM}} clean"
   build-docs:
     cmds:
-      - task: clean
+      - task: clean-docs
       - "{{.PNPM}} build-docs"
   preview:
     cmds:
       - "{{.PNPM}} preview"
+  clean-schema:
+    cmds:
+      - rm -rf ./tsp-output/schema
+  clean-docs:
+    cmds:
+      - rm -rf ./dist
   build:
     cmds:
       - task: compile
