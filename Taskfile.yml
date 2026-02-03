@@ -1,0 +1,39 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+vars:
+  PNPM: pnpm
+
+tasks:
+  default:
+    cmds:
+      - task --list-all
+  install:
+    cmds:
+      - "{{.PNPM}} install"
+  compile:
+    cmds:
+      - task: clean
+      - "{{.PNPM}} compile"
+  watch:
+    cmds:
+      - "{{.PNPM}} watch"
+  clean:
+    cmds:
+      - "{{.PNPM}} clean"
+  build-docs:
+    cmds:
+      - task: clean
+      - "{{.PNPM}} build-docs"
+  preview:
+    cmds:
+      - "{{.PNPM}} preview"
+  build:
+    cmds:
+      - task: compile
+      - task: build-docs
+  watch-and-preview:
+    deps:
+      - task: watch
+      - task: preview
