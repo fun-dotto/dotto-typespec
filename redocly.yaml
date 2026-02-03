@@ -1,9 +1,7 @@
 apis:
-  announcement-api@v0:
-    root: ./tsp-output/schema/openapi.AnnouncementServiceV0.yaml
-  announcement-api@v1:
-    root: ./tsp-output/schema/openapi.AnnouncementServiceV1.yaml
-  app-bff-api@v0:
-    root: ./tsp-output/schema/openapi.AppBFFServiceV0.yaml
-  app-bff-api@v1:
-    root: ./tsp-output/schema/openapi.AppBFFServiceV1.yaml
+  app-bff-api:
+    root: ./tsp-output/schema/openapi.AppBFFService.yaml
+  admin-bff-api:
+    root: ./tsp-output/schema/openapi.AdminBFFService.yaml
+  announcement-api:
+    root: ./tsp-output/schema/openapi.AnnouncementService.yaml
