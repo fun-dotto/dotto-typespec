@@ -37,8 +37,9 @@ namespace AppBFFService {
     /**
      * @returns おしらせのリスト
      */
-    @get list(): Body<{
-      announcements: Announcement[];
-    }>;
+    @get list(): OkResponse &
+      Body<{
+        announcements: Announcement[];
+      }>;
   }
 }
