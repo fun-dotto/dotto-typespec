@@ -26,13 +26,9 @@ namespace AdminBFFService {
   @tag("Announcements")
   interface AnnouncementsV1 {
     /**
-     * @param filterIsActive
-     * 公開状態で絞り込むか
-     *
-     * 公開状態のみを抽出する場合は`true`を指定
      * @returns おしらせのリスト
      */
-    @get list(@query filterIsActive?: boolean = false): OkResponse &
+    @get list(): OkResponse &
       Body<{
         announcements: Announcement[];
       }>;
