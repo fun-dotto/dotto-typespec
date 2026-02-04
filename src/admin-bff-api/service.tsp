@@ -28,18 +28,30 @@ namespace AdminBFFService {
     /**
      * @returns おしらせのリスト
      */
-    @get list(): Body<{
-      announcements: Announcement[];
-    }>;
+    @get list(): OkResponse &
+      Body<{
+        announcements: Announcement[];
+      }>;
+
+    /**
+     * おしらせを詳細取得する
+     * @param id おしらせID
+     * @returns おしらせの詳細
+     */
+    @get detail(@path id: string): OkResponse &
+      Body<{
+        announcement: Announcement;
+      }>;
 
     /**
      * おしらせを作成する
      * @param body 作成するおしらせの情報
      * @returns 作成されたおしらせ
      */
-    @post create(@body body: AnnouncementRequest): Body<{
-      announcement: Announcement;
-    }>;
+    @post create(@body body: AnnouncementRequest): CreatedResponse &
+      Body<{
+        announcement: Announcement;
+      }>;
 
     /**
      * おしらせを更新する
@@ -47,14 +59,15 @@ namespace AdminBFFService {
      * @param body 更新するおしらせの情報
      * @returns 更新されたおしらせ
      */
-    @put update(@path id: string, @body body: AnnouncementRequest): Body<{
-      announcement: Announcement;
-    }>;
+    @put update(@path id: string, @body body: AnnouncementRequest): OkResponse &
+      Body<{
+        announcement: Announcement;
+      }>;
 
     /**
      * おしらせを削除する
      * @param id おしらせID
      */
-    @delete delete(@path id: string): void;
+    @delete delete(@path id: string): NoContentResponse;
   }
 }
