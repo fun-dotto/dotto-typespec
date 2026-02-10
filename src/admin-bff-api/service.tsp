@@ -1,6 +1,6 @@
 import "@typespec/http";
 import "@typespec/openapi";
-import "./model.tsp";
+import "../announcement-api/model.tsp";
 
 using Http;
 using OpenAPI;
@@ -30,7 +30,7 @@ namespace AdminBFFService {
      */
     @get list(): OkResponse &
       Body<{
-        announcements: Announcement[];
+        announcements: AnnouncementService.Announcement[];
       }>;
 
     /**
@@ -40,7 +40,7 @@ namespace AdminBFFService {
      */
     @get detail(@path id: string): OkResponse &
       Body<{
-        announcement: Announcement;
+        announcement: AnnouncementService.Announcement;
       }>;
 
     /**
@@ -48,9 +48,11 @@ namespace AdminBFFService {
      * @param body 作成するおしらせの情報
      * @returns 作成されたおしらせ
      */
-    @post create(@body body: AnnouncementRequest): CreatedResponse &
+    @post create(
+      @body body: AnnouncementService.AnnouncementRequest,
+    ): CreatedResponse &
       Body<{
-        announcement: Announcement;
+        announcement: AnnouncementService.Announcement;
       }>;
 
     /**
@@ -59,9 +61,12 @@ namespace AdminBFFService {
      * @param body 更新するおしらせの情報
      * @returns 更新されたおしらせ
      */
-    @put update(@path id: string, @body body: AnnouncementRequest): OkResponse &
+    @put update(
+      @path id: string,
+      @body body: AnnouncementService.AnnouncementRequest,
+    ): OkResponse &
       Body<{
-        announcement: Announcement;
+        announcement: AnnouncementService.Announcement;
       }>;
 
     /**
