@@ -33,6 +33,28 @@ namespace DottoFoundationV1 {
   }
 
   /**
+   * 授業時間
+   */
+  enum TimetableSlot {
+    Slot1,
+    Slot2,
+    Slot3,
+    Slot4,
+    Slot5,
+    Slot6,
+  }
+
+  enum DayOfWeek {
+    Sunday,
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+  }
+
+  /**
    * 開講時期
    */
   enum CourseSemester {

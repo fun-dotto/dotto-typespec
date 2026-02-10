@@ -28,58 +28,17 @@ namespace SubjectService {
   }
 
   /**
-   * 授業時間
-   */
-  model TimetableSlot {
-    id: string;
-
-    /**
-     * 時限
-     *
-     * 1: 1限
-     * 2: 2限
-     * 3: 3限
-     * 4: 4限
-     * 5: 5限
-     * 6: 6限
-     */
-    slot: integer;
-
-    startTimeOfDay: plainTime;
-    endTimeOfDay: plainTime;
-  }
-
-  model TimetableSlotRequest {
-    slot: integer;
-    startTimeOfDay: plainTime;
-    endTimeOfDay: plainTime;
-  }
-
-  /**
    * 曜日・時限
    */
   model DayOfWeekTimetableSlot {
     id: string;
-
-    /**
-     * 曜日
-     *
-     * 0: 日曜日
-     * 1: 月曜日
-     * 2: 火曜日
-     * 3: 水曜日
-     * 4: 木曜日
-     * 5: 金曜日
-     * 6: 土曜日
-     */
-    dayOfWeek: integer;
-
-    timetableSlot: TimetableSlot;
+    dayOfWeek: DottoFoundationV1.DayOfWeek;
+    timetableSlot: DottoFoundationV1.TimetableSlot;
   }
 
   model DayOfWeekTimetableSlotRequest {
-    dayOfWeek: integer;
-    timetableSlotId: string;
+    dayOfWeek: DottoFoundationV1.DayOfWeek;
+    timetableSlot: DottoFoundationV1.TimetableSlot;
   }
 
   /**
