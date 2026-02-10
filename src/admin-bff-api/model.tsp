@@ -1,3 +1,5 @@
+import "../dotto-foundation/model.tsp";
+
 namespace AdminBFFService {
   model Announcement {
     id: string;
@@ -14,6 +16,17 @@ namespace AdminBFFService {
     url: url;
   }
 
+  /**
+   * コース
+   */
+  model Course {
+    id: string;
+    name: string;
+  }
+
+  /**
+   * 教員
+   */
   model Faculty {
     id: string;
     name: string;
@@ -23,53 +36,6 @@ namespace AdminBFFService {
   model FacultyRequest {
     name: string;
     email: string;
-  }
-
-  enum CoursePeriod {
-    /**
-     * 通年
-     */
-    AllYear,
-
-    /**
-     * 前期
-     */
-    H1,
-
-    /**
-     * 後期
-     */
-    H2,
-
-    /**
-     * 第1クオーター
-     */
-    Q1,
-
-    /**
-     * 第2クオーター
-     */
-    Q2,
-
-    /**
-     * 第3クオーター
-     */
-    Q3,
-
-    /**
-     * 第4クオーター
-     */
-    Q4,
-
-    /**
-     * 夏期集中
-     */
-    SummerIntensive,
-
-    /**
-     * 冬期集中
-     */
-    WinterIntensive,
   }
 
   /**
@@ -95,7 +61,7 @@ namespace AdminBFFService {
   }
 
   /**
-   * 曜日ごとの授業時間
+   * 曜日・時限
    */
   model DayOfWeekTimetableSlot {
     id: string;
@@ -116,76 +82,32 @@ namespace AdminBFFService {
     timetableSlot: TimetableSlot;
   }
 
-  enum RequirementType {
-    /**
-     * 必修
-     */
-    Required,
-
-    /**
-     * 選択
-     */
-    Optional,
-  }
-
   /**
-   * コース
+   * 対象学年・クラス
    */
-  model Course {
-    id: string;
-    name: string;
-  }
-
-  /**
-   * 学年
-   */
-  enum Grade {
-    B1,
-    B2,
-    B3,
-    B4,
-    M1,
-    M2,
-    D1,
-    D2,
-    D3,
-  }
-
-  /**
-   * クラス
-   */
-  enum Class {
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
-    J,
-    K,
-    L,
-  }
-
-  model EligibleAttribute {
-    grade: Grade;
+  model SubjectTargetClass {
+    grade: DottoFoundationV1.Grade;
 
     /**
      * 修士課程・博士課程対象の場合はnull
      */
-    class: Class | null;
-
-    /**
-     * 同一クラス・同一コースであればnull
-     */
-    course: Course | null;
-
-    requirementType: RequirementType;
+    class: DottoFoundationV1.Class | null;
   }
 
-  model SubjectType {
+  model SubjectRequirement {
+    course: Course;
+    requirementType: DottoFoundationV1.RequirementType;
+  }
+
+  model SubjectRequirementRequest {
+    courseId: string;
+    requirementType: DottoFoundationV1.RequirementType;
+  }
+
+  /**
+   * 科目群・科目区分
+   */
+  model SubjectCategory {
     id: string;
     name: string;
   }
@@ -194,14 +116,23 @@ namespace AdminBFFService {
     id: string;
     name: string;
     faculty: Faculty;
-    period: CoursePeriod;
+    semester: DottoFoundationV1.CourseSemester;
     dayOfWeekTimetableSlots: DayOfWeekTimetableSlot[];
-    eligibleAttributes: EligibleAttribute[];
 
     /**
-     * 科目群・科目区分
+     * 授業名末尾の`学年-クラス`をもとに決定
      */
-    subjectType: SubjectType;
+    eligibleAttributes: SubjectTargetClass[];
+
+    /**
+     * 科目群・科目区分をもとに決定
+     */
+    requirements: SubjectRequirement[];
+
+    /**
+     * 科目群・科目区分のリスト
+     */
+    categories: SubjectCategory[];
 
     /**
      * 教務システムのシラバスID
@@ -212,10 +143,11 @@ namespace AdminBFFService {
   model SubjectRequest {
     name: string;
     facultyId: string;
-    period: CoursePeriod;
+    semester: DottoFoundationV1.CourseSemester;
     dayOfWeekTimetableSlotIds: string[];
-    eligibleAttributes: EligibleAttribute[];
-    subjectTypeId: string;
+    eligibleAttributes: SubjectTargetClass[];
+    requirements: SubjectRequirementRequest[];
+    categoryIds: string[];
     syllabusId: string;
   }
 }
