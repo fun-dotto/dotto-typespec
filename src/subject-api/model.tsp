@@ -1,26 +1,15 @@
 import "../dotto-foundation/model.tsp";
 
-namespace AdminBFFService {
-  model Announcement {
-    id: string;
-    title: string;
-    availableFrom: utcDateTime;
-    availableUntil?: utcDateTime;
-    url: url;
-  }
-
-  model AnnouncementRequest {
-    title: string;
-    availableFrom: utcDateTime;
-    availableUntil?: utcDateTime;
-    url: url;
-  }
-
+namespace SubjectService {
   /**
    * コース
    */
   model Course {
     id: string;
+    name: string;
+  }
+
+  model CourseRequest {
     name: string;
   }
 
@@ -39,47 +28,17 @@ namespace AdminBFFService {
   }
 
   /**
-   * 授業時間
-   */
-  model TimetableSlot {
-    id: string;
-
-    /**
-     * 時限
-     *
-     * 1: 1限
-     * 2: 2限
-     * 3: 3限
-     * 4: 4限
-     * 5: 5限
-     * 6: 6限
-     */
-    slot: integer;
-
-    startTimeOfDay: plainTime;
-    endTimeOfDay: plainTime;
-  }
-
-  /**
    * 曜日・時限
    */
   model DayOfWeekTimetableSlot {
     id: string;
+    dayOfWeek: DottoFoundationV1.DayOfWeek;
+    timetableSlot: DottoFoundationV1.TimetableSlot;
+  }
 
-    /**
-     * 曜日
-     *
-     * 0: 日曜日
-     * 1: 月曜日
-     * 2: 火曜日
-     * 3: 水曜日
-     * 4: 木曜日
-     * 5: 金曜日
-     * 6: 土曜日
-     */
-    dayOfWeek: integer;
-
-    timetableSlot: TimetableSlot;
+  model DayOfWeekTimetableSlotRequest {
+    dayOfWeek: DottoFoundationV1.DayOfWeek;
+    timetableSlot: DottoFoundationV1.TimetableSlot;
   }
 
   /**
@@ -96,12 +55,12 @@ namespace AdminBFFService {
 
   model SubjectRequirement {
     course: Course;
-    requirementType: DottoFoundationV1.RequirementType;
+    requirementType: DottoFoundationV1.SubjectRequirementType;
   }
 
   model SubjectRequirementRequest {
     courseId: string;
-    requirementType: DottoFoundationV1.RequirementType;
+    requirementType: DottoFoundationV1.SubjectRequirementType;
   }
 
   /**
@@ -109,6 +68,10 @@ namespace AdminBFFService {
    */
   model SubjectCategory {
     id: string;
+    name: string;
+  }
+
+  model SubjectCategoryRequest {
     name: string;
   }
 

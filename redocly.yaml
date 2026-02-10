@@ -5,3 +5,5 @@ apis:
     root: ./tsp-output/schema/openapi.AdminBFFService.yaml
   announcement-api:
     root: ./tsp-output/schema/openapi.AnnouncementService.yaml
+  subject-api:
+    root: ./tsp-output/schema/openapi.SubjectService.yaml

@@ -18,6 +18,6 @@
     "compile": "tsp compile .",
     "watch": "tsp compile . --watch",
     "preview": "redocly preview --project-dir=./tsp-output/schema/",
-    "build-docs": "redocly build-docs app-bff-api -o ./dist/app-bff-api.html && redocly build-docs admin-bff-api -o ./dist/admin-bff-api.html && redocly build-docs announcement-api -o ./dist/announcement-api.html"
+    "build-docs": "redocly build-docs app-bff-api -o ./dist/app-bff-api.html && redocly build-docs admin-bff-api -o ./dist/admin-bff-api.html && redocly build-docs announcement-api -o ./dist/announcement-api.html && redocly build-docs subject-api -o ./dist/subject-api.html"
   }
 }
