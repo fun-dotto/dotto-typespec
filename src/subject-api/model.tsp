@@ -50,7 +50,7 @@ namespace SubjectService {
     /**
      * 修士課程・博士課程対象の場合はnull
      */
-    class: DottoFoundationV1.Class | null;
+    class?: DottoFoundationV1.Class;
   }
 
   model SubjectRequirement {
