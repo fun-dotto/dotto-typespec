@@ -71,6 +71,10 @@ namespace SubjectService {
     name: string;
   }
 
+  model SubjectCategoryRequest {
+    name: string;
+  }
+
   model Subject {
     id: string;
     name: string;
