@@ -9,6 +9,10 @@ namespace SubjectService {
     name: string;
   }
 
+  model CourseRequest {
+    name: string;
+  }
+
   /**
    * 教員
    */
@@ -45,6 +49,12 @@ namespace SubjectService {
     endTimeOfDay: plainTime;
   }
 
+  model TimetableSlotRequest {
+    slot: integer;
+    startTimeOfDay: plainTime;
+    endTimeOfDay: plainTime;
+  }
+
   /**
    * 曜日・時限
    */
@@ -67,6 +77,11 @@ namespace SubjectService {
     timetableSlot: TimetableSlot;
   }
 
+  model DayOfWeekTimetableSlotRequest {
+    dayOfWeek: integer;
+    timetableSlotId: string;
+  }
+
   /**
    * 対象学年・クラス
    */
@@ -81,12 +96,12 @@ namespace SubjectService {
 
   model SubjectRequirement {
     course: Course;
-    requirementType: DottoFoundationV1.RequirementType;
+    requirementType: DottoFoundationV1.SubjectRequirementType;
   }
 
   model SubjectRequirementRequest {
     courseId: string;
-    requirementType: DottoFoundationV1.RequirementType;
+    requirementType: DottoFoundationV1.SubjectRequirementType;
   }
 
   /**

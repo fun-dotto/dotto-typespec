@@ -85,7 +85,7 @@ namespace DottoFoundationV1 {
   /**
    * 必修・選択
    */
-  enum RequirementType {
+  enum SubjectRequirementType {
     /**
      * 必修
      */
