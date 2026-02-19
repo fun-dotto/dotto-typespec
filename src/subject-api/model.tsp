@@ -75,12 +75,27 @@ namespace SubjectService {
     name: string;
   }
 
+  model SubjectFaculty {
+    faculty: Faculty;
+    isPrimary: boolean;
+  }
+
+  model SubjectFacultyRequest {
+    facultyId: string;
+    isPrimary: boolean;
+  }
+
   model Subject {
     id: string;
     name: string;
-    faculty: Faculty;
+    faculties: SubjectFaculty[];
     semester: DottoFoundationV1.CourseSemester;
     dayOfWeekTimetableSlots: DayOfWeekTimetableSlot[];
+
+    /**
+     * 単位数
+     */
+    credit: integer;
 
     /**
      * 授業名末尾の`学年-クラス`をもとに決定
@@ -105,9 +120,10 @@ namespace SubjectService {
 
   model SubjectRequest {
     name: string;
-    facultyId: string;
+    faculties: SubjectFacultyRequest[];
     semester: DottoFoundationV1.CourseSemester;
     dayOfWeekTimetableSlotIds: string[];
+    credit: integer;
     eligibleAttributes: SubjectTargetClass[];
     requirements: SubjectRequirementRequest[];
     categoryIds: string[];
