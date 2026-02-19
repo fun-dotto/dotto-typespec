@@ -1,0 +1,72 @@
+name: Create PR on Schema Change
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "main.tsp"
+      - "tspconfig.yaml"
+  workflow_dispatch:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: jdx/mise-action@v3
+      - name: Install
+        run: task install
+      - name: Compile
+        run: task compile
+      - uses: actions/upload-artifact@v4
+        with:
+          name: schemas
+          path: tsp-output/schema/
+
+  create-pr:
+    needs: compile
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - schema: openapi.AnnouncementService.yaml
+            repo: fun-dotto/announcement-api
+          - schema: openapi.SubjectService.yaml
+            repo: fun-dotto/subject-api
+          - schema: openapi.AppBFFService.yaml
+            repo: fun-dotto/app-bff-api
+          - schema: openapi.AdminBFFService.yaml
+            repo: fun-dotto/admin-bff-api
+    steps:
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.DOTTO_API_SCHEMA_UPDATER_APP_ID }}
+          private-key: ${{ secrets.DOTTO_API_SCHEMA_UPDATER_APP_PRIVATE_KEY }}
+          repositories: ${{ matrix.repo }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: schemas
+          path: schemas
+      - uses: actions/checkout@v6
+        with:
+          repository: ${{ matrix.repo }}
+          token: ${{ steps.app-token.outputs.token }}
+          path: target-repo
+      - name: Copy schema
+        run: |
+          mkdir -p target-repo/openapi
+          cp schemas/${{ matrix.schema }} target-repo/openapi/openapi.yaml
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          path: target-repo
+          branch: update-openapi-schema
+          title: "Update OpenAPI schema"
+          body: |
+            This PR updates the OpenAPI schema from [dotto-typespec](https://github.com/fun-dotto/dotto-typespec).
+
+            Triggered by: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}
+          commit-message: "Update OpenAPI schema from dotto-typespec"
