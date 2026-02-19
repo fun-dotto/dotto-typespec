@@ -31,14 +31,18 @@ jobs:
     strategy:
       matrix:
         include:
-          - schema: openapi.AnnouncementService.yaml
-            repo: announcement-api
-          - schema: openapi.SubjectService.yaml
-            repo: subject-api
+          - schema: openapi.AppBFFService.yaml
+            repo: dotto-flutter
+          - schema: openapi.AdminBFFService.yaml
+            repo: dotto-admin-web
           - schema: openapi.AppBFFService.yaml
             repo: app-bff-api
           - schema: openapi.AdminBFFService.yaml
             repo: admin-bff-api
+          - schema: openapi.AnnouncementService.yaml
+            repo: announcement-api
+          - schema: openapi.SubjectService.yaml
+            repo: subject-api
     steps:
       - uses: actions/create-github-app-token@v2
         id: app-token
