@@ -88,9 +88,14 @@ namespace SubjectService {
   model Subject {
     id: string;
     name: string;
-    faculti: SubjectFaculty[];
+    faculties: SubjectFaculty[];
     semester: DottoFoundationV1.CourseSemester;
     dayOfWeekTimetableSlots: DayOfWeekTimetableSlot[];
+
+    /**
+     * 単位数
+     */
+    credit: integer;
 
     /**
      * 授業名末尾の`学年-クラス`をもとに決定
@@ -118,6 +123,7 @@ namespace SubjectService {
     faculties: SubjectFacultyRequest[];
     semester: DottoFoundationV1.CourseSemester;
     dayOfWeekTimetableSlotIds: string[];
+    credit: integer;
     eligibleAttributes: SubjectTargetClass[];
     requirements: SubjectRequirementRequest[];
     categoryIds: string[];
