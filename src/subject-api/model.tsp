@@ -75,10 +75,20 @@ namespace SubjectService {
     name: string;
   }
 
+  model SubjectFaculty {
+    faculty: Faculty;
+    isPrimary: boolean;
+  }
+
+  model SubjectFacultyRequest {
+    facultyId: string;
+    isPrimary: boolean;
+  }
+
   model Subject {
     id: string;
     name: string;
-    faculty: Faculty;
+    faculti: SubjectFaculty[];
     semester: DottoFoundationV1.CourseSemester;
     dayOfWeekTimetableSlots: DayOfWeekTimetableSlot[];
 
@@ -105,7 +115,7 @@ namespace SubjectService {
 
   model SubjectRequest {
     name: string;
-    facultyId: string;
+    faculties: SubjectFacultyRequest[];
     semester: DottoFoundationV1.CourseSemester;
     dayOfWeekTimetableSlotIds: string[];
     eligibleAttributes: SubjectTargetClass[];
