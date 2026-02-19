@@ -32,19 +32,20 @@ jobs:
       matrix:
         include:
           - schema: openapi.AnnouncementService.yaml
-            repo: fun-dotto/announcement-api
+            repo: announcement-api
           - schema: openapi.SubjectService.yaml
-            repo: fun-dotto/subject-api
+            repo: subject-api
           - schema: openapi.AppBFFService.yaml
-            repo: fun-dotto/app-bff-api
+            repo: app-bff-api
           - schema: openapi.AdminBFFService.yaml
-            repo: fun-dotto/admin-bff-api
+            repo: admin-bff-api
     steps:
       - uses: actions/create-github-app-token@v2
         id: app-token
         with:
           app-id: ${{ vars.DOTTO_API_SCHEMA_UPDATER_APP_ID }}
           private-key: ${{ secrets.DOTTO_API_SCHEMA_UPDATER_APP_PRIVATE_KEY }}
+          owner: fun-dotto
           repositories: ${{ matrix.repo }}
       - uses: actions/download-artifact@v4
         with:
@@ -52,7 +53,7 @@ jobs:
           path: schemas
       - uses: actions/checkout@v6
         with:
-          repository: ${{ matrix.repo }}
+          repository: fun-dotto/${{ matrix.repo }}
           token: ${{ steps.app-token.outputs.token }}
           path: target-repo
       - name: Copy schema
