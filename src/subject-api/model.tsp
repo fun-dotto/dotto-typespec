@@ -2,46 +2,6 @@ import "../dotto-foundation/model.tsp";
 
 namespace SubjectService {
   /**
-   * コース
-   */
-  model Course {
-    id: string;
-    name: string;
-  }
-
-  model CourseRequest {
-    name: string;
-  }
-
-  /**
-   * 教員
-   */
-  model Faculty {
-    id: string;
-    name: string;
-    email: string;
-  }
-
-  model FacultyRequest {
-    name: string;
-    email: string;
-  }
-
-  /**
-   * 曜日・時限
-   */
-  model DayOfWeekTimetableSlot {
-    id: string;
-    dayOfWeek: DottoFoundationV1.DayOfWeek;
-    timetableSlot: DottoFoundationV1.TimetableSlot;
-  }
-
-  model DayOfWeekTimetableSlotRequest {
-    dayOfWeek: DottoFoundationV1.DayOfWeek;
-    timetableSlot: DottoFoundationV1.TimetableSlot;
-  }
-
-  /**
    * 対象学年・クラス
    */
   model SubjectTargetClass {
@@ -54,29 +14,17 @@ namespace SubjectService {
   }
 
   model SubjectRequirement {
-    course: Course;
+    course: DottoFoundationV1.Course;
     requirementType: DottoFoundationV1.SubjectRequirementType;
   }
 
   model SubjectRequirementRequest {
-    courseId: string;
+    course: DottoFoundationV1.Course;
     requirementType: DottoFoundationV1.SubjectRequirementType;
   }
 
-  /**
-   * 科目群・科目区分
-   */
-  model SubjectCategory {
-    id: string;
-    name: string;
-  }
-
-  model SubjectCategoryRequest {
-    name: string;
-  }
-
   model SubjectFaculty {
-    faculty: Faculty;
+    faculty: DottoFoundationV1.Faculty;
     isPrimary: boolean;
   }
 
@@ -85,12 +33,17 @@ namespace SubjectService {
     isPrimary: boolean;
   }
 
+  model SubjectSummary {
+    id: string;
+    name: string;
+    faculties: SubjectFaculty[];
+  }
+
   model Subject {
     id: string;
     name: string;
     faculties: SubjectFaculty[];
     semester: DottoFoundationV1.CourseSemester;
-    dayOfWeekTimetableSlots: DayOfWeekTimetableSlot[];
 
     /**
      * 単位数
@@ -106,27 +59,146 @@ namespace SubjectService {
      * 科目群・科目区分をもとに決定
      */
     requirements: SubjectRequirement[];
+  }
 
-    /**
-     * 科目群・科目区分のリスト
-     */
-    categories: SubjectCategory[];
-
+  model Syllabus {
     /**
      * 教務システムのシラバスID
      */
-    syllabusId: string;
+    id: string;
+
+    /**
+     * 授業名
+     */
+    name: string;
+
+    /**
+     * 授業名 (en)
+     */
+    enName: string;
+
+    /**
+     * 配当年次
+     */
+    grades: string;
+
+    /**
+     * 単位数
+     */
+    credit: integer;
+
+    /**
+     * 担当教員名
+     */
+    facultyNames: string;
+
+    /**
+     * 実務家教員区分
+     */
+    practicalHomeFacultyCategory: string;
+
+    /**
+     * 複数人担当形式
+     */
+    multiplePersonTeachingForm: string;
+
+    /**
+     * 授業形態
+     */
+    teachingForm: string;
+
+    /**
+     * 授業の概要
+     */
+    summary: string;
+
+    /**
+     * 授業の到達目標
+     */
+    learningOutcomes: string;
+
+    /**
+     * 提出課題等
+     */
+    assignments: string;
+
+    /**
+     * 成績の評価方法・基準
+     */
+    evaluationMethod: string;
+
+    /**
+     * テキスト
+     */
+    textbooks: string;
+
+    /**
+     * 参考書
+     */
+    referenceBooks: string;
+
+    /**
+     * 履修条件
+     */
+    prerequisites: string;
+
+    /**
+     * 事前学習
+     */
+    preLearning: string;
+
+    /**
+     * 事後学習
+     */
+    postLearning: string;
+
+    /**
+     * 履修上の留意点
+     */
+    notes: string;
+
+    /**
+     * キーワード
+     */
+    keywords: string;
+
+    /**
+     * 対象コース・領域
+     */
+    targetCourses: string;
+
+    /**
+     * 対象領域
+     */
+    targetAreas: string;
+
+    /**
+     * 科目群・科目区分
+     */
+    classifications: string;
+
+    /**
+     * 教授言語
+     */
+    teachingLanguage: string;
+
+    /**
+     * 授業内容とスケジュール
+     */
+    contentsAndSchedule: string;
+
+    /**
+     * 授業・試験の形式
+     */
+    teachingAndExamForm: string;
+
+    /**
+     * DSOP対象科目
+     */
+    dspoSubject: string;
   }
 
   model SubjectRequest {
-    name: string;
-    faculties: SubjectFacultyRequest[];
-    semester: DottoFoundationV1.CourseSemester;
-    dayOfWeekTimetableSlotIds: string[];
-    credit: integer;
-    eligibleAttributes: SubjectTargetClass[];
-    requirements: SubjectRequirementRequest[];
-    categoryIds: string[];
     syllabusId: string;
   }
 }
