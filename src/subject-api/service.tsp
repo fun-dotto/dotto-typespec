@@ -22,56 +22,6 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace SubjectService {
-  @route("/v1/courses")
-  @tag("Courses")
-  interface CoursesV1 {
-    /**
-     * コース一覧を取得する
-     * @returns コースのリスト
-     */
-    @get list(): OkResponse &
-      Body<{
-        courses: Course[];
-      }>;
-
-    /**
-     * コースを詳細取得する
-     * @param id コースID
-     * @returns コースの詳細
-     */
-    @get detail(@path id: string): OkResponse &
-      Body<{
-        course: Course;
-      }>;
-
-    /**
-     * コースを作成する
-     * @param body 作成するコースの情報
-     * @returns 作成されたコース
-     */
-    @post create(@body body: CourseRequest): CreatedResponse &
-      Body<{
-        course: Course;
-      }>;
-
-    /**
-     * コースを更新する
-     * @param id コースID
-     * @param body 更新するコースの情報
-     * @returns 更新されたコース
-     */
-    @put update(@path id: string, @body body: CourseRequest): OkResponse &
-      Body<{
-        course: Course;
-      }>;
-
-    /**
-     * コースを削除する
-     * @param id コースID
-     */
-    @delete delete(@path id: string): NoContentResponse;
-  }
-
   @route("/v1/faculties")
   @tag("Faculties")
   interface FacultiesV1 {
@@ -81,7 +31,7 @@ namespace SubjectService {
      */
     @get list(): OkResponse &
       Body<{
-        faculties: Faculty[];
+        faculties: DottoFoundationV1.Faculty[];
       }>;
 
     /**
@@ -91,7 +41,7 @@ namespace SubjectService {
      */
     @get detail(@path id: string): OkResponse &
       Body<{
-        faculty: Faculty;
+        faculty: DottoFoundationV1.Faculty;
       }>;
 
     /**
@@ -99,9 +49,11 @@ namespace SubjectService {
      * @param body 作成する教員の情報
      * @returns 作成された教員
      */
-    @post create(@body body: FacultyRequest): CreatedResponse &
+    @post create(
+      @body body: DottoFoundationV1.FacultyRequest,
+    ): CreatedResponse &
       Body<{
-        faculty: Faculty;
+        faculty: DottoFoundationV1.Faculty;
       }>;
 
     /**
@@ -110,9 +62,12 @@ namespace SubjectService {
      * @param body 更新する教員の情報
      * @returns 更新された教員
      */
-    @put update(@path id: string, @body body: FacultyRequest): OkResponse &
+    @put update(
+      @path id: string,
+      @body body: DottoFoundationV1.FacultyRequest,
+    ): OkResponse &
       Body<{
-        faculty: Faculty;
+        faculty: DottoFoundationV1.Faculty;
       }>;
 
     /**
@@ -122,124 +77,38 @@ namespace SubjectService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/day-of-week-timetable-slots")
-  @tag("DayOfWeekTimetableSlots")
-  interface DayOfWeekTimetableSlotsV1 {
-    /**
-     * 曜日・時限一覧を取得する
-     * @returns 曜日・時限のリスト
-     */
-    @get list(): OkResponse &
-      Body<{
-        dayOfWeekTimetableSlots: DayOfWeekTimetableSlot[];
-      }>;
-
-    /**
-     * 曜日・時限を詳細取得する
-     * @param id 曜日・時限ID
-     * @returns 曜日・時限の詳細
-     */
-    @get detail(@path id: string): OkResponse &
-      Body<{
-        dayOfWeekTimetableSlot: DayOfWeekTimetableSlot;
-      }>;
-
-    /**
-     * 曜日・時限を作成する
-     * @param body 作成する曜日・時限の情報
-     * @returns 作成された曜日・時限
-     */
-    @post create(
-      @body body: DayOfWeekTimetableSlotRequest,
-    ): CreatedResponse &
-      Body<{
-        dayOfWeekTimetableSlot: DayOfWeekTimetableSlot;
-      }>;
-
-    /**
-     * 曜日・時限を更新する
-     * @param id 曜日・時限ID
-     * @param body 更新する曜日・時限の情報
-     * @returns 更新された曜日・時限
-     */
-    @put update(
-      @path id: string,
-      @body body: DayOfWeekTimetableSlotRequest,
-    ): OkResponse &
-      Body<{
-        dayOfWeekTimetableSlot: DayOfWeekTimetableSlot;
-      }>;
-
-    /**
-     * 曜日・時限を削除する
-     * @param id 曜日・時限ID
-     */
-    @delete delete(@path id: string): NoContentResponse;
-  }
-
-  @route("/v1/subject-categories")
-  @tag("SubjectCategories")
-  interface SubjectCategoriesV1 {
-    /**
-     * 科目群・科目区分一覧を取得する
-     * @returns 科目群・科目区分のリスト
-     */
-    @get list(): OkResponse &
-      Body<{
-        subjectCategories: SubjectCategory[];
-      }>;
-
-    /**
-     * 科目群・科目区分を詳細取得する
-     * @param id 科目群・科目区分ID
-     * @returns 科目群・科目区分の詳細
-     */
-    @get detail(@path id: string): OkResponse &
-      Body<{
-        subjectCategory: SubjectCategory;
-      }>;
-
-    /**
-     * 科目群・科目区分を作成する
-     * @param body 作成する科目群・科目区分の情報
-     * @returns 作成された科目群・科目区分
-     */
-    @post create(@body body: SubjectCategoryRequest): CreatedResponse &
-      Body<{
-        subjectCategory: SubjectCategory;
-      }>;
-
-    /**
-     * 科目群・科目区分を更新する
-     * @param id 科目群・科目区分ID
-     * @param body 更新する科目群・科目区分の情報
-     * @returns 更新された科目群・科目区分
-     */
-    @put update(
-      @path id: string,
-      @body body: SubjectCategoryRequest,
-    ): OkResponse &
-      Body<{
-        subjectCategory: SubjectCategory;
-      }>;
-
-    /**
-     * 科目群・科目区分を削除する
-     * @param id 科目群・科目区分ID
-     */
-    @delete delete(@path id: string): NoContentResponse;
-  }
-
   @route("/v1/subjects")
   @tag("Subjects")
   interface SubjectsV1 {
     /**
      * 科目一覧を取得する
+     *
+     * 同一項目同士はOR、異なる項目同士はANDでフィルタリングされます。
+     *
+     * @param q 検索ワード
+     * @param grade 学年
+     * @param courses コース; 大学院の場合は大学院コースに読み替え
+     * @param class クラス; 大学院の学年を選択した場合は選択できない
+     * @param classification 学部: 専門・教養; 大学院: 専門・研究指導
+     * @param semester 開講時期
+     * @param requirementType 必修・選択・選択必修
+     * @param calturalSubjectCategory 教養科目カテゴリ
      * @returns 科目のリスト
      */
-    @get list(): OkResponse &
+    @get list(
+      @query q: string,
+      @query grade: [DottoFoundationV1.Grade],
+      @query courses: [DottoFoundationV1.Course],
+      @query class: [DottoFoundationV1.Class],
+      @query classification: [DottoFoundationV1.SubjectClassification],
+      @query semester: [DottoFoundationV1.CourseSemester],
+      @query requirementType: [DottoFoundationV1.SubjectRequirementType],
+      @query calturalSubjectCategory: [
+        DottoFoundationV1.CulturalSubjectCategory
+      ],
+    ): OkResponse &
       Body<{
-        subjects: Subject[];
+        subjects: SubjectSummary[];
       }>;
 
     /**
@@ -253,22 +122,11 @@ namespace SubjectService {
       }>;
 
     /**
-     * 科目を作成する
+     * 科目を作成または更新する
      * @param body 作成する科目の情報
      * @returns 作成された科目
      */
-    @post create(@body body: SubjectRequest): CreatedResponse &
-      Body<{
-        subject: Subject;
-      }>;
-
-    /**
-     * 科目を更新する
-     * @param id 科目ID
-     * @param body 更新する科目の情報
-     * @returns 更新された科目
-     */
-    @put update(@path id: string, @body body: SubjectRequest): OkResponse &
+    @put upsert(@body body: SubjectRequest): OkResponse &
       Body<{
         subject: Subject;
       }>;
@@ -278,5 +136,19 @@ namespace SubjectService {
      * @param id 科目ID
      */
     @delete delete(@path id: string): NoContentResponse;
+  }
+
+  @route("/v1/subjects/{id}/syllabus")
+  @tag("Syllabus")
+  interface SyllabusV1 {
+    /**
+     * シラバスを取得する
+     * @param id 科目ID
+     * @returns シラバス
+     */
+    @get detail(@path id: string): OkResponse &
+      Body<{
+        syllabus: Syllabus;
+      }>;
   }
 }

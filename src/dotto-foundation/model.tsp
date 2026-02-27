@@ -33,28 +33,6 @@ namespace DottoFoundationV1 {
   }
 
   /**
-   * 授業時間
-   */
-  enum TimetableSlot {
-    Slot1,
-    Slot2,
-    Slot3,
-    Slot4,
-    Slot5,
-    Slot6,
-  }
-
-  enum DayOfWeek {
-    Sunday,
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-  }
-
-  /**
    * 開講時期
    */
   enum CourseSemester {
@@ -122,5 +100,73 @@ namespace DottoFoundationV1 {
      * 選択必修
      */
     OptionalRequired,
+  }
+
+  /**
+   * コース
+   */
+  enum Course {
+    // 情報システムコース
+    InformationSystem,
+
+    // 情報デザインコース
+    InformationDesign,
+
+    // 高度ICTコース
+    AdvancedICT,
+
+    // 複雑系コース
+    ComplexSystem,
+
+    // 知能システムコース
+    IntelligentSystem,
+  }
+
+  /**
+   * 教員
+   */
+  model Faculty {
+    id: string;
+    name: string;
+    email: string;
+  }
+
+  model FacultyRequest {
+    name: string;
+    email: string;
+  }
+
+  /**
+   * 科目カテゴリ
+   */
+  enum SubjectClassification {
+    // 専門
+    Specialized,
+
+    // 教養
+    Cultural,
+
+    // 研究指導
+    ResearchInstruction,
+  }
+
+  /**
+   * 教養科目カテゴリ
+   */
+  enum CulturalSubjectCategory {
+    // 社会
+    Society,
+
+    // 人間
+    Human,
+
+    // 科学
+    Science,
+
+    // 健康
+    Health,
+
+    // コミュニケーション
+    Communication,
   }
 }
