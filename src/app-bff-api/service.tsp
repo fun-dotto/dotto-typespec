@@ -63,15 +63,13 @@ namespace AppBFFService {
      */
     @get list(
       @query q: string,
-      @query grade: [DottoFoundationV1.Grade],
-      @query courses: [DottoFoundationV1.Course],
-      @query class: [DottoFoundationV1.Class],
-      @query classification: [DottoFoundationV1.SubjectClassification],
-      @query semester: [DottoFoundationV1.CourseSemester],
-      @query requirementType: [DottoFoundationV1.SubjectRequirementType],
-      @query calturalSubjectCategory: [
-        DottoFoundationV1.CulturalSubjectCategory
-      ],
+      @query grade: DottoFoundationV1.Grade[],
+      @query courses: DottoFoundationV1.Course[],
+      @query class: DottoFoundationV1.Class[],
+      @query classification: DottoFoundationV1.SubjectClassification[],
+      @query semester: DottoFoundationV1.CourseSemester[],
+      @query requirementType: DottoFoundationV1.SubjectRequirementType[],
+      @query calturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
         subjects: SubjectDetail[];
