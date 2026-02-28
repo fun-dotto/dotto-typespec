@@ -69,10 +69,11 @@ namespace AppBFFService {
       @query classification: DottoFoundationV1.SubjectClassification[],
       @query semester: DottoFoundationV1.CourseSemester[],
       @query requirementType: DottoFoundationV1.SubjectRequirementType[],
-      @query calturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
+      @query
+      calturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
-        subjects: SubjectDetail[];
+        subjects: SubjectSummary[];
       }>;
 
     /**

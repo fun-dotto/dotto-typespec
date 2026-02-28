@@ -141,7 +141,7 @@ namespace AdminBFFService {
      */
     @get list(): OkResponse &
       Body<{
-        subjects: SubjectService.Subject[];
+        subjects: SubjectService.SubjectSummary[];
       }>;
 
     /**
