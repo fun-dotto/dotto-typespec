@@ -57,11 +57,21 @@ jobs:
         with:
           name: schemas
           path: schemas
+      - name: Check if branch exists
+        id: check-branch
+        run: |
+          if git ls-remote --exit-code --heads https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/fun-dotto/${{ matrix.repo }}.git update-openapi-schema; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
       - uses: actions/checkout@v6
         with:
           repository: fun-dotto/${{ matrix.repo }}
           token: ${{ steps.app-token.outputs.token }}
           path: target-repo
+          ref: ${{ steps.check-branch.outputs.exists == 'true' && 'update-openapi-schema' || '' }}
+          fetch-depth: 0
       - name: Copy schemas
         run: |
           if [ "${{ matrix.type }}" = "app" ]; then
