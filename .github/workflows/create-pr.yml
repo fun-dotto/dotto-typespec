@@ -32,13 +32,17 @@ jobs:
       matrix:
         include:
           - repo: dotto-flutter
-            type: app
+            type: bff
+            schema: openapi.AppBFFService.yaml
           - repo: app-bff-api
-            type: app
+            type: bff
+            schema: openapi.AppBFFService.yaml
           - repo: dotto-admin-web
-            type: admin
+            type: bff
+            schema: openapi.AdminBFFService.yaml
           - repo: admin-bff-api
-            type: admin
+            type: bff
+            schema: openapi.AdminBFFService.yaml
           - repo: announcement-api
             type: backend
             schema: openapi.AnnouncementService.yaml
@@ -74,21 +78,14 @@ jobs:
           fetch-depth: 0
       - name: Copy schemas
         run: |
-          if [ "${{ matrix.type }}" = "app" ]; then
+          mkdir -p target-repo/openapi
+          cp schemas/${{ matrix.schema }} target-repo/openapi/openapi.yaml
+
+          if [ "${{ matrix.type }}" = "bff" ]; then
             mkdir -p target-repo/openapi/external/announcement_api
             mkdir -p target-repo/openapi/external/subject_api
-            cp schemas/openapi.AppBFFService.yaml target-repo/openapi/openapi.yaml
             cp schemas/openapi.AnnouncementService.yaml target-repo/openapi/external/announcement_api/openapi.yaml
             cp schemas/openapi.SubjectService.yaml target-repo/openapi/external/subject_api/openapi.yaml
-          elif [ "${{ matrix.type }}" = "admin" ]; then
-            mkdir -p target-repo/openapi/external/announcement_api
-            mkdir -p target-repo/openapi/external/subject_api
-            cp schemas/openapi.AdminBFFService.yaml target-repo/openapi/openapi.yaml
-            cp schemas/openapi.AnnouncementService.yaml target-repo/openapi/external/announcement_api/openapi.yaml
-            cp schemas/openapi.SubjectService.yaml target-repo/openapi/external/subject_api/openapi.yaml
-          else
-            mkdir -p target-repo/openapi
-            cp schemas/${{ matrix.schema }} target-repo/openapi/openapi.yaml
           fi
       - uses: peter-evans/create-pull-request@v7
         with:
