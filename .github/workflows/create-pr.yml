@@ -78,6 +78,11 @@ jobs:
           fetch-depth: 0
       - name: Copy schemas
         run: |
+          if [ -z "${{ matrix.schema }}" ]; then
+            echo "Error: matrix.schema is required"
+            exit 1
+          fi
+
           mkdir -p target-repo/openapi
           cp schemas/${{ matrix.schema }} target-repo/openapi/openapi.yaml
 
