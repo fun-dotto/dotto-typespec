@@ -58,7 +58,7 @@ namespace AppBFFService {
      * @param classification 学部: 専門・教養; 大学院: 専門・研究指導
      * @param semester 開講時期
      * @param requirementType 必修・選択・選択必修
-     * @param calturalSubjectCategory 教養科目カテゴリ
+     * @param culturalSubjectCategory 教養科目カテゴリ
      * @returns 科目のリスト
      */
     @get list(
@@ -70,7 +70,7 @@ namespace AppBFFService {
       @query semester: DottoFoundationV1.CourseSemester[],
       @query requirementType: DottoFoundationV1.SubjectRequirementType[],
       @query
-      calturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
+      culturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
         subjects: SubjectSummary[];
