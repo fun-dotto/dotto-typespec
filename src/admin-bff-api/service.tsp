@@ -1,6 +1,7 @@
 import "@typespec/http";
 import "@typespec/openapi";
 import "../announcement-api/model.tsp";
+import "../faculty-api/model.tsp";
 import "../subject-api/model.tsp";
 
 using Http;
@@ -86,7 +87,7 @@ namespace AdminBFFService {
      */
     @get list(): OkResponse &
       Body<{
-        faculties: DottoFoundationV1.Faculty[];
+        faculties: FacultyService.Faculty[];
       }>;
 
     /**
@@ -96,7 +97,7 @@ namespace AdminBFFService {
      */
     @get detail(@path id: string): OkResponse &
       Body<{
-        faculty: DottoFoundationV1.Faculty;
+        faculty: FacultyService.Faculty;
       }>;
 
     /**
@@ -104,11 +105,9 @@ namespace AdminBFFService {
      * @param body 作成する教員の情報
      * @returns 作成された教員
      */
-    @post create(
-      @body body: DottoFoundationV1.FacultyRequest,
-    ): CreatedResponse &
+    @post create(@body body: FacultyService.FacultyRequest): CreatedResponse &
       Body<{
-        faculty: DottoFoundationV1.Faculty;
+        faculty: FacultyService.Faculty;
       }>;
 
     /**
@@ -119,10 +118,10 @@ namespace AdminBFFService {
      */
     @put update(
       @path id: string,
-      @body body: DottoFoundationV1.FacultyRequest,
+      @body body: FacultyService.FacultyRequest,
     ): OkResponse &
       Body<{
-        faculty: DottoFoundationV1.Faculty;
+        faculty: FacultyService.Faculty;
       }>;
 
     /**

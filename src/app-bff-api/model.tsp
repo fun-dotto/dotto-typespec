@@ -1,4 +1,3 @@
-import "../dotto-foundation/model.tsp";
 import "../subject-api/model.tsp";
 
 namespace AppBFFService {
@@ -12,7 +11,7 @@ namespace AppBFFService {
   model SubjectSummary {
     id: string;
     name: string;
-    faculties: DottoFoundationV1.Faculty[];
+    faculties: FacultyService.Faculty[];
 
     /**
      * TODO: 時間割APIを作成したら、曜日・時限を取得する

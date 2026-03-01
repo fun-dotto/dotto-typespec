@@ -1,7 +1,6 @@
 import "@typespec/http";
 import "@typespec/openapi";
 import "./model.tsp";
-import "../foundation/sortDirection.tsp";
 
 using Http;
 using OpenAPI;

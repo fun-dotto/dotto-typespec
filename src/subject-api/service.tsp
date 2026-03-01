@@ -22,61 +22,6 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace SubjectService {
-  @route("/v1/faculties")
-  @tag("Faculties")
-  interface FacultiesV1 {
-    /**
-     * 教員一覧を取得する
-     * @returns 教員のリスト
-     */
-    @get list(): OkResponse &
-      Body<{
-        faculties: DottoFoundationV1.Faculty[];
-      }>;
-
-    /**
-     * 教員を詳細取得する
-     * @param id 教員ID
-     * @returns 教員の詳細
-     */
-    @get detail(@path id: string): OkResponse &
-      Body<{
-        faculty: DottoFoundationV1.Faculty;
-      }>;
-
-    /**
-     * 教員を作成する
-     * @param body 作成する教員の情報
-     * @returns 作成された教員
-     */
-    @post create(
-      @body body: DottoFoundationV1.FacultyRequest,
-    ): CreatedResponse &
-      Body<{
-        faculty: DottoFoundationV1.Faculty;
-      }>;
-
-    /**
-     * 教員を更新する
-     * @param id 教員ID
-     * @param body 更新する教員の情報
-     * @returns 更新された教員
-     */
-    @put update(
-      @path id: string,
-      @body body: DottoFoundationV1.FacultyRequest,
-    ): OkResponse &
-      Body<{
-        faculty: DottoFoundationV1.Faculty;
-      }>;
-
-    /**
-     * 教員を削除する
-     * @param id 教員ID
-     */
-    @delete delete(@path id: string): NoContentResponse;
-  }
-
   @route("/v1/subjects")
   @tag("Subjects")
   interface SubjectsV1 {
@@ -103,7 +48,8 @@ namespace SubjectService {
       @query classification: DottoFoundationV1.SubjectClassification[],
       @query semester: DottoFoundationV1.CourseSemester[],
       @query requirementType: DottoFoundationV1.SubjectRequirementType[],
-      @query culturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
+      @query
+      culturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
         subjects: SubjectSummary[];

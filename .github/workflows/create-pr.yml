@@ -119,8 +119,10 @@ jobs:
 
           if [ "${{ matrix.type }}" = "bff" ]; then
             mkdir -p target-repo/openapi/external/announcement_api
+            mkdir -p target-repo/openapi/external/faculty_api
             mkdir -p target-repo/openapi/external/subject_api
             cp schemas/openapi.AnnouncementService.yaml target-repo/openapi/external/announcement_api/openapi.yaml
+            cp schemas/openapi.FacultyService.yaml target-repo/openapi/external/faculty_api/openapi.yaml
             cp schemas/openapi.SubjectService.yaml target-repo/openapi/external/subject_api/openapi.yaml
           fi
       - name: Push to existing branch
