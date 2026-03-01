@@ -144,6 +144,7 @@ jobs:
           token: ${{ steps.app-token.outputs.token }}
           path: target-repo
           branch: update-openapi-schema
+          draft: true
           title: "Update OpenAPI schema"
           body: |
             This PR updates the OpenAPI schema from [dotto-typespec](https://github.com/fun-dotto/dotto-typespec).
