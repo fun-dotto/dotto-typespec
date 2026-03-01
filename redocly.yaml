@@ -5,5 +5,17 @@ apis:
     root: ./tsp-output/schema/openapi.AdminBFFService.yaml
   announcement-api:
     root: ./tsp-output/schema/openapi.AnnouncementService.yaml
+  course-api:
+    root: ./tsp-output/schema/openapi.CourseService.yaml
+  facility-api:
+    root: ./tsp-output/schema/openapi.FacilityService.yaml
+  faculty-api:
+    root: ./tsp-output/schema/openapi.FacultyService.yaml
+  funch-api:
+    root: ./tsp-output/schema/openapi.FunchService.yaml
   subject-api:
     root: ./tsp-output/schema/openapi.SubjectService.yaml
+  timetable-api:
+    root: ./tsp-output/schema/openapi.TimetableService.yaml
+  user-api:
+    root: ./tsp-output/schema/openapi.UserService.yaml

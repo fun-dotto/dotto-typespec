@@ -8,35 +8,87 @@ vars:
 tasks:
   default:
     cmds:
-      - task --list-all
+      - task --list
   install:
+    desc: Install dependencies
     cmds:
       - "{{.PNPM}} install"
   compile:
+    desc: Compile TypeSpec to OpenAPI schema
     cmds:
-      - task: clean-schema
       - "{{.PNPM}} compile"
   watch:
+    desc: Watch for changes and compile
     cmds:
       - "{{.PNPM}} watch"
-  build-docs:
-    cmds:
-      - task: clean-docs
-      - "{{.PNPM}} build-docs"
   preview:
+    desc: Preview the documentation
     cmds:
       - "{{.PNPM}} preview"
+  watch-and-preview:
+    desc: Watch for changes and preview the documentation
+    deps:
+      - task: watch
+      - task: preview
+  build:
+    desc: Clean and build the documentation
+    cmds:
+      - task: clean
+      - task: compile-and-build-docs
+  compile-and-build-docs:
+    cmds:
+      - task: compile
+      - task: build-docs
+  build-docs:
+    deps:
+      - task: build-docs:app-bff-api
+      - task: build-docs:admin-bff-api
+      - task: build-docs:announcement-api
+      - task: build-docs:course-api
+      - task: build-docs:facility-api
+      - task: build-docs:faculty-api
+      - task: build-docs:funch-api
+      - task: build-docs:subject-api
+      - task: build-docs:timetable-api
+      - task: build-docs:user-api
+  build-docs:app-bff-api:
+    cmds:
+      - "{{.PNPM}} build-docs:app-bff-api"
+  build-docs:admin-bff-api:
+    cmds:
+      - "{{.PNPM}} build-docs:admin-bff-api"
+  build-docs:announcement-api:
+    cmds:
+      - "{{.PNPM}} build-docs:announcement-api"
+  build-docs:course-api:
+    cmds:
+      - "{{.PNPM}} build-docs:course-api"
+  build-docs:facility-api:
+    cmds:
+      - "{{.PNPM}} build-docs:facility-api"
+  build-docs:faculty-api:
+    cmds:
+      - "{{.PNPM}} build-docs:faculty-api"
+  build-docs:funch-api:
+    cmds:
+      - "{{.PNPM}} build-docs:funch-api"
+  build-docs:subject-api:
+    cmds:
+      - "{{.PNPM}} build-docs:subject-api"
+  build-docs:timetable-api:
+    cmds:
+      - "{{.PNPM}} build-docs:timetable-api"
+  build-docs:user-api:
+    cmds:
+      - "{{.PNPM}} build-docs:user-api"
+  clean:
+    desc: Clean the schema and documentation
+    deps:
+      - task: clean-schema
+      - task: clean-docs
   clean-schema:
     cmds:
       - rm -rf ./tsp-output/schema
   clean-docs:
     cmds:
       - rm -rf ./dist
-  build:
-    cmds:
-      - task: compile
-      - task: build-docs
-  watch-and-preview:
-    deps:
-      - task: watch
-      - task: preview

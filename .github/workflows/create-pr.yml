@@ -46,9 +46,27 @@ jobs:
           - repo: announcement-api
             type: backend
             schema: openapi.AnnouncementService.yaml
+          - repo: course-api
+            type: backend
+            schema: openapi.CourseService.yaml
+          - repo: facility-api
+            type: backend
+            schema: openapi.FacilityService.yaml
+          - repo: faculty-api
+            type: backend
+            schema: openapi.FacultyService.yaml
+          - repo: funch-api
+            type: backend
+            schema: openapi.FunchService.yaml
           - repo: subject-api
             type: backend
             schema: openapi.SubjectService.yaml
+          - repo: timetable-api
+            type: backend
+            schema: openapi.TimetableService.yaml
+          - repo: user-api
+            type: backend
+            schema: openapi.UserService.yaml
     steps:
       - uses: actions/create-github-app-token@v2
         id: app-token

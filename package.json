@@ -18,6 +18,15 @@
     "compile": "tsp compile .",
     "watch": "tsp compile . --watch",
     "preview": "redocly preview --project-dir=./tsp-output/schema/",
-    "build-docs": "redocly build-docs app-bff-api -o ./dist/app-bff-api.html && redocly build-docs admin-bff-api -o ./dist/admin-bff-api.html && redocly build-docs announcement-api -o ./dist/announcement-api.html && redocly build-docs subject-api -o ./dist/subject-api.html"
+    "build-docs:app-bff-api": "redocly build-docs app-bff-api -o ./dist/app-bff-api.html",
+    "build-docs:admin-bff-api": "redocly build-docs admin-bff-api -o ./dist/admin-bff-api.html",
+    "build-docs:announcement-api": "redocly build-docs announcement-api -o ./dist/announcement-api.html",
+    "build-docs:course-api": "redocly build-docs course-api -o ./dist/course-api.html",
+    "build-docs:facility-api": "redocly build-docs facility-api -o ./dist/facility-api.html",
+    "build-docs:faculty-api": "redocly build-docs faculty-api -o ./dist/faculty-api.html",
+    "build-docs:funch-api": "redocly build-docs funch-api -o ./dist/funch-api.html",
+    "build-docs:subject-api": "redocly build-docs subject-api -o ./dist/subject-api.html",
+    "build-docs:timetable-api": "redocly build-docs timetable-api -o ./dist/timetable-api.html",
+    "build-docs:user-api": "redocly build-docs user-api -o ./dist/user-api.html"
   }
 }
