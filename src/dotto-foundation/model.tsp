@@ -123,20 +123,6 @@ namespace DottoFoundationV1 {
   }
 
   /**
-   * 教員
-   */
-  model Faculty {
-    id: string;
-    name: string;
-    email: string;
-  }
-
-  model FacultyRequest {
-    name: string;
-    email: string;
-  }
-
-  /**
    * 科目カテゴリ
    */
   enum SubjectClassification {

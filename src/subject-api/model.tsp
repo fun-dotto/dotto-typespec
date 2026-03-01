@@ -1,5 +1,3 @@
-import "../dotto-foundation/model.tsp";
-
 namespace SubjectService {
   /**
    * 対象学年・クラス
@@ -24,7 +22,7 @@ namespace SubjectService {
   }
 
   model SubjectFaculty {
-    faculty: DottoFoundationV1.Faculty;
+    faculty: FacultyService.Faculty;
     isPrimary: boolean;
   }
 
