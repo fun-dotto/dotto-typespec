@@ -61,27 +61,34 @@ jobs:
         with:
           name: schemas
           path: schemas
-      - name: Check if branch exists
-        id: check-branch
+      - name: Check if branch and PR exist
+        id: check-existing
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
+          # Check if branch exists
           exit_code=0
-          git ls-remote --exit-code --heads https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/fun-dotto/${{ matrix.repo }}.git update-openapi-schema || exit_code=$?
+          git ls-remote --exit-code --heads https://x-access-token:${GH_TOKEN}@github.com/fun-dotto/${{ matrix.repo }}.git update-openapi-schema || exit_code=$?
 
           if [ $exit_code -eq 0 ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          elif [ $exit_code -eq 2 ]; then
-            echo "exists=false" >> $GITHUB_OUTPUT
+            echo "branch_exists=true" >> $GITHUB_OUTPUT
           else
-            echo "Error: git ls-remote failed with exit code $exit_code"
-            exit $exit_code
+            echo "branch_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+          # Check if PR exists
+          pr_count=$(gh pr list --repo fun-dotto/${{ matrix.repo }} --head update-openapi-schema --base main --state open --json number --jq 'length')
+          if [ "$pr_count" -gt 0 ]; then
+            echo "pr_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "pr_exists=false" >> $GITHUB_OUTPUT
           fi
       - uses: actions/checkout@v6
         with:
           repository: fun-dotto/${{ matrix.repo }}
           token: ${{ steps.app-token.outputs.token }}
           path: target-repo
-          ref: ${{ steps.check-branch.outputs.exists == 'true' && 'update-openapi-schema' || '' }}
-          fetch-depth: 0
+          ref: ${{ steps.check-existing.outputs.branch_exists == 'true' && steps.check-existing.outputs.pr_exists == 'true' && 'update-openapi-schema' || '' }}
       - name: Copy schemas
         run: |
           if [ -z "${{ matrix.schema }}" ]; then
@@ -98,7 +105,21 @@ jobs:
             cp schemas/openapi.AnnouncementService.yaml target-repo/openapi/external/announcement_api/openapi.yaml
             cp schemas/openapi.SubjectService.yaml target-repo/openapi/external/subject_api/openapi.yaml
           fi
+      - name: Push to existing branch
+        if: steps.check-existing.outputs.branch_exists == 'true' && steps.check-existing.outputs.pr_exists == 'true'
+        working-directory: target-repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update OpenAPI schema from dotto-typespec"
+            git push
+          fi
       - uses: peter-evans/create-pull-request@v7
+        if: steps.check-existing.outputs.branch_exists != 'true' || steps.check-existing.outputs.pr_exists != 'true'
         with:
           token: ${{ steps.app-token.outputs.token }}
           path: target-repo
