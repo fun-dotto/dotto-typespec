@@ -32,14 +32,14 @@ jobs:
       matrix:
         include:
           - repo: dotto-flutter
-            type: bff
+            type: app
             schema: openapi.AppBFFService.yaml
+          - repo: dotto-admin-web
+            type: app
+            schema: openapi.AdminBFFService.yaml
           - repo: app-bff-api
             type: bff
             schema: openapi.AppBFFService.yaml
-          - repo: dotto-admin-web
-            type: bff
-            schema: openapi.AdminBFFService.yaml
           - repo: admin-bff-api
             type: bff
             schema: openapi.AdminBFFService.yaml
