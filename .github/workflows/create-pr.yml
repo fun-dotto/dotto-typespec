@@ -31,18 +31,24 @@ jobs:
     strategy:
       matrix:
         include:
-          - schema: openapi.AppBFFService.yaml
-            repo: dotto-flutter
-          - schema: openapi.AdminBFFService.yaml
-            repo: dotto-admin-web
-          - schema: openapi.AppBFFService.yaml
-            repo: app-bff-api
-          - schema: openapi.AdminBFFService.yaml
-            repo: admin-bff-api
-          - schema: openapi.AnnouncementService.yaml
-            repo: announcement-api
-          - schema: openapi.SubjectService.yaml
-            repo: subject-api
+          - repo: dotto-flutter
+            type: bff
+            schema: openapi.AppBFFService.yaml
+          - repo: app-bff-api
+            type: bff
+            schema: openapi.AppBFFService.yaml
+          - repo: dotto-admin-web
+            type: bff
+            schema: openapi.AdminBFFService.yaml
+          - repo: admin-bff-api
+            type: bff
+            schema: openapi.AdminBFFService.yaml
+          - repo: announcement-api
+            type: backend
+            schema: openapi.AnnouncementService.yaml
+          - repo: subject-api
+            type: backend
+            schema: openapi.SubjectService.yaml
     steps:
       - uses: actions/create-github-app-token@v2
         id: app-token
@@ -55,15 +61,43 @@ jobs:
         with:
           name: schemas
           path: schemas
+      - name: Check if branch exists
+        id: check-branch
+        run: |
+          exit_code=0
+          git ls-remote --exit-code --heads https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/fun-dotto/${{ matrix.repo }}.git update-openapi-schema || exit_code=$?
+
+          if [ $exit_code -eq 0 ]; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          elif [ $exit_code -eq 2 ]; then
+            echo "exists=false" >> $GITHUB_OUTPUT
+          else
+            echo "Error: git ls-remote failed with exit code $exit_code"
+            exit $exit_code
+          fi
       - uses: actions/checkout@v6
         with:
           repository: fun-dotto/${{ matrix.repo }}
           token: ${{ steps.app-token.outputs.token }}
           path: target-repo
-      - name: Copy schema
+          ref: ${{ steps.check-branch.outputs.exists == 'true' && 'update-openapi-schema' || '' }}
+          fetch-depth: 0
+      - name: Copy schemas
         run: |
+          if [ -z "${{ matrix.schema }}" ]; then
+            echo "Error: matrix.schema is required"
+            exit 1
+          fi
+
           mkdir -p target-repo/openapi
           cp schemas/${{ matrix.schema }} target-repo/openapi/openapi.yaml
+
+          if [ "${{ matrix.type }}" = "bff" ]; then
+            mkdir -p target-repo/openapi/external/announcement_api
+            mkdir -p target-repo/openapi/external/subject_api
+            cp schemas/openapi.AnnouncementService.yaml target-repo/openapi/external/announcement_api/openapi.yaml
+            cp schemas/openapi.SubjectService.yaml target-repo/openapi/external/subject_api/openapi.yaml
+          fi
       - uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ steps.app-token.outputs.token }}
