@@ -35,6 +35,7 @@ namespace SubjectService {
      * @param courses コース; 大学院の場合は大学院コースに読み替え
      * @param class クラス; 大学院の学年を選択した場合は選択できない
      * @param classification 学部: 専門・教養; 大学院: 専門・研究指導
+     * @param year 開講年度; 指定しない場合は今年度が選択される
      * @param semester 開講時期
      * @param requirementType 必修・選択・選択必修
      * @param culturalSubjectCategory 教養科目カテゴリ
@@ -46,8 +47,10 @@ namespace SubjectService {
       @query courses: DottoFoundationV1.Course[],
       @query class: DottoFoundationV1.Class[],
       @query classification: DottoFoundationV1.SubjectClassification[],
+      @query year?: integer,
       @query semester: DottoFoundationV1.CourseSemester[],
       @query requirementType: DottoFoundationV1.SubjectRequirementType[],
+
       @query
       culturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
