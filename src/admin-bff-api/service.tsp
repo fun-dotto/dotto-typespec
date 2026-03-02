@@ -294,7 +294,7 @@ namespace AdminBFFService {
      * @param body 作成する科目の情報
      * @returns 作成された科目
      */
-    @post create(@body body: SubjectService.SubjectRequest): CreatedResponse &
+    @post upsert(@body body: SubjectService.SubjectRequest): OkResponse &
       Body<{
         subject: SubjectService.Subject;
       }>;
