@@ -41,5 +41,22 @@ namespace TimetableService {
       Body<{
         items: Item[];
       }>;
+
+    /**
+     * 時間割に追加する
+     * @param body 追加する時間割の情報
+     * @returns 作成された時間割
+     */
+    @post create(@body body: ItemRequest): CreatedResponse &
+      Body<{
+        item: Item;
+      }>;
+
+    /**
+     * 時間割を削除する
+     * @param id 時間割ID
+     * @returns 削除された時間割
+     */
+    @delete delete(@path id: string): NoContentResponse;
   }
 }
