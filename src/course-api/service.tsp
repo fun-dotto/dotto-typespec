@@ -19,5 +19,23 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace CourseService {
-
+  @route("/v1/registrations")
+  @tag("Registrations")
+  interface RegistrationsV1 {
+    /**
+     * 履修情報を取得する
+     * @param userId ユーザーID
+     * @param year 開講年度; 指定しない場合は今年度が選択される
+     * @param semester 開講時期
+     * @returns 履修情報のリスト
+     */
+    @get list(
+      @query userId: string,
+      @query year?: integer,
+      @query semester: DottoFoundationV1.CourseSemester,
+    ): OkResponse &
+      Body<{
+        registrations: Registration[];
+      }>;
+  }
 }
