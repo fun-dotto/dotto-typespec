@@ -62,15 +62,16 @@ namespace AppBFFService {
      * @returns 科目のリスト
      */
     @get list(
-      @query q: string,
-      @query grade: DottoFoundationV1.Grade[],
-      @query courses: DottoFoundationV1.Course[],
-      @query class: DottoFoundationV1.Class[],
-      @query classification: DottoFoundationV1.SubjectClassification[],
-      @query semester: DottoFoundationV1.CourseSemester[],
-      @query requirementType: DottoFoundationV1.SubjectRequirementType[],
+      @query q?: string,
+      @query grade?: DottoFoundationV1.Grade[],
+      @query courses?: DottoFoundationV1.Course[],
+      @query class?: DottoFoundationV1.Class[],
+      @query classification?: DottoFoundationV1.SubjectClassification[],
+      @query semester?: DottoFoundationV1.CourseSemester[],
+      @query requirementType?: DottoFoundationV1.SubjectRequirementType[],
+
       @query
-      culturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
+      culturalSubjectCategory?: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
         subjects: SubjectSummary[];
@@ -82,6 +83,30 @@ namespace AppBFFService {
     @get detail(@path id: string): OkResponse &
       Body<{
         subject: SubjectDetail;
+      }>;
+  }
+
+  @route("/v1/users")
+  @tag("Users")
+  interface UsersV1 {
+    /**
+     * ユーザーを取得する
+     * @param id ユーザーID
+     * @returns ユーザーの情報
+     */
+    @get detail(@path id: string): OkResponse &
+      Body<{
+        user: UserInfo;
+      }>;
+
+    /**
+     * ユーザーを作成または更新する
+     * @param body 作成または更新するユーザーの情報
+     * @returns 作成または更新されたユーザー
+     */
+    @post upsert(@path id: string, @body body: UserInfo): OkResponse &
+      Body<{
+        user: UserInfo;
       }>;
   }
 }
