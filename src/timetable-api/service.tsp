@@ -22,7 +22,7 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace TimetableService {
-  @route("/v1/timetables")
+  @route("/v1/itmes")
   @tag("Timetables")
   interface TimetablesV1 {
     /**
@@ -33,7 +33,7 @@ namespace TimetableService {
      * @param dayOfWeek 曜日; 複数指定時はORでフィルタリングされる; 指定しない場合は全ての曜日が選択される
      * @returns 時間割のリスト
      */
-    @get detail(
+    @get list(
       @query year?: integer,
       @query semester: DottoFoundationV1.CourseSemester,
       @query dayOfWeek: DottoFoundationV1.DayOfWeek[],
