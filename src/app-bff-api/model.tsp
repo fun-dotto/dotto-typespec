@@ -14,10 +14,16 @@ namespace AppBFFService {
     faculties: FacultyService.Faculty[];
 
     /**
-     * TODO: 時間割APIを作成したら、曜日・時限を取得する
-     * 曜日・時限
+     * TODO: Timetable API から曜日を取得する
+     * 曜日
      */
-    dayOfWeekTimetableSlots: string;
+    dayOfWeek: DottoFoundationV1.DayOfWeek;
+
+    /**
+     * TODO: Timetable API から時限を取得する
+     * 時限
+     */
+    period: DottoFoundationV1.Period;
 
     /**
      * TODO: 時間割APIを作成したら、時間割に追加されているかを取得する
@@ -30,6 +36,15 @@ namespace AppBFFService {
     id: string;
     name: string;
     faculties: SubjectService.SubjectFaculty[];
+
+    /**
+     * 開講年度
+     */
+    year: integer;
+
+    /**
+     * 開講時期
+     */
     semester: DottoFoundationV1.CourseSemester;
 
     /**

@@ -155,4 +155,23 @@ namespace DottoFoundationV1 {
     // コミュニケーション
     Communication,
   }
+
+  enum DayOfWeek {
+    Sunday,
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+  }
+
+  enum Period {
+    Period1,
+    Period2,
+    Period3,
+    Period4,
+    Period5,
+    Period6,
+  }
 }

@@ -41,6 +41,15 @@ namespace SubjectService {
     id: string;
     name: string;
     faculties: SubjectFaculty[];
+
+    /**
+     * 開講年度
+     */
+    year: integer;
+
+    /**
+     * 開講時期
+     */
     semester: DottoFoundationV1.CourseSemester;
 
     /**
