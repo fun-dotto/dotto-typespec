@@ -290,25 +290,11 @@ namespace AdminBFFService {
       }>;
 
     /**
-     * 科目を作成する
-     * @param body 作成する科目の情報
-     * @returns 作成された科目
+     * 科目を作成または更新する
+     * @param body 作成または更新する科目の情報
+     * @returns 作成または更新された科目
      */
     @post upsert(@body body: SubjectService.SubjectRequest): OkResponse &
-      Body<{
-        subject: SubjectService.Subject;
-      }>;
-
-    /**
-     * 科目を更新する
-     * @param id 科目ID
-     * @param body 更新する科目の情報
-     * @returns 更新された科目
-     */
-    @put update(
-      @path id: string,
-      @body body: SubjectService.SubjectRequest,
-    ): OkResponse &
       Body<{
         subject: SubjectService.Subject;
       }>;
