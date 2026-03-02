@@ -29,7 +29,7 @@ namespace AppBFFService {
   model SubjectDetail {
     id: string;
     name: string;
-    faculties: SubjectService.SubjectFaculty[];
+    faculties: FacultyService.Faculty[];
     semester: DottoFoundationV1.CourseSemester;
 
     /**
