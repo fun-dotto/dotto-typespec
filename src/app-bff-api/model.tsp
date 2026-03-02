@@ -69,4 +69,10 @@ namespace AppBFFService {
     faculty: FacultyService.Faculty;
     isPrimary: boolean;
   }
+
+  model UserInfo {
+    grade?: DottoFoundationV1.Grade;
+    course?: DottoFoundationV1.Course;
+    class?: DottoFoundationV1.Class;
+  }
 }
