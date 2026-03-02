@@ -11,7 +11,7 @@ namespace AppBFFService {
   model SubjectSummary {
     id: string;
     name: string;
-    faculties: FacultyService.Faculty[];
+    faculties: SubjectFaculty[];
 
     /**
      * TODO: Timetable API から曜日を取得する
@@ -35,7 +35,7 @@ namespace AppBFFService {
   model SubjectDetail {
     id: string;
     name: string;
-    faculties: SubjectService.SubjectFaculty[];
+    faculties: SubjectFaculty[];
 
     /**
      * 開講年度
@@ -63,5 +63,10 @@ namespace AppBFFService {
     requirements: SubjectService.SubjectRequirement[];
 
     syllabus: SubjectService.Syllabus;
+  }
+
+  model SubjectFaculty {
+    faculty: FacultyService.Faculty;
+    isPrimary: boolean;
   }
 }
