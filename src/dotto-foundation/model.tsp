@@ -167,11 +167,71 @@ namespace DottoFoundationV1 {
   }
 
   enum Period {
+    /**
+     * 1限
+     */
     Period1,
+
+    /**
+     * 2限
+     */
     Period2,
+
+    /**
+     * 3限
+     */
     Period3,
+
+    /**
+     * 4限
+     */
     Period4,
+
+    /**
+     * 5限
+     */
     Period5,
+
+    /**
+     * 6限
+     */
     Period6,
+  }
+
+  enum Floor {
+    /**
+     * 1F
+     */
+    Floor1,
+
+    /**
+     * 2F
+     */
+    Floor2,
+
+    /**
+     * 3F
+     */
+    Floor3,
+
+    /**
+     * 4F
+     */
+    Floor4,
+
+    /**
+     * 5F
+     */
+    Floor5,
+
+    /**
+     * R6F
+     */
+    Floor6,
+
+    /**
+     * R7F
+     */
+    Floor7,
   }
 }
