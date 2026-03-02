@@ -23,8 +23,8 @@ using OpenAPI;
 @server("http://localhost:8080", "Local")
 namespace TimetableService {
   @route("/v1/itmes")
-  @tag("Timetables")
-  interface TimetablesV1 {
+  @tag("Items")
+  interface ItemsV1 {
     /**
      * 時間割を取得する
      *
