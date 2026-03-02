@@ -30,6 +30,7 @@ namespace SubjectService {
      *
      * 同一項目同士はOR、異なる項目同士はANDでフィルタリングされます。
      *
+     * @param ids 科目IDのリスト; 指定した場合は指定した科目IDのみを取得する
      * @param q 検索ワード
      * @param grade 学年
      * @param courses コース; 大学院の場合は大学院コースに読み替え
@@ -42,6 +43,7 @@ namespace SubjectService {
      * @returns 科目のリスト
      */
     @get list(
+      @query ids?: string[],
       @query q?: string,
       @query grade?: DottoFoundationV1.Grade[],
       @query courses?: DottoFoundationV1.Course[],

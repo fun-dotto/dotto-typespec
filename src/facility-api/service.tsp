@@ -27,9 +27,14 @@ namespace FacilityService {
   interface RoomsV1 {
     /**
      * 教室一覧を取得する
+     * @param ids 教室IDのリスト; 指定した場合は指定した教室IDのみを取得する
+     * @param floor 階数; 指定した場合は指定した階数の教室のみを取得する
      * @returns 教室のリスト
      */
-    @get list(@query floor?: DottoFoundationV1.Floor[]): OkResponse &
+    @get list(
+      @query ids?: string[],
+      @query floor?: DottoFoundationV1.Floor[],
+    ): OkResponse &
       Body<{
         rooms: Room[];
       }>;
