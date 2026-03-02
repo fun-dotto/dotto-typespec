@@ -22,5 +22,24 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace TimetableService {
-
+  @route("/v1/timetables")
+  @tag("Timetables")
+  interface TimetablesV1 {
+    /**
+     * 時間割を取得する
+     *
+     * @param year 開講年度; 指定しない場合は今年度が選択される
+     * @param semester 開講時期
+     * @param dayOfWeek 曜日; 複数指定時はORでフィルタリングされる; 指定しない場合は全ての曜日が選択される
+     * @returns 時間割のリスト
+     */
+    @get detail(
+      @query year?: integer,
+      @query semester: DottoFoundationV1.CourseSemester,
+      @query dayOfWeek: DottoFoundationV1.DayOfWeek[],
+    ): OkResponse &
+      Body<{
+        items: TimetableItem[];
+      }>;
+  }
 }
