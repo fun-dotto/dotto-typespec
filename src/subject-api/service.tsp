@@ -48,6 +48,7 @@ namespace SubjectService {
       @query classification: DottoFoundationV1.SubjectClassification[],
       @query semester: DottoFoundationV1.CourseSemester[],
       @query requirementType: DottoFoundationV1.SubjectRequirementType[],
+
       @query
       culturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
@@ -67,10 +68,10 @@ namespace SubjectService {
 
     /**
      * 科目を作成または更新する
-     * @param body 作成する科目の情報
-     * @returns 作成された科目
+     * @param body 作成または更新する科目の情報
+     * @returns 作成または更新された科目
      */
-    @put upsert(@body body: SubjectRequest): OkResponse &
+    @post upsert(@body body: SubjectRequest): OkResponse &
       Body<{
         subject: Subject;
       }>;
