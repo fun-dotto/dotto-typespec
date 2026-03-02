@@ -11,7 +11,7 @@ namespace AppBFFService {
   model SubjectSummary {
     id: string;
     name: string;
-    faculties: FacultyService.Faculty[];
+    faculties: SubjectFaculty[];
 
     /**
      * TODO: 時間割APIを作成したら、曜日・時限を取得する
@@ -29,7 +29,7 @@ namespace AppBFFService {
   model SubjectDetail {
     id: string;
     name: string;
-    faculties: SubjectService.SubjectFaculty[];
+    faculties: SubjectFaculty[];
     semester: DottoFoundationV1.CourseSemester;
 
     /**
@@ -48,5 +48,10 @@ namespace AppBFFService {
     requirements: SubjectService.SubjectRequirement[];
 
     syllabus: SubjectService.Syllabus;
+  }
+
+  model SubjectFaculty {
+    faculty: FacultyService.Faculty;
+    isPrimary: boolean;
   }
 }
