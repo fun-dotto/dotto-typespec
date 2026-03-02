@@ -37,5 +37,22 @@ namespace CourseService {
       Body<{
         registrations: Registration[];
       }>;
+
+    /**
+     * 履修情報を作成する
+     * @param body 作成する履修情報の情報
+     * @returns 作成された履修情報
+     */
+    @post create(@body body: RegistrationRequest): CreatedResponse &
+      Body<{
+        registration: Registration;
+      }>;
+
+    /**
+     * 履修情報を削除する
+     * @param id 履修情報ID
+     * @returns 削除された履修情報
+     */
+    @delete delete(@path id: string): NoContentResponse;
   }
 }

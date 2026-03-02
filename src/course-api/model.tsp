@@ -4,4 +4,9 @@ namespace CourseService {
     userId: string;
     subjectId: string;
   }
+
+  model RegistrationRequest {
+    userId: string;
+    subjectId: string;
+  }
 }
