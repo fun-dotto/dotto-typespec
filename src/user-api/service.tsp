@@ -16,5 +16,17 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace UserService {
-
+  @route("/v1/users")
+  @tag("Users")
+  interface UsersV1 {
+    /**
+     * ユーザーを作成または更新する
+     * @param body 作成または更新するユーザーの情報
+     * @returns 作成または更新されたユーザー
+     */
+    @post upsert(@path id: string, @body body: UserRequest): OkResponse &
+      Body<{
+        user: User;
+      }>;
+  }
 }
