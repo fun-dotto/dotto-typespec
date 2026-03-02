@@ -39,7 +39,7 @@ namespace TimetableService {
       @query dayOfWeek: DottoFoundationV1.DayOfWeek[],
     ): OkResponse &
       Body<{
-        items: TimetableItem[];
+        items: Item[];
       }>;
   }
 }

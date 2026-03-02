@@ -1,5 +1,5 @@
 namespace TimetableService {
-  model TimetableItem {
+  model Item {
     id: string;
     subjectId: string;
     dayOfWeek: DottoFoundationV1.DayOfWeek;
