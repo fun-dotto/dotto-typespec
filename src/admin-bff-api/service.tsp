@@ -151,17 +151,17 @@ namespace AdminBFFService {
      * @returns 科目のリスト
      */
     @get list(
-      @query q: string,
-      @query grade: DottoFoundationV1.Grade[],
-      @query courses: DottoFoundationV1.Course[],
-      @query class: DottoFoundationV1.Class[],
-      @query classification: DottoFoundationV1.SubjectClassification[],
+      @query q?: string,
+      @query grade?: DottoFoundationV1.Grade[],
+      @query courses?: DottoFoundationV1.Course[],
+      @query class?: DottoFoundationV1.Class[],
+      @query classification?: DottoFoundationV1.SubjectClassification[],
       @query year?: integer,
-      @query semester: DottoFoundationV1.CourseSemester[],
-      @query requirementType: DottoFoundationV1.SubjectRequirementType[],
+      @query semester?: DottoFoundationV1.CourseSemester[],
+      @query requirementType?: DottoFoundationV1.SubjectRequirementType[],
 
       @query
-      culturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
+      culturalSubjectCategory?: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
         subjects: SubjectService.SubjectSummary[];

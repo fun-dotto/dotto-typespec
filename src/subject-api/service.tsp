@@ -42,17 +42,17 @@ namespace SubjectService {
      * @returns 科目のリスト
      */
     @get list(
-      @query q: string,
-      @query grade: DottoFoundationV1.Grade[],
-      @query courses: DottoFoundationV1.Course[],
-      @query class: DottoFoundationV1.Class[],
-      @query classification: DottoFoundationV1.SubjectClassification[],
+      @query q?: string,
+      @query grade?: DottoFoundationV1.Grade[],
+      @query courses?: DottoFoundationV1.Course[],
+      @query class?: DottoFoundationV1.Class[],
+      @query classification?: DottoFoundationV1.SubjectClassification[],
       @query year?: integer,
-      @query semester: DottoFoundationV1.CourseSemester[],
-      @query requirementType: DottoFoundationV1.SubjectRequirementType[],
+      @query semester?: DottoFoundationV1.CourseSemester[],
+      @query requirementType?: DottoFoundationV1.SubjectRequirementType[],
 
       @query
-      culturalSubjectCategory: DottoFoundationV1.CulturalSubjectCategory[],
+      culturalSubjectCategory?: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
         subjects: SubjectSummary[];
@@ -70,10 +70,10 @@ namespace SubjectService {
 
     /**
      * 科目を作成または更新する
-     * @param body 作成する科目の情報
-     * @returns 作成された科目
+     * @param body 作成または更新する科目の情報
+     * @returns 作成または更新された科目
      */
-    @put upsert(@body body: SubjectRequest): OkResponse &
+    @post upsert(@body body: SubjectRequest): OkResponse &
       Body<{
         subject: Subject;
       }>;
