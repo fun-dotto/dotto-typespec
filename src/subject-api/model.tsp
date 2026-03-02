@@ -22,7 +22,7 @@ namespace SubjectService {
   }
 
   model SubjectFaculty {
-    faculty: FacultyService.Faculty;
+    facultyId: string;
     isPrimary: boolean;
   }
 
