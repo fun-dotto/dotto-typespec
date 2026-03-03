@@ -41,6 +41,7 @@ tasks:
       - task: build-docs
   build-docs:
     deps:
+      - task: build-docs:academic-api
       - task: build-docs:app-bff-api
       - task: build-docs:admin-bff-api
       - task: build-docs:announcement-api
@@ -51,6 +52,9 @@ tasks:
       - task: build-docs:subject-api
       - task: build-docs:timetable-api
       - task: build-docs:user-api
+  build-docs:academic-api:
+    cmds:
+      - "{{.PNPM}} build-docs:academic-api"
   build-docs:app-bff-api:
     cmds:
       - "{{.PNPM}} build-docs:app-bff-api"

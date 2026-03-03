@@ -18,6 +18,7 @@
     "compile": "tsp compile .",
     "watch": "tsp compile . --watch",
     "preview": "redocly preview --project-dir=./tsp-output/schema/",
+    "build-docs:academic-api": "redocly build-docs academic-api -o ./dist/academic-api.html",
     "build-docs:app-bff-api": "redocly build-docs app-bff-api -o ./dist/app-bff-api.html",
     "build-docs:admin-bff-api": "redocly build-docs admin-bff-api -o ./dist/admin-bff-api.html",
     "build-docs:announcement-api": "redocly build-docs announcement-api -o ./dist/announcement-api.html",

@@ -1,3 +1,4 @@
+import "./src/academic-api/service.tsp";
 import "./src/announcement-api/service.tsp";
 import "./src/app-bff-api/service.tsp";
 import "./src/admin-bff-api/service.tsp";

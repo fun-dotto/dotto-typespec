@@ -1,4 +1,6 @@
 apis:
+  academic-api:
+    root: ./tsp-output/schema/openapi.AcademicService.yaml
   app-bff-api:
     root: ./tsp-output/schema/openapi.AppBFFService.yaml
   admin-bff-api:

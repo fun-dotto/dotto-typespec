@@ -43,6 +43,9 @@ jobs:
           - repo: admin-bff-api
             type: bff
             schema: openapi.AdminBFFService.yaml
+          - repo: academic-api
+            type: backend
+            schema: openapi.AcademicService.yaml
           - repo: announcement-api
             type: backend
             schema: openapi.AnnouncementService.yaml
