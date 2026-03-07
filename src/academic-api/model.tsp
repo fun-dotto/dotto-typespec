@@ -204,7 +204,7 @@ namespace AcademicService {
     /**
      * DSOP対象科目
      */
-    dspoSubject: string;
+    dsopSubject: string;
   }
 
   model SubjectRequest {
