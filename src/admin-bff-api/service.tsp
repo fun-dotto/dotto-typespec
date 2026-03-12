@@ -24,7 +24,7 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace AdminBFFService {
-  @route("/v1/announcement/announcements")
+  @route("/v1/announcements")
   @tag("AnnouncementAnnouncements")
   interface AnnouncementAnnouncementsV1 {
     /**
@@ -78,7 +78,7 @@ namespace AdminBFFService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/course/registrations")
+  @route("/v1/registrations")
   @tag("CourseRegistrations")
   interface CourseRegistrationsV1 {
     /**
@@ -117,7 +117,7 @@ namespace AdminBFFService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/facility/rooms")
+  @route("/v1/rooms")
   @tag("FacilityRooms")
   interface FacilityRoomsV1 {
     /**
@@ -170,7 +170,7 @@ namespace AdminBFFService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/facility/rooms/{id}/reservations")
+  @route("/v1/rooms/{id}/reservations")
   @tag("FacilityReservations")
   interface FacilityReservationsV1 {
     /**
@@ -190,7 +190,7 @@ namespace AdminBFFService {
       }>;
   }
 
-  @route("/v1/faculty/faculties")
+  @route("/v1/faculties")
   @tag("FacultyFaculties")
   interface FacultyFacultiesV1 {
     /**
@@ -243,7 +243,7 @@ namespace AdminBFFService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/subject/subjects")
+  @route("/v1/subjects")
   @tag("SubjectSubjects")
   interface SubjectSubjectsV1 {
     /**
@@ -306,7 +306,7 @@ namespace AdminBFFService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/timetable/itmes")
+  @route("/v1/timetableItmes")
   @tag("TimetableItems")
   interface TimetableItemsV1 {
     /**
@@ -344,7 +344,7 @@ namespace AdminBFFService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/user/users")
+  @route("/v1/users")
   @tag("UserUsers")
   interface UserUsersV1 {
     /**
