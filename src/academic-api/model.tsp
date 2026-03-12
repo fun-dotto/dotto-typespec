@@ -1,4 +1,6 @@
-namespace SubjectService {
+namespace AcademicService {
+  // Subject 系
+
   /**
    * 対象学年・クラス
    */
@@ -202,10 +204,75 @@ namespace SubjectService {
     /**
      * DSOP対象科目
      */
-    dspoSubject: string;
+    dsopSubject: string;
   }
 
   model SubjectRequest {
     syllabusId: string;
+  }
+
+  // Faculty 系
+
+  /**
+   * 教員
+   */
+  model Faculty {
+    id: string;
+    name: string;
+    email: string;
+  }
+
+  model FacultyRequest {
+    name: string;
+    email: string;
+  }
+
+  // Course 系
+
+  model CourseRegistration {
+    id: string;
+    userId: string;
+    subjectId: string;
+  }
+
+  model CourseRegistrationRequest {
+    userId: string;
+    subjectId: string;
+  }
+
+  // Timetable 系
+
+  model TimetableItem {
+    id: string;
+    subjectId: string;
+    dayOfWeek: DottoFoundationV1.DayOfWeek;
+    period: DottoFoundationV1.Period;
+    roomId: string;
+  }
+
+  model TimetableItemRequest {
+    subjectId: string;
+    dayOfWeek: DottoFoundationV1.DayOfWeek;
+    period: DottoFoundationV1.Period;
+    roomId: string;
+  }
+
+  // Facility 系
+
+  model Room {
+    id: string;
+    name: string;
+    floor: DottoFoundationV1.Floor;
+  }
+
+  model RoomRequest {
+    name: string;
+    floor: DottoFoundationV1.Floor;
+  }
+
+  model Reservation {
+    startAt: utcDateTime;
+    endAt: utcDateTime;
+    title: string;
   }
 }
