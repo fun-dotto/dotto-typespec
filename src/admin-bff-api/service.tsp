@@ -1,8 +1,7 @@
 import "@typespec/http";
 import "@typespec/openapi";
+import "../academic-api/model.tsp";
 import "../announcement-api/model.tsp";
-import "../faculty-api/model.tsp";
-import "../subject-api/model.tsp";
 
 using Http;
 using OpenAPI;
@@ -25,8 +24,8 @@ using OpenAPI;
 @server("http://localhost:8080", "Local")
 namespace AdminBFFService {
   @route("/v1/announcements")
-  @tag("AnnouncementAnnouncements")
-  interface AnnouncementAnnouncementsV1 {
+  @tag("Announcements")
+  interface AnnouncementsV1 {
     /**
      * @returns おしらせのリスト
      */
@@ -78,7 +77,7 @@ namespace AdminBFFService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/registrations")
+  @route("/v1/courseRegistrations")
   @tag("CourseRegistrations")
   interface CourseRegistrationsV1 {
     /**
@@ -94,7 +93,7 @@ namespace AdminBFFService {
       @query semester: DottoFoundationV1.CourseSemester,
     ): OkResponse &
       Body<{
-        registrations: CourseService.Registration[];
+        registrations: AcademicService.Registration[];
       }>;
 
     /**
@@ -103,10 +102,10 @@ namespace AdminBFFService {
      * @returns 作成された履修情報
      */
     @post create(
-      @body body: CourseService.RegistrationRequest,
+      @body body: AcademicService.RegistrationRequest,
     ): CreatedResponse &
       Body<{
-        registration: CourseService.Registration;
+        registration: AcademicService.Registration;
       }>;
 
     /**
@@ -118,15 +117,15 @@ namespace AdminBFFService {
   }
 
   @route("/v1/rooms")
-  @tag("FacilityRooms")
-  interface FacilityRoomsV1 {
+  @tag("Rooms")
+  interface RoomsV1 {
     /**
      * 教室一覧を取得する
      * @returns 教室のリスト
      */
     @get list(@query floor?: DottoFoundationV1.Floor[]): OkResponse &
       Body<{
-        rooms: FacilityService.Room[];
+        rooms: AcademicService.Room[];
       }>;
 
     /**
@@ -136,7 +135,7 @@ namespace AdminBFFService {
      */
     @get detail(@path id: string): OkResponse &
       Body<{
-        room: FacilityService.Room;
+        room: AcademicService.Room;
       }>;
 
     /**
@@ -144,9 +143,9 @@ namespace AdminBFFService {
      * @param body 作成する教室の情報
      * @returns 作成された教室
      */
-    @post create(@body body: FacilityService.RoomRequest): CreatedResponse &
+    @post create(@body body: AcademicService.RoomRequest): CreatedResponse &
       Body<{
-        room: FacilityService.Room;
+        room: AcademicService.Room;
       }>;
 
     /**
@@ -157,10 +156,10 @@ namespace AdminBFFService {
      */
     @put update(
       @path id: string,
-      @body body: FacilityService.RoomRequest,
+      @body body: AcademicService.RoomRequest,
     ): OkResponse &
       Body<{
-        room: FacilityService.Room;
+        room: AcademicService.Room;
       }>;
 
     /**
@@ -171,8 +170,8 @@ namespace AdminBFFService {
   }
 
   @route("/v1/rooms/{id}/reservations")
-  @tag("FacilityReservations")
-  interface FacilityReservationsV1 {
+  @tag("Reservations")
+  interface ReservationsV1 {
     /**
      * 教室の予約一覧を取得する
      * @param id 教室ID
@@ -186,20 +185,20 @@ namespace AdminBFFService {
       @query until?: utcDateTime,
     ): OkResponse &
       Body<{
-        reservations: FacilityService.Reservation[];
+        reservations: AcademicService.Reservation[];
       }>;
   }
 
   @route("/v1/faculties")
-  @tag("FacultyFaculties")
-  interface FacultyFacultiesV1 {
+  @tag("Faculties")
+  interface FacultiesV1 {
     /**
      * 教員一覧を取得する
      * @returns 教員のリスト
      */
     @get list(): OkResponse &
       Body<{
-        faculties: FacultyService.Faculty[];
+        faculties: AcademicService.Faculty[];
       }>;
 
     /**
@@ -209,7 +208,7 @@ namespace AdminBFFService {
      */
     @get detail(@path id: string): OkResponse &
       Body<{
-        faculty: FacultyService.Faculty;
+        faculty: AcademicService.Faculty;
       }>;
 
     /**
@@ -217,9 +216,9 @@ namespace AdminBFFService {
      * @param body 作成する教員の情報
      * @returns 作成された教員
      */
-    @post create(@body body: FacultyService.FacultyRequest): CreatedResponse &
+    @post create(@body body: AcademicService.FacultyRequest): CreatedResponse &
       Body<{
-        faculty: FacultyService.Faculty;
+        faculty: AcademicService.Faculty;
       }>;
 
     /**
@@ -230,10 +229,10 @@ namespace AdminBFFService {
      */
     @put update(
       @path id: string,
-      @body body: FacultyService.FacultyRequest,
+      @body body: AcademicService.FacultyRequest,
     ): OkResponse &
       Body<{
-        faculty: FacultyService.Faculty;
+        faculty: AcademicService.Faculty;
       }>;
 
     /**
@@ -244,8 +243,8 @@ namespace AdminBFFService {
   }
 
   @route("/v1/subjects")
-  @tag("SubjectSubjects")
-  interface SubjectSubjectsV1 {
+  @tag("Subjects")
+  interface SubjectsV1 {
     /**
      * 科目一覧を取得する
      *
@@ -276,7 +275,7 @@ namespace AdminBFFService {
       culturalSubjectCategory?: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
-        subjects: SubjectService.SubjectSummary[];
+        subjects: AcademicService.SubjectSummary[];
       }>;
 
     /**
@@ -286,7 +285,7 @@ namespace AdminBFFService {
      */
     @get detail(@path id: string): OkResponse &
       Body<{
-        subject: SubjectService.Subject;
+        subject: AcademicService.Subject;
       }>;
 
     /**
@@ -294,9 +293,9 @@ namespace AdminBFFService {
      * @param body 作成または更新する科目の情報
      * @returns 作成または更新された科目
      */
-    @post upsert(@body body: SubjectService.SubjectRequest): OkResponse &
+    @post upsert(@body body: AcademicService.SubjectRequest): OkResponse &
       Body<{
-        subject: SubjectService.Subject;
+        subject: AcademicService.Subject;
       }>;
 
     /**
@@ -323,7 +322,7 @@ namespace AdminBFFService {
       @query dayOfWeek?: DottoFoundationV1.DayOfWeek[],
     ): OkResponse &
       Body<{
-        items: TimetableService.Item[];
+        items: AcademicService.TimetableItem[];
       }>;
 
     /**
@@ -331,9 +330,11 @@ namespace AdminBFFService {
      * @param body 追加する時間割の情報
      * @returns 作成された時間割
      */
-    @post create(@body body: TimetableService.ItemRequest): CreatedResponse &
+    @post create(
+      @body body: AcademicService.TimetableItemRequest,
+    ): CreatedResponse &
       Body<{
-        item: TimetableService.Item;
+        item: AcademicService.TimetableItem;
       }>;
 
     /**
@@ -345,8 +346,8 @@ namespace AdminBFFService {
   }
 
   @route("/v1/users")
-  @tag("UserUsers")
-  interface UserUsersV1 {
+  @tag("Users")
+  interface UsersV1 {
     /**
      * ユーザーを取得する
      * @param id ユーザーID

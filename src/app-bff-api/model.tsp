@@ -1,4 +1,4 @@
-import "../subject-api/model.tsp";
+import "../academic-api/model.tsp";
 
 namespace AppBFFService {
   model Announcement {
@@ -55,18 +55,18 @@ namespace AppBFFService {
     /**
      * 授業名末尾の`学年-クラス`をもとに決定
      */
-    eligibleAttributes: SubjectService.SubjectTargetClass[];
+    eligibleAttributes: AcademicService.SubjectTargetClass[];
 
     /**
      * 科目群・科目区分をもとに決定
      */
-    requirements: SubjectService.SubjectRequirement[];
+    requirements: AcademicService.SubjectRequirement[];
 
-    syllabus: SubjectService.Syllabus;
+    syllabus: AcademicService.Syllabus;
   }
 
   model SubjectFaculty {
-    faculty: FacultyService.Faculty;
+    faculty: AcademicService.Faculty;
     isPrimary: boolean;
   }
 
