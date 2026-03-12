@@ -49,24 +49,9 @@ jobs:
           - repo: announcement-api
             type: backend
             schema: openapi.AnnouncementService.yaml
-          - repo: course-api
-            type: backend
-            schema: openapi.CourseService.yaml
-          - repo: facility-api
-            type: backend
-            schema: openapi.FacilityService.yaml
-          - repo: faculty-api
-            type: backend
-            schema: openapi.FacultyService.yaml
           - repo: funch-api
             type: backend
             schema: openapi.FunchService.yaml
-          - repo: subject-api
-            type: backend
-            schema: openapi.SubjectService.yaml
-          - repo: timetable-api
-            type: backend
-            schema: openapi.TimetableService.yaml
           - repo: user-api
             type: backend
             schema: openapi.UserService.yaml
@@ -121,12 +106,14 @@ jobs:
           cp schemas/${{ matrix.schema }} target-repo/openapi/openapi.yaml
 
           if [ "${{ matrix.type }}" = "bff" ]; then
+            mkdir -p target-repo/openapi/external/academic_api
             mkdir -p target-repo/openapi/external/announcement_api
-            mkdir -p target-repo/openapi/external/faculty_api
-            mkdir -p target-repo/openapi/external/subject_api
+            mkdir -p target-repo/openapi/external/funch_api
+            mkdir -p target-repo/openapi/external/user_api
+            cp schemas/openapi.AcademicService.yaml target-repo/openapi/external/academic_api/openapi.yaml
             cp schemas/openapi.AnnouncementService.yaml target-repo/openapi/external/announcement_api/openapi.yaml
-            cp schemas/openapi.FacultyService.yaml target-repo/openapi/external/faculty_api/openapi.yaml
-            cp schemas/openapi.SubjectService.yaml target-repo/openapi/external/subject_api/openapi.yaml
+            cp schemas/openapi.FunchService.yaml target-repo/openapi/external/funch_api/openapi.yaml
+            cp schemas/openapi.UserService.yaml target-repo/openapi/external/user_api/openapi.yaml
           fi
       - name: Push to existing branch
         if: steps.check-existing.outputs.branch_exists == 'true' && steps.check-existing.outputs.pr_exists == 'true'
