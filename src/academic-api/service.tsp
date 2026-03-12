@@ -203,7 +203,7 @@ namespace AcademicService {
     @get list(
       @query year?: integer,
       @query semester: DottoFoundationV1.CourseSemester,
-      @query dayOfWeek: DottoFoundationV1.DayOfWeek[],
+      @query dayOfWeek?: DottoFoundationV1.DayOfWeek[],
     ): OkResponse &
       Body<{
         timetableItems: TimetableItem[];
