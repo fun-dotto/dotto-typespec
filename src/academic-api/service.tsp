@@ -152,9 +152,9 @@ namespace AcademicService {
     @delete delete(@path id: string): NoContentResponse;
   }
 
-  @route("/v1/registrations")
-  @tag("Registrations")
-  interface RegistrationsV1 {
+  @route("/v1/courseRegistrations")
+  @tag("CourseRegistrations")
+  interface CourseRegistrationsV1 {
     /**
      * 履修情報を取得する
      * @param userId ユーザーID
@@ -168,7 +168,7 @@ namespace AcademicService {
       @query semester: DottoFoundationV1.CourseSemester,
     ): OkResponse &
       Body<{
-        registrations: Registration[];
+        courseRegistrations: CourseRegistration[];
       }>;
 
     /**
@@ -176,9 +176,9 @@ namespace AcademicService {
      * @param body 作成する履修情報の情報
      * @returns 作成された履修情報
      */
-    @post create(@body body: RegistrationRequest): CreatedResponse &
+    @post create(@body body: CourseRegistrationRequest): CreatedResponse &
       Body<{
-        registration: Registration;
+        courseRegistration: CourseRegistration;
       }>;
 
     /**

@@ -229,13 +229,13 @@ namespace AcademicService {
 
   // Course 系
 
-  model Registration {
+  model CourseRegistration {
     id: string;
     userId: string;
     subjectId: string;
   }
 
-  model RegistrationRequest {
+  model CourseRegistrationRequest {
     userId: string;
     subjectId: string;
   }

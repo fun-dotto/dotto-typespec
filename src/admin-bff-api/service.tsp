@@ -93,7 +93,7 @@ namespace AdminBFFService {
       @query semester: DottoFoundationV1.CourseSemester,
     ): OkResponse &
       Body<{
-        registrations: AcademicService.Registration[];
+        registrations: AcademicService.CourseRegistration[];
       }>;
 
     /**
@@ -102,10 +102,10 @@ namespace AdminBFFService {
      * @returns 作成された履修情報
      */
     @post create(
-      @body body: AcademicService.RegistrationRequest,
+      @body body: AcademicService.CourseRegistrationRequest,
     ): CreatedResponse &
       Body<{
-        registration: AcademicService.Registration;
+        registration: AcademicService.CourseRegistration;
       }>;
 
     /**
