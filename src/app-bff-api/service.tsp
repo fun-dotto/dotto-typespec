@@ -91,10 +91,9 @@ namespace AppBFFService {
   interface UsersV1 {
     /**
      * ユーザーを取得する
-     * @param id ユーザーID
      * @returns ユーザーの情報
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(): OkResponse &
       Body<{
         user: UserInfo;
       }>;
@@ -104,7 +103,7 @@ namespace AppBFFService {
      * @param body 作成または更新するユーザーの情報
      * @returns 作成または更新されたユーザー
      */
-    @post upsert(@path id: string, @body body: UserInfo): OkResponse &
+    @post upsert(@body body: UserInfo): OkResponse &
       Body<{
         user: UserInfo;
       }>;
