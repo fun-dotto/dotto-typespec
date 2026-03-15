@@ -24,10 +24,10 @@ namespace UserService {
      * @param id ユーザーID
      * @returns ユーザーの情報
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         user: User;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * ユーザーを作成または更新する
