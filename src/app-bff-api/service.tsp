@@ -93,10 +93,10 @@ namespace AppBFFService {
      * ユーザーを取得する
      * @returns ユーザーの情報
      */
-    @get detail(): OkResponse &
+    @get detail(): (OkResponse &
       Body<{
         user: UserInfo;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * ユーザーを作成または更新する
