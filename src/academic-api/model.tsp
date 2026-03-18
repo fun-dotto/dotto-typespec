@@ -24,7 +24,7 @@ namespace AcademicService {
   }
 
   model SubjectFaculty {
-    facultyId: string;
+    faculty: Faculty;
     isPrimary: boolean;
   }
 
@@ -232,7 +232,7 @@ namespace AcademicService {
   model CourseRegistration {
     id: string;
     userId: string;
-    subjectId: string;
+    subject: SubjectSummary;
   }
 
   model CourseRegistrationRequest {
@@ -244,17 +244,15 @@ namespace AcademicService {
 
   model TimetableItem {
     id: string;
-    subjectId: string;
+    subject: SubjectSummary;
     dayOfWeek: DottoFoundationV1.DayOfWeek;
     period: DottoFoundationV1.Period;
-    roomId: string;
   }
 
   model TimetableItemRequest {
     subjectId: string;
     dayOfWeek: DottoFoundationV1.DayOfWeek;
     period: DottoFoundationV1.Period;
-    roomId: string;
   }
 
   // Facility 系

@@ -75,4 +75,20 @@ namespace AppBFFService {
     course?: DottoFoundationV1.Course;
     class?: DottoFoundationV1.Class;
   }
+
+  model TimetableItem {
+    id: string;
+    subject: SubjectSummary;
+    dayOfWeek: DottoFoundationV1.DayOfWeek;
+    period: DottoFoundationV1.Period;
+  }
+
+  model CourseRegistration {
+    id: string;
+    subject: SubjectSummary;
+  }
+
+  model CourseRegistrationRequest {
+    subjectId: string;
+  }
 }
