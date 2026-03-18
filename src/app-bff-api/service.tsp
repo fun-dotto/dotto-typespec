@@ -108,4 +108,61 @@ namespace AppBFFService {
         user: UserInfo;
       }>;
   }
+
+  @route("/v1/timetableItems")
+  @tag("TimetableItems")
+  interface TimetableItemsV1 {
+    /**
+     * 時間割を取得する
+     *
+     * @param year 開講年度; 指定しない場合は今年度が選択される
+     * @param semester 開講時期
+     * @param dayOfWeek 曜日; 複数指定時はORでフィルタリングされる; 指定しない場合は全ての曜日が選択される
+     * @returns 時間割のリスト
+     */
+    @get list(
+      @query year?: integer,
+      @query semester: DottoFoundationV1.CourseSemester,
+      @query dayOfWeek?: DottoFoundationV1.DayOfWeek[],
+    ): OkResponse &
+      Body<{
+        timetableItems: TimetableItem[];
+      }>;
+  }
+
+  @route("/v1/courseRegistrations")
+  @tag("CourseRegistrations")
+  interface CourseRegistrationsV1 {
+    /**
+     * 履修情報を取得する
+     * @param userId ユーザーID
+     * @param year 開講年度; 指定しない場合は今年度が選択される
+     * @param semester 開講時期
+     * @returns 履修情報のリスト
+     */
+    @get list(
+      @query year?: integer,
+      @query semester: DottoFoundationV1.CourseSemester,
+    ): OkResponse &
+      Body<{
+        courseRegistrations: CourseRegistration[];
+      }>;
+
+    /**
+     * 履修情報を作成する
+     * @param body 作成する履修情報の情報
+     * @returns 作成された履修情報
+     */
+    @post create(@body body: CourseRegistrationRequest): CreatedResponse &
+      Body<{
+        courseRegistration: CourseRegistration;
+      }>;
+
+    /**
+     * 履修情報を削除する
+     * @param id 履修情報ID
+     * @returns 削除された履修情報
+     */
+    @delete delete(@path id: string): NoContentResponse;
+  }
 }
