@@ -21,6 +21,7 @@ using OpenAPI;
   "Development"
 )
 @server("http://localhost:8080", "Local")
+@useAuth(BearerAuth)
 namespace AppBFFService {
   @route("/announcements")
   @tag("Announcements")
@@ -37,10 +38,10 @@ namespace AppBFFService {
     /**
      * @returns おしらせのリスト
      */
-    @get list(): OkResponse &
+    @get list(): (OkResponse &
       Body<{
         announcements: Announcement[];
-      }>;
+      }>) | UnauthorizedResponse;
   }
 
   @route("/v1/subjects")
@@ -72,18 +73,18 @@ namespace AppBFFService {
 
       @query
       culturalSubjectCategory?: DottoFoundationV1.CulturalSubjectCategory[],
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         subjects: SubjectSummary[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * @returns 科目の詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         subject: SubjectDetail;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/users")
@@ -96,17 +97,17 @@ namespace AppBFFService {
     @get detail(): (OkResponse &
       Body<{
         user: UserInfo;
-      }>) | NotFoundResponse;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * ユーザーを作成または更新する
      * @param body 作成または更新するユーザーの情報
      * @returns 作成または更新されたユーザー
      */
-    @post upsert(@body body: UserInfo): OkResponse &
+    @post upsert(@body body: UserInfo): (OkResponse &
       Body<{
         user: UserInfo;
-      }>;
+      }>) | UnauthorizedResponse;
   }
 
   @route("/v1/timetableItems")
@@ -124,10 +125,10 @@ namespace AppBFFService {
       @query year?: integer,
       @query semester: DottoFoundationV1.CourseSemester,
       @query dayOfWeek?: DottoFoundationV1.DayOfWeek[],
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         timetableItems: TimetableItem[];
-      }>;
+      }>) | UnauthorizedResponse;
   }
 
   @route("/v1/courseRegistrations")
@@ -143,26 +144,28 @@ namespace AppBFFService {
     @get list(
       @query year?: integer,
       @query semester: DottoFoundationV1.CourseSemester,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         courseRegistrations: CourseRegistration[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 履修情報を作成する
      * @param body 作成する履修情報の情報
      * @returns 作成された履修情報
      */
-    @post create(@body body: CourseRegistrationRequest): CreatedResponse &
+    @post create(@body body: CourseRegistrationRequest): (CreatedResponse &
       Body<{
         courseRegistration: CourseRegistration;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 履修情報を削除する
      * @param id 履修情報ID
      * @returns 削除された履修情報
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 }
