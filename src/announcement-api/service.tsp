@@ -54,10 +54,10 @@ namespace AnnouncementService {
      * @param id おしらせID
      * @returns おしらせの詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         announcement: Announcement;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * おしらせを作成する
@@ -75,15 +75,18 @@ namespace AnnouncementService {
      * @param body 更新するおしらせの情報
      * @returns 更新されたおしらせ
      */
-    @put update(@path id: string, @body body: AnnouncementRequest): OkResponse &
+    @put update(
+      @path id: string,
+      @body body: AnnouncementRequest,
+    ): (OkResponse &
       Body<{
         announcement: Announcement;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * おしらせを削除する
      * @param id おしらせID
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 }

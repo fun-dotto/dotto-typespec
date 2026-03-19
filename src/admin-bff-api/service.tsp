@@ -22,6 +22,7 @@ using OpenAPI;
   "Development"
 )
 @server("http://localhost:8080", "Local")
+@useAuth(BearerAuth)
 namespace AdminBFFService {
   @route("/v1/announcements")
   @tag("Announcements")
@@ -29,20 +30,20 @@ namespace AdminBFFService {
     /**
      * @returns おしらせのリスト
      */
-    @get list(): OkResponse &
+    @get list(): (OkResponse &
       Body<{
         announcements: AnnouncementService.Announcement[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * おしらせを詳細取得する
      * @param id おしらせID
      * @returns おしらせの詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         announcement: AnnouncementService.Announcement;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * おしらせを作成する
@@ -51,10 +52,10 @@ namespace AdminBFFService {
      */
     @post create(
       @body body: AnnouncementService.AnnouncementRequest,
-    ): CreatedResponse &
+    ): (CreatedResponse &
       Body<{
         announcement: AnnouncementService.Announcement;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * おしらせを更新する
@@ -65,16 +66,18 @@ namespace AdminBFFService {
     @put update(
       @path id: string,
       @body body: AnnouncementService.AnnouncementRequest,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         announcement: AnnouncementService.Announcement;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * おしらせを削除する
      * @param id おしらせID
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/courseRegistrations")
@@ -91,10 +94,10 @@ namespace AdminBFFService {
       @query userId: string,
       @query year?: integer,
       @query semester: DottoFoundationV1.CourseSemester,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         registrations: AcademicService.CourseRegistration[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 履修情報を作成する
@@ -103,17 +106,19 @@ namespace AdminBFFService {
      */
     @post create(
       @body body: AcademicService.CourseRegistrationRequest,
-    ): CreatedResponse &
+    ): (CreatedResponse &
       Body<{
         registration: AcademicService.CourseRegistration;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 履修情報を削除する
      * @param id 履修情報ID
      * @returns 削除された履修情報
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/rooms")
@@ -123,30 +128,30 @@ namespace AdminBFFService {
      * 教室一覧を取得する
      * @returns 教室のリスト
      */
-    @get list(@query floor?: DottoFoundationV1.Floor[]): OkResponse &
+    @get list(@query floor?: DottoFoundationV1.Floor[]): (OkResponse &
       Body<{
         rooms: AcademicService.Room[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 教室を詳細取得する
      * @param id 教室ID
      * @returns 教室の詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         room: AcademicService.Room;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 教室を作成する
      * @param body 作成する教室の情報
      * @returns 作成された教室
      */
-    @post create(@body body: AcademicService.RoomRequest): CreatedResponse &
+    @post create(@body body: AcademicService.RoomRequest): (CreatedResponse &
       Body<{
         room: AcademicService.Room;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 教室を更新する
@@ -157,16 +162,18 @@ namespace AdminBFFService {
     @put update(
       @path id: string,
       @body body: AcademicService.RoomRequest,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         room: AcademicService.Room;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 教室を削除する
      * @param id 教室ID
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/rooms/{id}/reservations")
@@ -183,10 +190,10 @@ namespace AdminBFFService {
       @path id: string,
       @query from?: utcDateTime,
       @query until?: utcDateTime,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         reservations: AcademicService.Reservation[];
-      }>;
+      }>) | UnauthorizedResponse;
   }
 
   @route("/v1/faculties")
@@ -196,30 +203,30 @@ namespace AdminBFFService {
      * 教員一覧を取得する
      * @returns 教員のリスト
      */
-    @get list(): OkResponse &
+    @get list(): (OkResponse &
       Body<{
         faculties: AcademicService.Faculty[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 教員を詳細取得する
      * @param id 教員ID
      * @returns 教員の詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         faculty: AcademicService.Faculty;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 教員を作成する
      * @param body 作成する教員の情報
      * @returns 作成された教員
      */
-    @post create(@body body: AcademicService.FacultyRequest): CreatedResponse &
+    @post create(@body body: AcademicService.FacultyRequest): (CreatedResponse &
       Body<{
         faculty: AcademicService.Faculty;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 教員を更新する
@@ -230,16 +237,18 @@ namespace AdminBFFService {
     @put update(
       @path id: string,
       @body body: AcademicService.FacultyRequest,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         faculty: AcademicService.Faculty;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 教員を削除する
      * @param id 教員ID
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/subjects")
@@ -273,36 +282,38 @@ namespace AdminBFFService {
 
       @query
       culturalSubjectCategory?: DottoFoundationV1.CulturalSubjectCategory[],
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         subjects: AcademicService.SubjectSummary[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 科目を詳細取得する
      * @param id 科目ID
      * @returns 科目の詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         subject: AcademicService.Subject;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 科目を作成または更新する
      * @param body 作成または更新する科目の情報
      * @returns 作成または更新された科目
      */
-    @post upsert(@body body: AcademicService.SubjectRequest): OkResponse &
+    @post upsert(@body body: AcademicService.SubjectRequest): (OkResponse &
       Body<{
         subject: AcademicService.Subject;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 科目を削除する
      * @param id 科目ID
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/timetableItmes")
@@ -320,10 +331,10 @@ namespace AdminBFFService {
       @query year?: integer,
       @query semester: DottoFoundationV1.CourseSemester,
       @query dayOfWeek?: DottoFoundationV1.DayOfWeek[],
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         items: AcademicService.TimetableItem[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 時間割に追加する
@@ -332,17 +343,19 @@ namespace AdminBFFService {
      */
     @post create(
       @body body: AcademicService.TimetableItemRequest,
-    ): CreatedResponse &
+    ): (CreatedResponse &
       Body<{
         item: AcademicService.TimetableItem;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 時間割を削除する
      * @param id 時間割ID
      * @returns 削除された時間割
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/users")
@@ -353,9 +366,9 @@ namespace AdminBFFService {
      * @param id ユーザーID
      * @returns ユーザーの情報
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         user: UserService.User;
-      }>;
+      }>) | NotFoundResponse | UnauthorizedResponse;
   }
 }

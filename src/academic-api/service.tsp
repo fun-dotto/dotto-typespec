@@ -65,26 +65,26 @@ namespace AcademicService {
      * @param id 科目ID
      * @returns 科目の詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         subject: Subject;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * 科目を作成または更新する
      * @param body 作成または更新する科目の情報
      * @returns 作成または更新された科目
      */
-    @post upsert(@body body: SubjectRequest): OkResponse &
+    @post upsert(@body body: SubjectRequest): (OkResponse &
       Body<{
         subject: Subject;
-      }>;
+      }>) | BadRequestResponse;
 
     /**
      * 科目を削除する
      * @param id 科目ID
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
   @route("/v1/subjects/{id}/syllabus")
@@ -95,10 +95,10 @@ namespace AcademicService {
      * @param id 科目ID
      * @returns シラバス
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         syllabus: Syllabus;
-      }>;
+      }>) | NotFoundResponse;
   }
 
   @route("/v1/faculties")
@@ -119,10 +119,10 @@ namespace AcademicService {
      * @param id 教員ID
      * @returns 教員の詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         faculty: Faculty;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * 教員を作成する
@@ -140,16 +140,16 @@ namespace AcademicService {
      * @param body 更新する教員の情報
      * @returns 更新された教員
      */
-    @put update(@path id: string, @body body: FacultyRequest): OkResponse &
+    @put update(@path id: string, @body body: FacultyRequest): (OkResponse &
       Body<{
         faculty: Faculty;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * 教員を削除する
      * @param id 教員ID
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
   @route("/v1/courseRegistrations")
@@ -166,27 +166,27 @@ namespace AcademicService {
       @query userId: string,
       @query year?: integer,
       @query semester: DottoFoundationV1.CourseSemester,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         courseRegistrations: CourseRegistration[];
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * 履修情報を作成する
      * @param body 作成する履修情報の情報
      * @returns 作成された履修情報
      */
-    @post create(@body body: CourseRegistrationRequest): CreatedResponse &
+    @post create(@body body: CourseRegistrationRequest): (CreatedResponse &
       Body<{
         courseRegistration: CourseRegistration;
-      }>;
+      }>) | BadRequestResponse;
 
     /**
      * 履修情報を削除する
      * @param id 履修情報ID
      * @returns 削除された履修情報
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
   @route("/v1/timetableItems")
@@ -224,7 +224,7 @@ namespace AcademicService {
      * @param id 時間割ID
      * @returns 削除された時間割
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
   @route("/v1/rooms")
@@ -249,10 +249,10 @@ namespace AcademicService {
      * @param id 教室ID
      * @returns 教室の詳細
      */
-    @get detail(@path id: string): OkResponse &
+    @get detail(@path id: string): (OkResponse &
       Body<{
         room: Room;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * 教室を作成する
@@ -270,16 +270,16 @@ namespace AcademicService {
      * @param body 更新する教室の情報
      * @returns 更新された教室
      */
-    @put update(@path id: string, @body body: RoomRequest): OkResponse &
+    @put update(@path id: string, @body body: RoomRequest): (OkResponse &
       Body<{
         room: Room;
-      }>;
+      }>) | NotFoundResponse;
 
     /**
      * 教室を削除する
      * @param id 教室ID
      */
-    @delete delete(@path id: string): NoContentResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
   @route("/v1/rooms/{id}/reservations")
