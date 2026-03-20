@@ -14,19 +14,19 @@ namespace AppBFFService {
     faculties: SubjectFaculty[];
 
     /**
-     * TODO: Timetable API から曜日を取得する
+     * TODO
      * 曜日
      */
     dayOfWeek: DottoFoundationV1.DayOfWeek;
 
     /**
-     * TODO: Timetable API から時限を取得する
+     * TODO
      * 時限
      */
     period: DottoFoundationV1.Period;
 
     /**
-     * TODO: 時間割APIを作成したら、時間割に追加されているかを取得する
+     * TODO
      * 時間割に追加されているか
      */
     isAddedToTimetable: boolean;
@@ -79,8 +79,6 @@ namespace AppBFFService {
   model TimetableItem {
     id: string;
     subject: SubjectSummary;
-    dayOfWeek: DottoFoundationV1.DayOfWeek;
-    period: DottoFoundationV1.Period;
   }
 
   model CourseRegistration {
