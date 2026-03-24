@@ -82,6 +82,18 @@ namespace DottoFoundationV1 {
     WinterIntensive,
   }
 
+  enum TimetableSemester {
+    /**
+     * AllYear, H1, Q1, Q2, SummerIntensive
+     */
+    Spring,
+
+    /**
+     * AllYear, H2, Q3, Q4, WinterIntensive
+     */
+    Fall,
+  }
+
   /**
    * 必修・選択
    */
@@ -196,6 +208,11 @@ namespace DottoFoundationV1 {
      * 6限
      */
     Period6,
+  }
+
+  model TimetableSlot {
+    dayOfWeek: DayOfWeek;
+    period: Period;
   }
 
   enum Floor {
