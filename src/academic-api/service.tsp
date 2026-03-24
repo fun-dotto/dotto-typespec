@@ -159,13 +159,13 @@ namespace AcademicService {
      * 履修情報を取得する
      * @param userId ユーザーID
      * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semester 開講時期
+     * @param semesters 開講時期; 指定された時期に開講される全ての科目が取得される
      * @returns 履修情報のリスト
      */
     @get list(
       @query userId: string,
       @query year?: integer,
-      @query semester: DottoFoundationV1.CourseSemester,
+      @query semesters: DottoFoundationV1.CourseSemester[],
     ): (OkResponse &
       Body<{
         courseRegistrations: CourseRegistration[];
@@ -196,14 +196,12 @@ namespace AcademicService {
      * 時間割を取得する
      *
      * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semester 開講時期
-     * @param dayOfWeek 曜日; 複数指定時はORでフィルタリングされる; 指定しない場合は全ての曜日が選択される
+     * @param semesters 開講時期; 指定された時期に開講される全ての科目が取得される
      * @returns 時間割のリスト
      */
     @get list(
       @query year?: integer,
-      @query semester: DottoFoundationV1.CourseSemester,
-      @query dayOfWeek?: DottoFoundationV1.DayOfWeek[],
+      @query semesters: DottoFoundationV1.CourseSemester[],
     ): OkResponse &
       Body<{
         timetableItems: TimetableItem[];

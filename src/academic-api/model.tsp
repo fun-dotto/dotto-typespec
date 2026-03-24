@@ -245,14 +245,16 @@ namespace AcademicService {
   model TimetableItem {
     id: string;
     subject: SubjectSummary;
-    dayOfWeek: DottoFoundationV1.DayOfWeek;
-    period: DottoFoundationV1.Period;
+
+    /**
+     * 集中講義など、時間割に含まれていない場合はnull
+     */
+    slot?: DottoFoundationV1.TimetableSlot;
   }
 
   model TimetableItemRequest {
     subjectId: string;
-    dayOfWeek: DottoFoundationV1.DayOfWeek;
-    period: DottoFoundationV1.Period;
+    slot?: DottoFoundationV1.TimetableSlot;
   }
 
   // Facility 系
