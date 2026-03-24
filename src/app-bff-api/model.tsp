@@ -12,24 +12,6 @@ namespace AppBFFService {
     id: string;
     name: string;
     faculties: SubjectFaculty[];
-
-    /**
-     * TODO
-     * 曜日
-     */
-    dayOfWeek: DottoFoundationV1.DayOfWeek;
-
-    /**
-     * TODO
-     * 時限
-     */
-    period: DottoFoundationV1.Period;
-
-    /**
-     * TODO
-     * 時間割に追加されているか
-     */
-    isAddedToTimetable: boolean;
   }
 
   model SubjectDetail {
@@ -79,6 +61,11 @@ namespace AppBFFService {
   model TimetableItem {
     id: string;
     subject: SubjectSummary;
+
+    /**
+     * 集中講義など、時間割に含まれていない場合はnull
+     */
+    slot?: DottoFoundationV1.TimetableSlot;
   }
 
   model CourseRegistration {
