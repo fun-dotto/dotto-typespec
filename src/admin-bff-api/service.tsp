@@ -121,6 +121,77 @@ namespace AdminBFFService {
     ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
+  @route("/v1/faculties")
+  @tag("Faculties")
+  interface FacultiesV1 {
+    /**
+     * 教員一覧を取得する
+     * @returns 教員のリスト
+     */
+    @get list(): (OkResponse &
+      Body<{
+        faculties: AcademicService.Faculty[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教員を詳細取得する
+     * @param id 教員ID
+     * @returns 教員の詳細
+     */
+    @get detail(@path id: string): (OkResponse &
+      Body<{
+        faculty: AcademicService.Faculty;
+      }>) | NotFoundResponse | UnauthorizedResponse;
+
+    /**
+     * 教員を作成する
+     * @param body 作成する教員の情報
+     * @returns 作成された教員
+     */
+    @post create(@body body: AcademicService.FacultyRequest): (CreatedResponse &
+      Body<{
+        faculty: AcademicService.Faculty;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教員を更新する
+     * @param id 教員ID
+     * @param body 更新する教員の情報
+     * @returns 更新された教員
+     */
+    @put update(
+      @path id: string,
+      @body body: AcademicService.FacultyRequest,
+    ): (OkResponse &
+      Body<{
+        faculty: AcademicService.Faculty;
+      }>) | NotFoundResponse | UnauthorizedResponse;
+
+    /**
+     * 教員を削除する
+     * @param id 教員ID
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/personalCalendarItems")
+  @tag("PersonalCalendarItems")
+  interface PersonalCalendarItemsV1 {
+    /**
+     * 個人カレンダーアイテム一覧を取得する
+     *
+     * @param userId ユーザーID
+     * @param dates 日付のリスト; 指定した日付の個人カレンダーアイテムのみを取得する
+     * @returns 個人カレンダーアイテムのリスト; 時間割、履修情報、休講補講、振替授業日情報から構築される
+     */
+    @get list(@query userId: string, @query dates: utcDateTime[]): OkResponse &
+      Body<{
+        personalCalendarItems: AcademicService.PersonalCalendarItem[];
+      }>;
+  }
+
   @route("/v1/rooms")
   @tag("Rooms")
   interface RoomsV1 {
@@ -194,61 +265,6 @@ namespace AdminBFFService {
       Body<{
         reservations: AcademicService.Reservation[];
       }>) | UnauthorizedResponse;
-  }
-
-  @route("/v1/faculties")
-  @tag("Faculties")
-  interface FacultiesV1 {
-    /**
-     * 教員一覧を取得する
-     * @returns 教員のリスト
-     */
-    @get list(): (OkResponse &
-      Body<{
-        faculties: AcademicService.Faculty[];
-      }>) | UnauthorizedResponse;
-
-    /**
-     * 教員を詳細取得する
-     * @param id 教員ID
-     * @returns 教員の詳細
-     */
-    @get detail(@path id: string): (OkResponse &
-      Body<{
-        faculty: AcademicService.Faculty;
-      }>) | NotFoundResponse | UnauthorizedResponse;
-
-    /**
-     * 教員を作成する
-     * @param body 作成する教員の情報
-     * @returns 作成された教員
-     */
-    @post create(@body body: AcademicService.FacultyRequest): (CreatedResponse &
-      Body<{
-        faculty: AcademicService.Faculty;
-      }>) | UnauthorizedResponse;
-
-    /**
-     * 教員を更新する
-     * @param id 教員ID
-     * @param body 更新する教員の情報
-     * @returns 更新された教員
-     */
-    @put update(
-      @path id: string,
-      @body body: AcademicService.FacultyRequest,
-    ): (OkResponse &
-      Body<{
-        faculty: AcademicService.Faculty;
-      }>) | NotFoundResponse | UnauthorizedResponse;
-
-    /**
-     * 教員を削除する
-     * @param id 教員ID
-     */
-    @delete delete(
-      @path id: string,
-    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/subjects")
