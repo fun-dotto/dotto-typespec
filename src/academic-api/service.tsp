@@ -32,29 +32,29 @@ namespace AcademicService {
      *
      * @param ids 科目IDのリスト; 指定した場合は指定した科目IDのみを取得する
      * @param q 検索ワード
-     * @param grade 学年
+     * @param grades 学年
      * @param courses コース; 大学院の場合は大学院コースに読み替え
-     * @param class クラス; 大学院の学年を選択した場合は選択できない
-     * @param classification 学部: 専門・教養; 大学院: 専門・研究指導
+     * @param classes クラス; 大学院の学年を選択した場合は選択できない
+     * @param classifications 学部: 専門・教養; 大学院: 専門・研究指導
      * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semester 開講時期
-     * @param requirementType 必修・選択・選択必修
-     * @param culturalSubjectCategory 教養科目カテゴリ
+     * @param semesters 開講時期
+     * @param requirementTypes 必修・選択・選択必修
+     * @param culturalSubjectCategories 教養科目カテゴリ
      * @returns 科目のリスト
      */
     @get list(
       @query ids?: string[],
       @query q?: string,
-      @query grade?: DottoFoundationV1.Grade[],
+      @query grades?: DottoFoundationV1.Grade[],
       @query courses?: DottoFoundationV1.Course[],
-      @query class?: DottoFoundationV1.Class[],
-      @query classification?: DottoFoundationV1.SubjectClassification[],
+      @query classes?: DottoFoundationV1.Class[],
+      @query classifications?: DottoFoundationV1.SubjectClassification[],
       @query year?: integer,
-      @query semester?: DottoFoundationV1.CourseSemester[],
-      @query requirementType?: DottoFoundationV1.SubjectRequirementType[],
+      @query semesters?: DottoFoundationV1.CourseSemester[],
+      @query requirementTypes?: DottoFoundationV1.SubjectRequirementType[],
 
       @query
-      culturalSubjectCategory?: DottoFoundationV1.CulturalSubjectCategory[],
+      culturalSubjectCategories?: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
         subjects: SubjectSummary[];
