@@ -22,83 +22,41 @@ using OpenAPI;
 )
 @server("http://localhost:8080", "Local")
 namespace AcademicService {
-  @route("/v1/subjects")
-  @tag("Subjects")
-  interface SubjectsV1 {
+  @route("/v1/courseRegistrations")
+  @tag("CourseRegistrations")
+  interface CourseRegistrationsV1 {
     /**
-     * 科目一覧を取得する
-     *
-     * 同一項目同士はOR、異なる項目同士はANDでフィルタリングされます。
-     *
-     * @param ids 科目IDのリスト; 指定した場合は指定した科目IDのみを取得する
-     * @param q 検索ワード
-     * @param grades 学年
-     * @param courses コース; 大学院の場合は大学院コースに読み替え
-     * @param classes クラス; 大学院の学年を選択した場合は選択できない
-     * @param classifications 学部: 専門・教養; 大学院: 専門・研究指導
+     * 履修情報を取得する
+     * @param userId ユーザーID
      * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semesters 開講時期
-     * @param requirementTypes 必修・選択・選択必修
-     * @param culturalSubjectCategories 教養科目カテゴリ
-     * @returns 科目のリスト
+     * @param semesters 開講時期; 指定された時期に開講される全ての科目が取得される
+     * @returns 履修情報のリスト
      */
     @get list(
-      @query ids?: string[],
-      @query q?: string,
-      @query grades?: DottoFoundationV1.Grade[],
-      @query courses?: DottoFoundationV1.Course[],
-      @query classes?: DottoFoundationV1.Class[],
-      @query classifications?: DottoFoundationV1.SubjectClassification[],
+      @query userId: string,
       @query year?: integer,
-      @query semesters?: DottoFoundationV1.CourseSemester[],
-      @query requirementTypes?: DottoFoundationV1.SubjectRequirementType[],
-
-      @query
-      culturalSubjectCategories?: DottoFoundationV1.CulturalSubjectCategory[],
-    ): OkResponse &
+      @query semesters: DottoFoundationV1.CourseSemester[],
+    ): (OkResponse &
       Body<{
-        subjects: SubjectSummary[];
-      }>;
-
-    /**
-     * 科目を詳細取得する
-     * @param id 科目ID
-     * @returns 科目の詳細
-     */
-    @get detail(@path id: string): (OkResponse &
-      Body<{
-        subject: Subject;
+        courseRegistrations: CourseRegistration[];
       }>) | NotFoundResponse;
 
     /**
-     * 科目を作成または更新する
-     * @param body 作成または更新する科目の情報
-     * @returns 作成または更新された科目
+     * 履修情報を作成する
+     * @param body 作成する履修情報の情報
+     * @returns 作成された履修情報
      */
-    @post upsert(@body body: SubjectRequest): (OkResponse &
+    @post create(@body body: CourseRegistrationRequest): (CreatedResponse &
       Body<{
-        subject: Subject;
+        courseRegistration: CourseRegistration;
       }>) | BadRequestResponse;
 
     /**
-     * 科目を削除する
-     * @param id 科目ID
+     * 履修情報を削除する
+     * @param id 履修情報ID
+     * @returns 削除された履修情報
      */
     @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
-  }
-
-  @route("/v1/subjects/{id}/syllabus")
-  @tag("Syllabus")
-  interface SyllabusV1 {
-    /**
-     * シラバスを取得する
-     * @param id 科目ID
-     * @returns シラバス
-     */
-    @get detail(@path id: string): (OkResponse &
-      Body<{
-        syllabus: Syllabus;
-      }>) | NotFoundResponse;
   }
 
   @route("/v1/faculties")
@@ -148,79 +106,6 @@ namespace AcademicService {
     /**
      * 教員を削除する
      * @param id 教員ID
-     */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
-  }
-
-  @route("/v1/courseRegistrations")
-  @tag("CourseRegistrations")
-  interface CourseRegistrationsV1 {
-    /**
-     * 履修情報を取得する
-     * @param userId ユーザーID
-     * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semesters 開講時期; 指定された時期に開講される全ての科目が取得される
-     * @returns 履修情報のリスト
-     */
-    @get list(
-      @query userId: string,
-      @query year?: integer,
-      @query semesters: DottoFoundationV1.CourseSemester[],
-    ): (OkResponse &
-      Body<{
-        courseRegistrations: CourseRegistration[];
-      }>) | NotFoundResponse;
-
-    /**
-     * 履修情報を作成する
-     * @param body 作成する履修情報の情報
-     * @returns 作成された履修情報
-     */
-    @post create(@body body: CourseRegistrationRequest): (CreatedResponse &
-      Body<{
-        courseRegistration: CourseRegistration;
-      }>) | BadRequestResponse;
-
-    /**
-     * 履修情報を削除する
-     * @param id 履修情報ID
-     * @returns 削除された履修情報
-     */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
-  }
-
-  @route("/v1/timetableItems")
-  @tag("TimetableItems")
-  interface TimetableItemsV1 {
-    /**
-     * 時間割を取得する
-     *
-     * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semesters 開講時期; 指定された時期に開講される全ての科目が取得される
-     * @returns 時間割のリスト
-     */
-    @get list(
-      @query year?: integer,
-      @query semesters: DottoFoundationV1.CourseSemester[],
-    ): OkResponse &
-      Body<{
-        timetableItems: TimetableItem[];
-      }>;
-
-    /**
-     * 時間割に追加する
-     * @param body 追加する時間割の情報
-     * @returns 作成された時間割
-     */
-    @post create(@body body: TimetableItemRequest): CreatedResponse &
-      Body<{
-        timetableItem: TimetableItem;
-      }>;
-
-    /**
-     * 時間割を削除する
-     * @param id 時間割ID
-     * @returns 削除された時間割
      */
     @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
@@ -314,5 +199,120 @@ namespace AcademicService {
       Body<{
         reservations: Reservation[];
       }>;
+  }
+
+  @route("/v1/subjects")
+  @tag("Subjects")
+  interface SubjectsV1 {
+    /**
+     * 科目一覧を取得する
+     *
+     * 同一項目同士はOR、異なる項目同士はANDでフィルタリングされます。
+     *
+     * @param ids 科目IDのリスト; 指定した場合は指定した科目IDのみを取得する
+     * @param q 検索ワード
+     * @param grades 学年
+     * @param courses コース; 大学院の場合は大学院コースに読み替え
+     * @param classes クラス; 大学院の学年を選択した場合は選択できない
+     * @param classifications 学部: 専門・教養; 大学院: 専門・研究指導
+     * @param year 開講年度; 指定しない場合は今年度が選択される
+     * @param semesters 開講時期
+     * @param requirementTypes 必修・選択・選択必修
+     * @param culturalSubjectCategories 教養科目カテゴリ
+     * @returns 科目のリスト
+     */
+    @get list(
+      @query ids?: string[],
+      @query q?: string,
+      @query grades?: DottoFoundationV1.Grade[],
+      @query courses?: DottoFoundationV1.Course[],
+      @query classes?: DottoFoundationV1.Class[],
+      @query classifications?: DottoFoundationV1.SubjectClassification[],
+      @query year?: integer,
+      @query semesters?: DottoFoundationV1.CourseSemester[],
+      @query requirementTypes?: DottoFoundationV1.SubjectRequirementType[],
+
+      @query
+      culturalSubjectCategories?: DottoFoundationV1.CulturalSubjectCategory[],
+    ): OkResponse &
+      Body<{
+        subjects: SubjectSummary[];
+      }>;
+
+    /**
+     * 科目を詳細取得する
+     * @param id 科目ID
+     * @returns 科目の詳細
+     */
+    @get detail(@path id: string): (OkResponse &
+      Body<{
+        subject: Subject;
+      }>) | NotFoundResponse;
+
+    /**
+     * 科目を作成または更新する
+     * @param body 作成または更新する科目の情報
+     * @returns 作成または更新された科目
+     */
+    @post upsert(@body body: SubjectRequest): (OkResponse &
+      Body<{
+        subject: Subject;
+      }>) | BadRequestResponse;
+
+    /**
+     * 科目を削除する
+     * @param id 科目ID
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+  }
+
+  @route("/v1/subjects/{id}/syllabus")
+  @tag("Syllabus")
+  interface SyllabusV1 {
+    /**
+     * シラバスを取得する
+     * @param id 科目ID
+     * @returns シラバス
+     */
+    @get detail(@path id: string): (OkResponse &
+      Body<{
+        syllabus: Syllabus;
+      }>) | NotFoundResponse;
+  }
+
+  @route("/v1/timetableItems")
+  @tag("TimetableItems")
+  interface TimetableItemsV1 {
+    /**
+     * 時間割を取得する
+     *
+     * @param year 開講年度; 指定しない場合は今年度が選択される
+     * @param semesters 開講時期; 指定された時期に開講される全ての科目が取得される
+     * @returns 時間割のリスト
+     */
+    @get list(
+      @query year?: integer,
+      @query semesters: DottoFoundationV1.CourseSemester[],
+    ): OkResponse &
+      Body<{
+        timetableItems: TimetableItem[];
+      }>;
+
+    /**
+     * 時間割に追加する
+     * @param body 追加する時間割の情報
+     * @returns 作成された時間割
+     */
+    @post create(@body body: TimetableItemRequest): CreatedResponse &
+      Body<{
+        timetableItem: TimetableItem;
+      }>;
+
+    /**
+     * 時間割を削除する
+     * @param id 時間割ID
+     * @returns 削除された時間割
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 }
