@@ -225,6 +225,43 @@ namespace AcademicService {
     @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
+  @route("/v1/personalCalendarItems")
+  @tag("PersonalCalendarItems")
+  interface PersonalCalendarItemsV1 {
+    /**
+     * 個人カレンダーアイテム一覧を取得する
+     *
+     * @param from 開始日時
+     * @param until 終了日時
+     * @returns 個人カレンダーアイテムのリスト
+     */
+    @get list(
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): OkResponse &
+      Body<{
+        personalCalendarItems: PersonalCalendarItem[];
+      }>;
+
+    /**
+     * 個人カレンダーアイテムを作成する
+     * @param body 作成する個人カレンダーアイテムの情報
+     * @returns 作成された個人カレンダーアイテム
+     */
+    @post create(
+      @body body: PersonalCalendarItemRequest,
+    ): CreatedResponse &
+      Body<{
+        personalCalendarItem: PersonalCalendarItem;
+      }>;
+
+    /**
+     * 個人カレンダーアイテムを削除する
+     * @param id 個人カレンダーアイテムID
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+  }
+
   @route("/v1/rooms")
   @tag("Rooms")
   interface RoomsV1 {

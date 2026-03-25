@@ -257,6 +257,21 @@ namespace AcademicService {
     slot?: DottoFoundationV1.TimetableSlot;
   }
 
+  // PersonalCalendar 系
+
+  model PersonalCalendarItem {
+    id: string;
+    startAt: utcDateTime;
+    endAt: utcDateTime;
+    timetableItem: TimetableItem;
+  }
+
+  model PersonalCalendarItemRequest {
+    startAt: utcDateTime;
+    endAt: utcDateTime;
+    timetableItemId: string;
+  }
+
   // Facility 系
 
   model Room {
