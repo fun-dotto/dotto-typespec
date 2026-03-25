@@ -82,18 +82,6 @@ namespace DottoFoundationV1 {
     WinterIntensive,
   }
 
-  enum TimetableSemester {
-    /**
-     * AllYear, H1, Q1, Q2, SummerIntensive
-     */
-    Spring,
-
-    /**
-     * AllYear, H2, Q3, Q4, WinterIntensive
-     */
-    Fall,
-  }
-
   /**
    * 必修・選択
    */
