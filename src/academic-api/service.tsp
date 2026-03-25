@@ -231,10 +231,11 @@ namespace AcademicService {
     /**
      * 個人カレンダーアイテム一覧を取得する
      *
+     * @param userId ユーザーID
      * @param dates 日付のリスト; 指定した日付の個人カレンダーアイテムのみを取得する
      * @returns 個人カレンダーアイテムのリスト; 時間割、履修情報、休講補講、振替授業日情報から構築される
      */
-    @get list(@query dates: utcDateTime[]): OkResponse &
+    @get list(@query userId: string, @query dates: utcDateTime[]): OkResponse &
       Body<{
         personalCalendarItems: PersonalCalendarItem[];
       }>;
