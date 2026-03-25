@@ -250,6 +250,8 @@ namespace AcademicService {
      * 集中講義など、時間割に含まれていない場合はnull
      */
     slot?: DottoFoundationV1.TimetableSlot;
+
+    rooms: Room[];
   }
 
   model TimetableItemRequest {
@@ -260,15 +262,14 @@ namespace AcademicService {
   // PersonalCalendar 系
 
   model PersonalCalendarItem {
-    id: string;
-    startAt: utcDateTime;
-    endAt: utcDateTime;
+    date: utcDateTime;
+    slot: DottoFoundationV1.TimetableSlot;
     timetableItem: TimetableItem;
   }
 
   model PersonalCalendarItemRequest {
-    startAt: utcDateTime;
-    endAt: utcDateTime;
+    date: utcDateTime;
+    slot: DottoFoundationV1.TimetableSlot;
     timetableItemId: string;
   }
 
