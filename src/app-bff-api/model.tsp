@@ -17,6 +17,12 @@ namespace AppBFFService {
     subjectId: string;
   }
 
+  model PersonalCalendarItem {
+    date: utcDateTime;
+    slot: DottoFoundationV1.TimetableSlot;
+    timetableItem: TimetableItem;
+  }
+
   model Room {
     id: string;
     name: string;

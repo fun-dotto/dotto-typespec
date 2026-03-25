@@ -49,7 +49,6 @@ namespace AppBFFService {
   interface CourseRegistrationsV1 {
     /**
      * 履修情報を取得する
-     * @param userId ユーザーID
      * @param year 開講年度; 指定しない場合は今年度が選択される
      * @param semesters 開講時期
      * @returns 履修情報のリスト
@@ -80,6 +79,21 @@ namespace AppBFFService {
     @delete delete(
       @path id: string,
     ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/personalCalendarItems")
+  @tag("PersonalCalendarItems")
+  interface PersonalCalendarItemsV1 {
+    /**
+     * 個人カレンダーアイテム一覧を取得する
+     *
+     * @param dates 日付のリスト; 指定した日付の個人カレンダーアイテムのみを取得する
+     * @returns 個人カレンダーアイテムのリスト; 時間割、履修情報、休講補講、振替授業日情報から構築される
+     */
+    @get list(@query dates: utcDateTime[]): OkResponse &
+      Body<{
+        personalCalendarItems: PersonalCalendarItem[];
+      }>;
   }
 
   @route("/v1/subjects")
