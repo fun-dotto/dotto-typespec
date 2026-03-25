@@ -44,6 +44,44 @@ namespace AppBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @route("/v1/courseRegistrations")
+  @tag("CourseRegistrations")
+  interface CourseRegistrationsV1 {
+    /**
+     * 履修情報を取得する
+     * @param userId ユーザーID
+     * @param year 開講年度; 指定しない場合は今年度が選択される
+     * @param semesters 開講時期
+     * @returns 履修情報のリスト
+     */
+    @get list(
+      @query year?: integer,
+      @query semesters: DottoFoundationV1.CourseSemester[],
+    ): (OkResponse &
+      Body<{
+        courseRegistrations: CourseRegistration[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 履修情報を作成する
+     * @param body 作成する履修情報の情報
+     * @returns 作成された履修情報
+     */
+    @post create(@body body: CourseRegistrationRequest): (CreatedResponse &
+      Body<{
+        courseRegistration: CourseRegistration;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 履修情報を削除する
+     * @param id 履修情報ID
+     * @returns 削除された履修情報
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
   @route("/v1/subjects")
   @tag("Subjects")
   interface SubjectsV1 {
@@ -87,6 +125,25 @@ namespace AppBFFService {
       }>) | NotFoundResponse | UnauthorizedResponse;
   }
 
+  @route("/v1/timetableItems")
+  @tag("TimetableItems")
+  interface TimetableItemsV1 {
+    /**
+     * 時間割を取得する
+     *
+     * @param year 開講年度; 指定しない場合は今年度が選択される
+     * @param semesters 開講時期
+     * @returns 時間割のリスト
+     */
+    @get list(
+      @query year?: integer,
+      @query semesters: DottoFoundationV1.CourseSemester[],
+    ): (OkResponse &
+      Body<{
+        timetableItems: TimetableItem[];
+      }>) | UnauthorizedResponse;
+  }
+
   @route("/v1/users")
   @tag("Users")
   interface UsersV1 {
@@ -108,62 +165,5 @@ namespace AppBFFService {
       Body<{
         user: UserInfo;
       }>) | UnauthorizedResponse;
-  }
-
-  @route("/v1/timetableItems")
-  @tag("TimetableItems")
-  interface TimetableItemsV1 {
-    /**
-     * 時間割を取得する
-     *
-     * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semesters 開講時期
-     * @returns 時間割のリスト
-     */
-    @get list(
-      @query year?: integer,
-      @query semesters: DottoFoundationV1.CourseSemester[],
-    ): (OkResponse &
-      Body<{
-        timetableItems: TimetableItem[];
-      }>) | UnauthorizedResponse;
-  }
-
-  @route("/v1/courseRegistrations")
-  @tag("CourseRegistrations")
-  interface CourseRegistrationsV1 {
-    /**
-     * 履修情報を取得する
-     * @param userId ユーザーID
-     * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semesters 開講時期
-     * @returns 履修情報のリスト
-     */
-    @get list(
-      @query year?: integer,
-      @query semesters: DottoFoundationV1.CourseSemester[],
-    ): (OkResponse &
-      Body<{
-        courseRegistrations: CourseRegistration[];
-      }>) | UnauthorizedResponse;
-
-    /**
-     * 履修情報を作成する
-     * @param body 作成する履修情報の情報
-     * @returns 作成された履修情報
-     */
-    @post create(@body body: CourseRegistrationRequest): (CreatedResponse &
-      Body<{
-        courseRegistration: CourseRegistration;
-      }>) | UnauthorizedResponse;
-
-    /**
-     * 履修情報を削除する
-     * @param id 履修情報ID
-     * @returns 削除された履修情報
-     */
-    @delete delete(
-      @path id: string,
-    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 }
