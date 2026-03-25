@@ -8,10 +8,19 @@ namespace AppBFFService {
     url: url;
   }
 
-  model SubjectSummary {
+  model CourseRegistration {
+    id: string;
+    subject: SubjectSummary;
+  }
+
+  model CourseRegistrationRequest {
+    subjectId: string;
+  }
+
+  model Room {
     id: string;
     name: string;
-    faculties: SubjectFaculty[];
+    floor: DottoFoundationV1.Floor;
   }
 
   model SubjectDetail {
@@ -52,10 +61,10 @@ namespace AppBFFService {
     isPrimary: boolean;
   }
 
-  model UserInfo {
-    grade?: DottoFoundationV1.Grade;
-    course?: DottoFoundationV1.Course;
-    class?: DottoFoundationV1.Class;
+  model SubjectSummary {
+    id: string;
+    name: string;
+    faculties: SubjectFaculty[];
   }
 
   model TimetableItem {
@@ -66,14 +75,13 @@ namespace AppBFFService {
      * 集中講義など、時間割に含まれていない場合はnull
      */
     slot?: DottoFoundationV1.TimetableSlot;
+
+    rooms: Room[];
   }
 
-  model CourseRegistration {
-    id: string;
-    subject: SubjectSummary;
-  }
-
-  model CourseRegistrationRequest {
-    subjectId: string;
+  model UserInfo {
+    grade?: DottoFoundationV1.Grade;
+    course?: DottoFoundationV1.Course;
+    class?: DottoFoundationV1.Class;
   }
 }
