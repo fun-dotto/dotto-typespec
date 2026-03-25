@@ -198,6 +198,11 @@ namespace DottoFoundationV1 {
     Period6,
   }
 
+  model TimetableSlot {
+    dayOfWeek: DayOfWeek;
+    period: Period;
+  }
+
   enum Floor {
     /**
      * 1F

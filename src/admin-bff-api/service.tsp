@@ -87,13 +87,13 @@ namespace AdminBFFService {
      * 履修情報を取得する
      * @param userId ユーザーID
      * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semester 開講時期
+     * @param semesters 開講時期
      * @returns 履修情報のリスト
      */
     @get list(
       @query userId: string,
       @query year?: integer,
-      @query semester: DottoFoundationV1.CourseSemester,
+      @query semesters: DottoFoundationV1.CourseSemester[],
     ): (OkResponse &
       Body<{
         registrations: AcademicService.CourseRegistration[];
@@ -119,6 +119,77 @@ namespace AdminBFFService {
     @delete delete(
       @path id: string,
     ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/faculties")
+  @tag("Faculties")
+  interface FacultiesV1 {
+    /**
+     * 教員一覧を取得する
+     * @returns 教員のリスト
+     */
+    @get list(): (OkResponse &
+      Body<{
+        faculties: AcademicService.Faculty[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教員を詳細取得する
+     * @param id 教員ID
+     * @returns 教員の詳細
+     */
+    @get detail(@path id: string): (OkResponse &
+      Body<{
+        faculty: AcademicService.Faculty;
+      }>) | NotFoundResponse | UnauthorizedResponse;
+
+    /**
+     * 教員を作成する
+     * @param body 作成する教員の情報
+     * @returns 作成された教員
+     */
+    @post create(@body body: AcademicService.FacultyRequest): (CreatedResponse &
+      Body<{
+        faculty: AcademicService.Faculty;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教員を更新する
+     * @param id 教員ID
+     * @param body 更新する教員の情報
+     * @returns 更新された教員
+     */
+    @put update(
+      @path id: string,
+      @body body: AcademicService.FacultyRequest,
+    ): (OkResponse &
+      Body<{
+        faculty: AcademicService.Faculty;
+      }>) | NotFoundResponse | UnauthorizedResponse;
+
+    /**
+     * 教員を削除する
+     * @param id 教員ID
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/personalCalendarItems")
+  @tag("PersonalCalendarItems")
+  interface PersonalCalendarItemsV1 {
+    /**
+     * 個人カレンダーアイテム一覧を取得する
+     *
+     * @param userId ユーザーID
+     * @param dates 日付のリスト; 指定した日付の個人カレンダーアイテムのみを取得する
+     * @returns 個人カレンダーアイテムのリスト; 時間割、履修情報、休講補講、振替授業日情報から構築される
+     */
+    @get list(@query userId: string, @query dates: utcDateTime[]): OkResponse &
+      Body<{
+        personalCalendarItems: AcademicService.PersonalCalendarItem[];
+      }>;
   }
 
   @route("/v1/rooms")
@@ -196,61 +267,6 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
   }
 
-  @route("/v1/faculties")
-  @tag("Faculties")
-  interface FacultiesV1 {
-    /**
-     * 教員一覧を取得する
-     * @returns 教員のリスト
-     */
-    @get list(): (OkResponse &
-      Body<{
-        faculties: AcademicService.Faculty[];
-      }>) | UnauthorizedResponse;
-
-    /**
-     * 教員を詳細取得する
-     * @param id 教員ID
-     * @returns 教員の詳細
-     */
-    @get detail(@path id: string): (OkResponse &
-      Body<{
-        faculty: AcademicService.Faculty;
-      }>) | NotFoundResponse | UnauthorizedResponse;
-
-    /**
-     * 教員を作成する
-     * @param body 作成する教員の情報
-     * @returns 作成された教員
-     */
-    @post create(@body body: AcademicService.FacultyRequest): (CreatedResponse &
-      Body<{
-        faculty: AcademicService.Faculty;
-      }>) | UnauthorizedResponse;
-
-    /**
-     * 教員を更新する
-     * @param id 教員ID
-     * @param body 更新する教員の情報
-     * @returns 更新された教員
-     */
-    @put update(
-      @path id: string,
-      @body body: AcademicService.FacultyRequest,
-    ): (OkResponse &
-      Body<{
-        faculty: AcademicService.Faculty;
-      }>) | NotFoundResponse | UnauthorizedResponse;
-
-    /**
-     * 教員を削除する
-     * @param id 教員ID
-     */
-    @delete delete(
-      @path id: string,
-    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
-  }
-
   @route("/v1/subjects")
   @tag("Subjects")
   interface SubjectsV1 {
@@ -260,28 +276,28 @@ namespace AdminBFFService {
      * 同一項目同士はOR、異なる項目同士はANDでフィルタリングされます。
      *
      * @param q 検索ワード
-     * @param grade 学年
+     * @param grades 学年
      * @param courses コース; 大学院の場合は大学院コースに読み替え
-     * @param class クラス; 大学院の学年を選択した場合は選択できない
-     * @param classification 学部: 専門・教養; 大学院: 専門・研究指導
+     * @param classes クラス; 大学院の学年を選択した場合は選択できない
+     * @param classifications 学部: 専門・教養; 大学院: 専門・研究指導
      * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semester 開講時期
-     * @param requirementType 必修・選択・選択必修
-     * @param culturalSubjectCategory 教養科目カテゴリ
+     * @param semesters 開講時期
+     * @param requirementTypes 必修・選択・選択必修
+     * @param culturalSubjectCategories 教養科目カテゴリ
      * @returns 科目のリスト
      */
     @get list(
       @query q?: string,
-      @query grade?: DottoFoundationV1.Grade[],
+      @query grades?: DottoFoundationV1.Grade[],
       @query courses?: DottoFoundationV1.Course[],
-      @query class?: DottoFoundationV1.Class[],
-      @query classification?: DottoFoundationV1.SubjectClassification[],
+      @query classes?: DottoFoundationV1.Class[],
+      @query classifications?: DottoFoundationV1.SubjectClassification[],
       @query year?: integer,
-      @query semester?: DottoFoundationV1.CourseSemester[],
-      @query requirementType?: DottoFoundationV1.SubjectRequirementType[],
+      @query semesters?: DottoFoundationV1.CourseSemester[],
+      @query requirementTypes?: DottoFoundationV1.SubjectRequirementType[],
 
       @query
-      culturalSubjectCategory?: DottoFoundationV1.CulturalSubjectCategory[],
+      culturalSubjectCategories?: DottoFoundationV1.CulturalSubjectCategory[],
     ): (OkResponse &
       Body<{
         subjects: AcademicService.SubjectSummary[];
@@ -323,13 +339,13 @@ namespace AdminBFFService {
      * 時間割を取得する
      *
      * @param year 開講年度; 指定しない場合は今年度が選択される
-     * @param semester 開講時期
+     * @param semesters 開講時期
      * @param dayOfWeek 曜日; 複数指定時はORでフィルタリングされる; 指定しない場合は全ての曜日が選択される
      * @returns 時間割のリスト
      */
     @get list(
       @query year?: integer,
-      @query semester: DottoFoundationV1.CourseSemester,
+      @query semesters: DottoFoundationV1.CourseSemester[],
       @query dayOfWeek?: DottoFoundationV1.DayOfWeek[],
     ): (OkResponse &
       Body<{

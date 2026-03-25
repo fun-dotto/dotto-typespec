@@ -1,5 +1,54 @@
 namespace AcademicService {
-  // Subject 系
+  model CourseRegistration {
+    id: string;
+    userId: string;
+    subject: SubjectSummary;
+  }
+
+  model CourseRegistrationRequest {
+    userId: string;
+    subjectId: string;
+  }
+
+  model Faculty {
+    id: string;
+    name: string;
+    email: string;
+  }
+
+  model FacultyRequest {
+    name: string;
+    email: string;
+  }
+
+  model PersonalCalendarItem {
+    date: utcDateTime;
+    slot: DottoFoundationV1.TimetableSlot;
+    timetableItem: TimetableItem;
+  }
+
+  model PersonalCalendarItemRequest {
+    date: utcDateTime;
+    slot: DottoFoundationV1.TimetableSlot;
+    timetableItemId: string;
+  }
+
+  model Room {
+    id: string;
+    name: string;
+    floor: DottoFoundationV1.Floor;
+  }
+
+  model RoomRequest {
+    name: string;
+    floor: DottoFoundationV1.Floor;
+  }
+
+  model Reservation {
+    startAt: utcDateTime;
+    endAt: utcDateTime;
+    title: string;
+  }
 
   /**
    * 対象学年・クラス
@@ -11,32 +60,6 @@ namespace AcademicService {
      * 修士課程・博士課程対象の場合はnull
      */
     class?: DottoFoundationV1.Class;
-  }
-
-  model SubjectRequirement {
-    course: DottoFoundationV1.Course;
-    requirementType: DottoFoundationV1.SubjectRequirementType;
-  }
-
-  model SubjectRequirementRequest {
-    course: DottoFoundationV1.Course;
-    requirementType: DottoFoundationV1.SubjectRequirementType;
-  }
-
-  model SubjectFaculty {
-    faculty: Faculty;
-    isPrimary: boolean;
-  }
-
-  model SubjectFacultyRequest {
-    facultyId: string;
-    isPrimary: boolean;
-  }
-
-  model SubjectSummary {
-    id: string;
-    name: string;
-    faculties: SubjectFaculty[];
   }
 
   model Subject {
@@ -68,6 +91,32 @@ namespace AcademicService {
      * 科目群・科目区分をもとに決定
      */
     requirements: SubjectRequirement[];
+  }
+
+  model SubjectFaculty {
+    faculty: Faculty;
+    isPrimary: boolean;
+  }
+
+  model SubjectFacultyRequest {
+    facultyId: string;
+    isPrimary: boolean;
+  }
+
+  model SubjectRequirement {
+    course: DottoFoundationV1.Course;
+    requirementType: DottoFoundationV1.SubjectRequirementType;
+  }
+
+  model SubjectRequirementRequest {
+    course: DottoFoundationV1.Course;
+    requirementType: DottoFoundationV1.SubjectRequirementType;
+  }
+
+  model SubjectSummary {
+    id: string;
+    name: string;
+    faculties: SubjectFaculty[];
   }
 
   model Syllabus {
@@ -211,66 +260,20 @@ namespace AcademicService {
     syllabusId: string;
   }
 
-  // Faculty 系
-
-  /**
-   * 教員
-   */
-  model Faculty {
-    id: string;
-    name: string;
-    email: string;
-  }
-
-  model FacultyRequest {
-    name: string;
-    email: string;
-  }
-
-  // Course 系
-
-  model CourseRegistration {
-    id: string;
-    userId: string;
-    subject: SubjectSummary;
-  }
-
-  model CourseRegistrationRequest {
-    userId: string;
-    subjectId: string;
-  }
-
-  // Timetable 系
-
   model TimetableItem {
     id: string;
     subject: SubjectSummary;
-    dayOfWeek: DottoFoundationV1.DayOfWeek;
-    period: DottoFoundationV1.Period;
+
+    /**
+     * 集中講義など、時間割に含まれていない場合はnull
+     */
+    slot?: DottoFoundationV1.TimetableSlot;
+
+    rooms: Room[];
   }
 
   model TimetableItemRequest {
     subjectId: string;
-    dayOfWeek: DottoFoundationV1.DayOfWeek;
-    period: DottoFoundationV1.Period;
-  }
-
-  // Facility 系
-
-  model Room {
-    id: string;
-    name: string;
-    floor: DottoFoundationV1.Floor;
-  }
-
-  model RoomRequest {
-    name: string;
-    floor: DottoFoundationV1.Floor;
-  }
-
-  model Reservation {
-    startAt: utcDateTime;
-    endAt: utcDateTime;
-    title: string;
+    slot?: DottoFoundationV1.TimetableSlot;
   }
 }
