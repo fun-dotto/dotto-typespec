@@ -340,13 +340,11 @@ namespace AdminBFFService {
      *
      * @param year 開講年度; 指定しない場合は今年度が選択される
      * @param semesters 開講時期
-     * @param dayOfWeek 曜日; 複数指定時はORでフィルタリングされる; 指定しない場合は全ての曜日が選択される
      * @returns 時間割のリスト
      */
     @get list(
       @query year?: integer,
       @query semesters: DottoFoundationV1.CourseSemester[],
-      @query dayOfWeek?: DottoFoundationV1.DayOfWeek[],
     ): (OkResponse &
       Body<{
         items: AcademicService.TimetableItem[];
