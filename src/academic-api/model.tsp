@@ -275,5 +275,6 @@ namespace AcademicService {
   model TimetableItemRequest {
     subjectId: string;
     slot?: DottoFoundationV1.TimetableSlot;
+    roomIds: string[];
   }
 }
