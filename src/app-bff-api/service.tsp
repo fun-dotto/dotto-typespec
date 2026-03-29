@@ -21,7 +21,7 @@ using OpenAPI;
   "Development"
 )
 @server("http://localhost:8080", "Local")
-@useAuth(BearerAuth)
+@useAuth(FoundationV1.FirebaseAppCheckAuth)
 namespace AppBFFService {
   @route("/announcements")
   @tag("Announcements")
