@@ -21,7 +21,7 @@ using OpenAPI;
   "Development"
 )
 @server("http://localhost:8080", "Local")
-@useAuth(BearerAuth)
+@useAuth(FoundationV1.FirebaseAppCheckAuth)
 namespace AppBFFService {
   @route("/announcements")
   @tag("Announcements")
@@ -44,6 +44,7 @@ namespace AppBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @useAuth([BearerAuth, FoundationV1.FirebaseAppCheckAuth])
   @route("/v1/courseRegistrations")
   @tag("CourseRegistrations")
   interface CourseRegistrationsV1 {
@@ -81,6 +82,7 @@ namespace AppBFFService {
     ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
+  @useAuth([BearerAuth, FoundationV1.FirebaseAppCheckAuth])
   @route("/v1/personalCalendarItems")
   @tag("PersonalCalendarItems")
   interface PersonalCalendarItemsV1 {
@@ -158,6 +160,7 @@ namespace AppBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @useAuth([BearerAuth, FoundationV1.FirebaseAppCheckAuth])
   @route("/v1/users")
   @tag("Users")
   interface UsersV1 {
