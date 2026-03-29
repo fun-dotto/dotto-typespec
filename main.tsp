@@ -3,6 +3,7 @@ import "./src/announcement-api/service.tsp";
 import "./src/app-bff-api/service.tsp";
 import "./src/admin-bff-api/service.tsp";
 import "./src/dotto-foundation/model.tsp";
+import "./src/foundation/firebaseAppCheckAuth.tsp";
 import "./src/foundation/sortDirection.tsp";
 import "./src/funch-api/service.tsp";
 import "./src/user-api/service.tsp";
