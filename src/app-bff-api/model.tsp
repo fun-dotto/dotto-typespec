@@ -80,7 +80,7 @@ namespace AppBFFService {
     /**
      * 集中講義など、時間割に含まれていない場合はnull
      */
-    slot?: DottoFoundationV1.TimetableSlot;
+    slot: DottoFoundationV1.TimetableSlot | null;
 
     rooms: Room[];
   }
