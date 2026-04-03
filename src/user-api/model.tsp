@@ -25,8 +25,8 @@ namespace UserService {
     course?: DottoFoundationV1.Course;
 
     /**
-    * クラス
-    */
+     * クラス
+     */
     class?: DottoFoundationV1.Class;
   }
 
