@@ -35,14 +35,25 @@ namespace AcademicService {
 
   model Room {
     id: string;
+
+    /**
+     * 部屋名
+     */
     name: string;
+
+    /**
+     * 部屋番号
+     * 
+     * 部屋番号が存在しない場合は空文字
+     */
+    number: string;
 
     /**
      * フロア
      * 
-     * オンラインなどの仮想教室の場合はnull
+     * オンラインなどの仮想教室の場合はVirtualを使用
      */
-    floor?: DottoFoundationV1.Floor;
+    floor: DottoFoundationV1.Floor;
 
     /**
      * 教員

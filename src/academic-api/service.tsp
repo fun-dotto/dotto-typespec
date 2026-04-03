@@ -131,13 +131,13 @@ namespace AcademicService {
   interface RoomsV1 {
     /**
      * 教室一覧を取得する
-     * @param q 検索ワード; 教室名・教員名の部分一致検索される
-     * @param floor 階数; 指定した場合は指定した階数の教室のみを取得する
+     * @param q 検索ワード; 部屋名・部屋番号・教員名の部分一致検索される
+     * @param floors 階数; 指定した場合は指定した階数の部屋のみを取得する
      * @returns 教室のリスト
      */
     @get list(
       @query q?: string,
-      @query floor?: DottoFoundationV1.Floor[],
+      @query floors?: DottoFoundationV1.Floor[],
     ): OkResponse &
       Body<{
         rooms: Room[];
