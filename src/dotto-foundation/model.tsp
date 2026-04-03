@@ -245,10 +245,13 @@ namespace DottoFoundationV1 {
     Virtual,
   }
 
+  /**
+   * 教室変更よりも休講・補講が優先される
+   */
   enum PersonalCalendarItemStatus {
     Normal,
     Cancelled,
-    Madeup,
+    Makeup,
     RoomChanged,
   }
 }
