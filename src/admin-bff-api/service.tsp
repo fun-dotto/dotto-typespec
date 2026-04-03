@@ -193,7 +193,7 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
   }
 
-  @route("/v1/notifyIregularities")
+  @route("/v1/notifyIrregularities")
   @tag("NotifyIrregularities")
   interface NotifyIrregularitiesV1 {
     /**
