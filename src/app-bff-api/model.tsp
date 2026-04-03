@@ -90,4 +90,25 @@ namespace AppBFFService {
     course?: DottoFoundationV1.Course;
     class?: DottoFoundationV1.Class;
   }
+
+  model FCMToken {
+    /**
+     * FCMトークン
+     */
+    token: string;
+
+    /**
+     * 作成日時
+     */
+    createdAt: string;
+
+    /**
+     * 更新日時
+     */
+    updatedAt: string;
+  }
+
+  model FCMTokenRequest {
+    token: string;
+  }
 }

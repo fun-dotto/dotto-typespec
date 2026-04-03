@@ -376,6 +376,15 @@ namespace AdminBFFService {
   @tag("Users")
   interface UsersV1 {
     /**
+     * ユーザーの一覧を取得する
+     * @returns ユーザーの一覧
+     */
+    @get list(): OkResponse &
+      Body<{
+        users: UserService.User[];
+      }>;
+
+    /**
      * ユーザーを取得する
      * @param id ユーザーID
      * @returns ユーザーの情報
@@ -383,6 +392,49 @@ namespace AdminBFFService {
     @get detail(@path id: string): (OkResponse &
       Body<{
         user: UserService.User;
-      }>) | NotFoundResponse | UnauthorizedResponse;
+      }>) | NotFoundResponse;
+
+    /**
+     * ユーザーを作成または更新する
+     * @param body 作成または更新するユーザーの情報
+     * @returns 作成または更新されたユーザー
+     */
+    @post upsert(@path id: string, @body body: UserService.UserRequest): OkResponse &
+      Body<{
+        user: UserService.User;
+      }>;
+  }
+  
+  @route("/v1/fcmTokens")
+  @tag("FCM Tokens")
+  interface FCMTokenV1 {
+    /**
+     * FCMトークンの一覧を取得する
+     * @param userIds ユーザーIDの一覧
+     * @param tokens FCMトークンの一覧
+     * @param lastUpdatedAtFrom 更新日時の開始日時 (lastUpdatedAt >= lastUpdatedAtFrom)
+     * @param lastUpdatedAtTo 更新日時の終了日時 (lastUpdatedAt <= lastUpdatedAtTo)
+     * @returns FCMトークンの一覧
+     */
+    @get list(
+      @query userIds?: string[],
+      @query tokens?: string[],
+      @query lastUpdatedAtFrom?: utcDateTime,
+      @query lastUpdatedAtTo?: utcDateTime
+    ): OkResponse &
+      Body<{
+        fcmTokens: UserService.FCMToken[];
+      }>;
+
+    /**
+     * FCMトークンを作成または更新する
+     * 存在しない場合は作成し、存在する場合は更新日時を更新する
+     * @param body 作成または更新するFCMトークンの情報
+     * @returns 作成または更新されたFCMトークン
+     */
+    @post upsert(@path id: string, @body body: UserService.FCMTokenRequest): OkResponse &
+      Body<{
+        fcmToken: UserService.FCMToken;
+      }>;
   }
 }

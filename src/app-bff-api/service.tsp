@@ -183,4 +183,20 @@ namespace AppBFFService {
         user: UserInfo;
       }>) | UnauthorizedResponse;
   }
+
+  @useAuth([BearerAuth, FoundationV1.FirebaseAppCheckAuth])
+  @route("/v1/fcmTokens")
+  @tag("FCM Tokens")
+  interface FCMTokenV1 {
+    /**
+     * FCMトークンを作成または更新する
+     * 存在しない場合は作成し、存在する場合は更新日時を更新する
+     * @param body 作成または更新するFCMトークンの情報
+     * @returns 作成または更新されたFCMトークン
+     */
+    @post upsert(@path id: string, @body body: FCMTokenRequest): OkResponse &
+      Body<{
+        fcmToken: FCMToken;
+      }>;
+  }
 }
