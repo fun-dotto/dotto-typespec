@@ -64,10 +64,10 @@ namespace AcademicService {
   interface FacultiesV1 {
     /**
      * 教員一覧を取得する
-     * @param ids 教員IDのリスト; 指定した場合は指定した教員IDのみを取得する
+     * @param q 検索ワード; 教員の名前で部分一致検索される
      * @returns 教員のリスト
      */
-    @get list(@query ids?: string[]): OkResponse &
+    @get list(@query q?: string): OkResponse &
       Body<{
         faculties: Faculty[];
       }>;

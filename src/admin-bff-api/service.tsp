@@ -126,12 +126,13 @@ namespace AdminBFFService {
   interface FacultiesV1 {
     /**
      * 教員一覧を取得する
+     * @param q 検索ワード; 教員の名前で部分一致検索される
      * @returns 教員のリスト
      */
-    @get list(): (OkResponse &
+    @get list(@query q?: string): OkResponse &
       Body<{
         faculties: AcademicService.Faculty[];
-      }>) | UnauthorizedResponse;
+      }>;
 
     /**
      * 教員を詳細取得する
