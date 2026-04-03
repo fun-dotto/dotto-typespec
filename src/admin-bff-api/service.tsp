@@ -347,16 +347,6 @@ namespace AdminBFFService {
       }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
-     * 科目を作成または更新する
-     * @param body 作成または更新する科目の情報
-     * @returns 作成または更新された科目
-     */
-    @post upsert(@body body: AcademicService.SubjectRequest): (OkResponse &
-      Body<{
-        subject: AcademicService.Subject;
-      }>) | UnauthorizedResponse;
-
-    /**
      * 科目を削除する
      * @param id 科目ID
      */

@@ -290,10 +290,6 @@ namespace AcademicService {
     dsopSubject: string;
   }
 
-  model SubjectRequest {
-    syllabusId: string;
-  }
-
   model TimetableItem {
     id: string;
     subject: SubjectSummary;
