@@ -36,12 +36,26 @@ namespace AcademicService {
   model Room {
     id: string;
     name: string;
-    floor: DottoFoundationV1.Floor;
+
+    /**
+     * フロア
+     * 
+     * オンラインなどの仮想教室の場合はnull
+     */
+    floor?: DottoFoundationV1.Floor;
+
+    /**
+     * 教員
+     * 
+     * 教員室でない場合はnull
+     */
+    faculty?: Faculty;
   }
 
   model RoomRequest {
     name: string;
-    floor: DottoFoundationV1.Floor;
+    floor?: DottoFoundationV1.Floor;
+    facultyId?: string;
   }
 
   model Reservation {

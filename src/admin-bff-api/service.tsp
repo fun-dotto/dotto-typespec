@@ -129,10 +129,10 @@ namespace AdminBFFService {
      * @param q 検索ワード; 教員の名前で部分一致検索される
      * @returns 教員のリスト
      */
-    @get list(@query q?: string): OkResponse &
+    @get list(@query q?: string): (OkResponse &
       Body<{
         faculties: AcademicService.Faculty[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 教員を詳細取得する
@@ -187,10 +187,10 @@ namespace AdminBFFService {
      * @param dates 日付のリスト; 指定した日付の個人カレンダーアイテムのみを取得する
      * @returns 個人カレンダーアイテムのリスト; 時間割、履修情報、休講補講、振替授業日情報から構築される
      */
-    @get list(@query userId: string, @query dates: utcDateTime[]): OkResponse &
+    @get list(@query userId: string, @query dates: utcDateTime[]): (OkResponse &
       Body<{
         personalCalendarItems: AcademicService.PersonalCalendarItem[];
-      }>;
+      }>) | UnauthorizedResponse;
   }
 
   @route("/v1/rooms")
@@ -198,9 +198,14 @@ namespace AdminBFFService {
   interface RoomsV1 {
     /**
      * 教室一覧を取得する
+     * @param q 検索ワード; 教室名・教員名の部分一致検索される
+     * @param floor 階数; 指定した場合は指定した階数の教室のみを取得する
      * @returns 教室のリスト
      */
-    @get list(@query floor?: DottoFoundationV1.Floor[]): (OkResponse &
+    @get list(
+      @query q?: string,
+      @query floor?: DottoFoundationV1.Floor[],
+    ): (OkResponse &
       Body<{
         rooms: AcademicService.Room[];
       }>) | UnauthorizedResponse;
@@ -263,10 +268,10 @@ namespace AdminBFFService {
       @query roomIds?: string[],
       @query from?: utcDateTime,
       @query until?: utcDateTime,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         reservations: AcademicService.Reservation[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 予約を詳細取得する
@@ -276,23 +281,23 @@ namespace AdminBFFService {
     @get detail(@path id: string): (OkResponse &
       Body<{
         reservation: AcademicService.Reservation;
-      }>) | NotFoundResponse;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
       * 教室を予約する
       * @param body 予約する教室の情報
       * @returns 作成された予約
       */
-    @post create(@body body: AcademicService.ReservationRequest): CreatedResponse &
+    @post create(@body body: AcademicService.ReservationRequest): (CreatedResponse &
     Body<{
       reservation: AcademicService.Reservation;
-    }>;
+    }>) | UnauthorizedResponse;
 
     /**
      * 予約を削除する
      * @param id 予約ID
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/subjects")
@@ -407,10 +412,10 @@ namespace AdminBFFService {
      * ユーザーの一覧を取得する
      * @returns ユーザーの一覧
      */
-    @get list(): OkResponse &
+    @get list(): (OkResponse &
       Body<{
         users: UserService.User[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * ユーザーを取得する
@@ -420,17 +425,17 @@ namespace AdminBFFService {
     @get detail(@path id: string): (OkResponse &
       Body<{
         user: UserService.User;
-      }>) | NotFoundResponse;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * ユーザーを作成または更新する
      * @param body 作成または更新するユーザーの情報
      * @returns 作成または更新されたユーザー
      */
-    @post upsert(@path id: string, @body body: UserService.UserRequest): OkResponse &
+    @post upsert(@path id: string, @body body: UserService.UserRequest): (OkResponse &
       Body<{
         user: UserService.User;
-      }>;
+      }>) | UnauthorizedResponse;
   }
   
   @route("/v1/fcmTokens")
@@ -449,10 +454,10 @@ namespace AdminBFFService {
       @query tokens?: string[],
       @query lastUpdatedAtFrom?: utcDateTime,
       @query lastUpdatedAtTo?: utcDateTime
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         fcmTokens: UserService.FCMToken[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * FCMトークンを作成または更新する
@@ -460,9 +465,9 @@ namespace AdminBFFService {
      * @param body 作成または更新するFCMトークンの情報
      * @returns 作成または更新されたFCMトークン
      */
-    @post upsert(@path id: string, @body body: UserService.FCMTokenRequest): OkResponse &
+    @post upsert(@path id: string, @body body: UserService.FCMTokenRequest): (OkResponse &
       Body<{
         fcmToken: UserService.FCMToken;
-      }>;
+      }>) | UnauthorizedResponse;
   }
 }
