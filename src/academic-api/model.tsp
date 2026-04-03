@@ -45,19 +45,15 @@ namespace AcademicService {
   model MakeupClass {
     id: string;
     subject: Subject;
-    originalDate: utcDateTime;
-    originalSlot: DottoFoundationV1.TimetableSlot;
-    newDate: utcDateTime;
-    newSlot: DottoFoundationV1.TimetableSlot;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
     comment: string;
   }
 
   model MakeupClassRequest {
     subjectId: string;
-    originalDate: utcDateTime;
-    originalSlot: DottoFoundationV1.TimetableSlot;
-    newDate: utcDateTime;
-    newSlot: DottoFoundationV1.TimetableSlot;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
     comment: string;
   }
 
