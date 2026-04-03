@@ -619,7 +619,7 @@ namespace AdminBFFService {
      * @param body 作成または更新するFCMトークンの情報
      * @returns 作成または更新されたFCMトークン
      */
-    @post upsert(@path id: string, @body body: UserService.FCMTokenRequest): (OkResponse &
+    @post upsert(@body body: UserService.FCMTokenRequest): (OkResponse &
       Body<{
         fcmToken: UserService.FCMToken;
       }>) | UnauthorizedResponse;
