@@ -100,12 +100,12 @@ namespace AppBFFService {
     /**
      * 作成日時
      */
-    createdAt: string;
+    createdAt: utcDateTime;
 
     /**
      * 更新日時
      */
-    updatedAt: string;
+    updatedAt: utcDateTime;
   }
 
   model FCMTokenRequest {
