@@ -26,7 +26,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: compile-check-${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event.inputs.environment_name }}
   cancel-in-progress: true
 
 jobs:
@@ -34,6 +34,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          submodules: true
       - uses: jdx/mise-action@v3
       - name: Install dependencies
         run: task install
