@@ -110,7 +110,7 @@ namespace AcademicService {
     /**
      * 教員
      * 
-     * 教員室でない場合はnull
+     * 教員室でない場合は省略
      */
     faculty?: Faculty;
   }
