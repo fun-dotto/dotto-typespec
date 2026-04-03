@@ -193,6 +193,23 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @route("/v1/notifyIregularities")
+  @tag("NotifyIrregularities")
+  interface NotifyIrregularitiesV1 {
+    /**
+     * 指定した日付に発生している時間割の変更を通知する
+     * 休講・補講・教室変更・振替授業
+     *
+     * @param userIds ユーザーIDのリスト; 指定しない場合は全ユーザーに通知する
+     * @param date 対象の日付
+     * @returns
+     */
+    @post notify(
+      @query userIds?: string[],
+      @query date: utcDateTime,
+    ): NoContentResponse | UnauthorizedResponse;
+  }
+
   @route("/v1/cancelledClasses")
   @tag("CancelledClasses")
   interface CancelledClassesV1 {
