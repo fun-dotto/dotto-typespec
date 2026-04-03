@@ -27,12 +27,6 @@ namespace AcademicService {
     timetableItem: TimetableItem;
   }
 
-  model PersonalCalendarItemRequest {
-    date: utcDateTime;
-    slot: DottoFoundationV1.TimetableSlot;
-    timetableItemId: string;
-  }
-
   model Room {
     id: string;
 
