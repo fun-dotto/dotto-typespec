@@ -193,6 +193,126 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @route("/v1/cancelledClasses")
+  @tag("CancelledClasses")
+  interface CancelledClassesV1 {
+    /**
+     * 休講一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の休講のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 休講のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): (OkResponse &
+      Body<{
+        cancelledClasses: AcademicService.CancelledClass[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 休講を作成する
+     * @param body 作成する休講の情報
+     * @returns 作成された休講
+     */
+    @post create(
+      @body body: AcademicService.CancelledClassRequest,
+    ): (CreatedResponse &
+      Body<{
+        cancelledClass: AcademicService.CancelledClass;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 休講を削除する
+     * @param id 休講ID
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/makeupClasses")
+  @tag("MakeupClasses")
+  interface MakeupClassesV1 {
+    /**
+     * 補講一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の補講のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 補講のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): (OkResponse &
+      Body<{
+        makeupClasses: AcademicService.MakeupClass[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 補講を作成する
+     * @param body 作成する補講の情報
+     * @returns 作成された補講
+     */
+    @post create(
+      @body body: AcademicService.MakeupClassRequest,
+    ): (CreatedResponse &
+      Body<{
+        makeupClass: AcademicService.MakeupClass;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 補講を削除する
+     * @param id 補講ID
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/roomChanges")
+  @tag("RoomChanges")
+  interface RoomChangesV1 {
+    /**
+     * 教室変更一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の教室変更のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 教室変更のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): (OkResponse &
+      Body<{
+        roomChanges: AcademicService.RoomChange[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教室変更を作成する
+     * @param body 作成する教室変更の情報
+     * @returns 作成された教室変更
+     */
+    @post create(
+      @body body: AcademicService.RoomChangeRequest,
+    ): (CreatedResponse &
+      Body<{
+        roomChange: AcademicService.RoomChange;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教室変更を削除する
+     * @param id 教室変更ID
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
   @route("/v1/rooms")
   @tag("Rooms")
   interface RoomsV1 {
