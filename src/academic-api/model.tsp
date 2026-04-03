@@ -21,10 +21,72 @@ namespace AcademicService {
     email: string;
   }
 
+  /**
+   * 休講
+   */
+  model CancelledClass {
+    id: string;
+    subject: Subject;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    comment: string;
+  }
+
+  model CancelledClassRequest {
+    subjectId: string;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    comment: string;
+  }
+
+  /**
+   * 補講
+   */
+  model MakeupClass {
+    id: string;
+    subject: Subject;
+    originalDate: utcDateTime;
+    originalSlot: DottoFoundationV1.TimetableSlot;
+    newDate: utcDateTime;
+    newSlot: DottoFoundationV1.TimetableSlot;
+    comment: string;
+  }
+
+  model MakeupClassRequest {
+    subjectId: string;
+    originalDate: utcDateTime;
+    originalSlot: DottoFoundationV1.TimetableSlot;
+    newDate: utcDateTime;
+    newSlot: DottoFoundationV1.TimetableSlot;
+    comment: string;
+  }
+
+  /**
+   * 教室変更
+   */
+  model RoomChange {
+    id: string;
+    subject: Subject;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    originalRooms: Room[];
+    newRooms: Room[];
+  }
+
+  model RoomChangeRequest {
+    subjectId: string;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    originalRoomIds: string[];
+    newRoomIds: string[];
+  }
+
   model PersonalCalendarItem {
     date: utcDateTime;
-    slot: DottoFoundationV1.TimetableSlot;
-    timetableItem: TimetableItem;
+    period: DottoFoundationV1.Period;
+    subject: Subject;
+    rooms: Room[];
+    status: DottoFoundationV1.PersonalCalendarItemStatus;
   }
 
   model Room {

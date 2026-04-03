@@ -244,4 +244,11 @@ namespace DottoFoundationV1 {
      */
     Virtual,
   }
+
+  enum PersonalCalendarItemStatus {
+    Normal,
+    Cancelled,
+    Madeup,
+    RoomChanged,
+  }
 }
