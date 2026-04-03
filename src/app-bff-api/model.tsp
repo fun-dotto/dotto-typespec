@@ -19,8 +19,10 @@ namespace AppBFFService {
 
   model PersonalCalendarItem {
     date: utcDateTime;
-    slot: DottoFoundationV1.TimetableSlot;
-    timetableItem: TimetableItem;
+    period: DottoFoundationV1.Period;
+    subject: SubjectSummary;
+    rooms: Room[];
+    status: DottoFoundationV1.PersonalCalendarItemStatus;
   }
 
   model Room {
