@@ -185,9 +185,9 @@ namespace AppBFFService {
      * @param body 作成または更新するFCMトークンの情報
      * @returns 作成または更新されたFCMトークン
      */
-    @post upsert(@body body: FCMTokenRequest): OkResponse &
+    @post upsert(@body body: FCMTokenRequest): (OkResponse &
       Body<{
         fcmToken: FCMToken;
-      }>;
+      }>) | UnauthorizedResponse;
   }
 }
