@@ -333,7 +333,7 @@ namespace AdminBFFService {
       culturalSubjectCategories?: DottoFoundationV1.CulturalSubjectCategory[],
     ): (OkResponse &
       Body<{
-        subjects: AcademicService.SubjectSummary[];
+        subjects: AcademicService.Subject[];
       }>) | UnauthorizedResponse;
 
     /**

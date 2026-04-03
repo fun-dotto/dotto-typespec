@@ -263,7 +263,7 @@ namespace AcademicService {
       culturalSubjectCategories?: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
-        subjects: SubjectSummary[];
+        subjects: Subject[];
       }>;
 
     /**

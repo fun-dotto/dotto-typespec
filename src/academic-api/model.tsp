@@ -2,7 +2,7 @@ namespace AcademicService {
   model CourseRegistration {
     id: string;
     userId: string;
-    subject: SubjectSummary;
+    subject: Subject;
   }
 
   model CourseRegistrationRequest {
@@ -118,13 +118,17 @@ namespace AcademicService {
 
     /**
      * 授業名末尾の`学年-クラス`をもとに決定
+     * 
+     * 科目詳細取得でのみ必須
      */
-    eligibleAttributes: SubjectTargetClass[];
+    eligibleAttributes?: SubjectTargetClass[];
 
     /**
      * 科目群・科目区分をもとに決定
+     * 
+     * 科目詳細取得でのみ必須
      */
-    requirements: SubjectRequirement[];
+    requirements?: SubjectRequirement[];
   }
 
   model SubjectFaculty {
@@ -145,12 +149,6 @@ namespace AcademicService {
   model SubjectRequirementRequest {
     course: DottoFoundationV1.Course;
     requirementType: DottoFoundationV1.SubjectRequirementType;
-  }
-
-  model SubjectSummary {
-    id: string;
-    name: string;
-    faculties: SubjectFaculty[];
   }
 
   model Syllabus {
@@ -292,7 +290,7 @@ namespace AcademicService {
 
   model TimetableItem {
     id: string;
-    subject: SubjectSummary;
+    subject: Subject;
 
     /**
      * 集中講義など、時間割に含まれていない場合はnull
