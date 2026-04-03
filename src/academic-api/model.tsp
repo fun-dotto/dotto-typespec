@@ -45,6 +45,15 @@ namespace AcademicService {
   }
 
   model Reservation {
+    id: string;
+    roomId: string;
+    startAt: utcDateTime;
+    endAt: utcDateTime;
+    title: string;
+  }
+
+  model ReservationRequest {
+    roomId: string;
     startAt: utcDateTime;
     endAt: utcDateTime;
     title: string;

@@ -181,24 +181,51 @@ namespace AcademicService {
     @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
-  @route("/v1/rooms/{id}/reservations")
+  @route("/v1/reservations")
   @tag("Reservations")
   interface ReservationsV1 {
     /**
      * 教室の予約一覧を取得する
-     * @param id 教室ID
-     * @param from 開始日時
-     * @param until 終了日時
+     * 検索対象期間に一部でも重複する予約が取得される
+     * @param roomIds 教室IDのリスト
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
      * @returns 予約のリスト
      */
     @get list(
-      @path id: string,
+      @query roomIds?: string[],
       @query from?: utcDateTime,
       @query until?: utcDateTime,
     ): OkResponse &
       Body<{
         reservations: Reservation[];
       }>;
+
+    /**
+     * 予約を詳細取得する
+     * @param id 予約ID
+     * @returns 予約の詳細
+     */
+    @get detail(@path id: string): (OkResponse &
+      Body<{
+        reservation: Reservation;
+      }>) | NotFoundResponse;
+
+    /**
+      * 教室を予約する
+      * @param body 予約する教室の情報
+      * @returns 作成された予約
+      */
+    @post create(@body body: ReservationRequest): CreatedResponse &
+    Body<{
+      reservation: Reservation;
+    }>;
+
+    /**
+     * 予約を削除する
+     * @param id 予約ID
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
   @route("/v1/subjects")
