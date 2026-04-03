@@ -19,8 +19,10 @@ namespace AppBFFService {
 
   model PersonalCalendarItem {
     date: utcDateTime;
-    slot: DottoFoundationV1.TimetableSlot;
-    timetableItem: TimetableItem;
+    period: DottoFoundationV1.Period;
+    subject: SubjectSummary;
+    rooms: Room[];
+    status: DottoFoundationV1.PersonalCalendarItemStatus;
   }
 
   model Room {
@@ -71,6 +73,21 @@ namespace AppBFFService {
     id: string;
     name: string;
     faculties: SubjectFaculty[];
+
+    /**
+     * 開講年度
+     */
+    year: integer;
+
+    /**
+     * 開講時期
+     */
+    semester: DottoFoundationV1.CourseSemester;
+
+    /**
+     * 単位数
+     */
+    credit: integer;
   }
 
   model TimetableItem {
@@ -89,5 +106,26 @@ namespace AppBFFService {
     grade?: DottoFoundationV1.Grade;
     course?: DottoFoundationV1.Course;
     class?: DottoFoundationV1.Class;
+  }
+
+  model FCMToken {
+    /**
+     * FCMトークン
+     */
+    token: string;
+
+    /**
+     * 作成日時
+     */
+    createdAt: utcDateTime;
+
+    /**
+     * 更新日時
+     */
+    updatedAt: utcDateTime;
+  }
+
+  model FCMTokenRequest {
+    token: string;
   }
 }

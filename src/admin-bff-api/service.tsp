@@ -126,9 +126,10 @@ namespace AdminBFFService {
   interface FacultiesV1 {
     /**
      * 教員一覧を取得する
+     * @param q 検索ワード; 教員の名前で部分一致検索される
      * @returns 教員のリスト
      */
-    @get list(): (OkResponse &
+    @get list(@query q?: string): (OkResponse &
       Body<{
         faculties: AcademicService.Faculty[];
       }>) | UnauthorizedResponse;
@@ -186,10 +187,174 @@ namespace AdminBFFService {
      * @param dates 日付のリスト; 指定した日付の個人カレンダーアイテムのみを取得する
      * @returns 個人カレンダーアイテムのリスト; 時間割、履修情報、休講補講、振替授業日情報から構築される
      */
-    @get list(@query userId: string, @query dates: utcDateTime[]): OkResponse &
+    @get list(@query userId: string, @query dates: utcDateTime[]): (OkResponse &
       Body<{
         personalCalendarItems: AcademicService.PersonalCalendarItem[];
-      }>;
+      }>) | UnauthorizedResponse;
+  }
+
+  @route("/v1/notifyIrregularities")
+  @tag("NotifyIrregularities")
+  interface NotifyIrregularitiesV1 {
+    /**
+     * 指定した日付に発生している時間割の変更を通知する
+     * 休講・補講・教室変更・振替授業
+     *
+     * @param userIds ユーザーIDのリスト; 指定しない場合は全ユーザーに通知する
+     * @param date 対象の日付
+     * @returns
+     */
+    @post notify(
+      @query userIds?: string[],
+      @query date: utcDateTime,
+    ): NoContentResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/cancelledClasses")
+  @tag("CancelledClasses")
+  interface CancelledClassesV1 {
+    /**
+     * 休講一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の休講のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 休講のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): (OkResponse &
+      Body<{
+        cancelledClasses: AcademicService.CancelledClass[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 休講を作成する
+     * @param body 作成する休講の情報
+     * @returns 作成された休講
+     */
+    @post create(
+      @body body: AcademicService.CancelledClassRequest,
+    ): (CreatedResponse &
+      Body<{
+        cancelledClass: AcademicService.CancelledClass;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教務システムから休講を取得する
+     * @returns 新たに取得された休講
+     */
+    @put fetch(): (OkResponse &
+      Body<{
+        cancelledClasses: AcademicService.CancelledClass[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 休講を削除する
+     * @param id 休講ID
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/makeupClasses")
+  @tag("MakeupClasses")
+  interface MakeupClassesV1 {
+    /**
+     * 補講一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の補講のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 補講のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): (OkResponse &
+      Body<{
+        makeupClasses: AcademicService.MakeupClass[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 補講を作成する
+     * @param body 作成する補講の情報
+     * @returns 作成された補講
+     */
+    @post create(
+      @body body: AcademicService.MakeupClassRequest,
+    ): (CreatedResponse &
+      Body<{
+        makeupClass: AcademicService.MakeupClass;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教務システムから補講を取得する
+     * @returns 新たに取得された補講
+     */
+    @put fetch(): (OkResponse &
+      Body<{
+        makeupClasses: AcademicService.MakeupClass[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 補講を削除する
+     * @param id 補講ID
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/roomChanges")
+  @tag("RoomChanges")
+  interface RoomChangesV1 {
+    /**
+     * 教室変更一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の教室変更のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 教室変更のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): (OkResponse &
+      Body<{
+        roomChanges: AcademicService.RoomChange[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教室変更を作成する
+     * @param body 作成する教室変更の情報
+     * @returns 作成された教室変更
+     */
+    @post create(
+      @body body: AcademicService.RoomChangeRequest,
+    ): (CreatedResponse &
+      Body<{
+        roomChange: AcademicService.RoomChange;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教務システムから教室変更を取得する
+     * @returns 新たに取得された教室変更
+     */
+    @put fetch(): (OkResponse &
+      Body<{
+        roomChanges: AcademicService.RoomChange[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教室変更を削除する
+     * @param id 教室変更ID
+     */
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/rooms")
@@ -197,9 +362,14 @@ namespace AdminBFFService {
   interface RoomsV1 {
     /**
      * 教室一覧を取得する
+     * @param q 検索ワード; 部屋名・部屋番号・教員名の部分一致検索される
+     * @param floors 階数; 指定した場合は指定した階数の部屋のみを取得する
      * @returns 教室のリスト
      */
-    @get list(@query floor?: DottoFoundationV1.Floor[]): (OkResponse &
+    @get list(
+      @query q?: string,
+      @query floors?: DottoFoundationV1.Floor[],
+    ): (OkResponse &
       Body<{
         rooms: AcademicService.Room[];
       }>) | UnauthorizedResponse;
@@ -247,24 +417,51 @@ namespace AdminBFFService {
     ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
-  @route("/v1/rooms/{id}/reservations")
+  @route("/v1/reservations")
   @tag("Reservations")
   interface ReservationsV1 {
     /**
      * 教室の予約一覧を取得する
-     * @param id 教室ID
-     * @param from 開始日時
-     * @param until 終了日時
+     * 検索対象期間に一部でも重複する予約が取得される
+     * @param roomIds 教室IDのリスト
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
      * @returns 予約のリスト
      */
     @get list(
-      @path id: string,
+      @query roomIds?: string[],
       @query from?: utcDateTime,
       @query until?: utcDateTime,
     ): (OkResponse &
       Body<{
         reservations: AcademicService.Reservation[];
       }>) | UnauthorizedResponse;
+
+    /**
+     * 予約を詳細取得する
+     * @param id 予約ID
+     * @returns 予約の詳細
+     */
+    @get detail(@path id: string): (OkResponse &
+      Body<{
+        reservation: AcademicService.Reservation;
+      }>) | NotFoundResponse | UnauthorizedResponse;
+
+    /**
+      * 教室を予約する
+      * @param body 予約する教室の情報
+      * @returns 作成された予約
+      */
+    @post create(@body body: AcademicService.ReservationRequest): (CreatedResponse &
+    Body<{
+      reservation: AcademicService.Reservation;
+    }>) | UnauthorizedResponse;
+
+    /**
+     * 予約を削除する
+     * @param id 予約ID
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/subjects")
@@ -300,7 +497,7 @@ namespace AdminBFFService {
       culturalSubjectCategories?: DottoFoundationV1.CulturalSubjectCategory[],
     ): (OkResponse &
       Body<{
-        subjects: AcademicService.SubjectSummary[];
+        subjects: AcademicService.Subject[];
       }>) | UnauthorizedResponse;
 
     /**
@@ -312,16 +509,6 @@ namespace AdminBFFService {
       Body<{
         subject: AcademicService.Subject;
       }>) | NotFoundResponse | UnauthorizedResponse;
-
-    /**
-     * 科目を作成または更新する
-     * @param body 作成または更新する科目の情報
-     * @returns 作成または更新された科目
-     */
-    @post upsert(@body body: AcademicService.SubjectRequest): (OkResponse &
-      Body<{
-        subject: AcademicService.Subject;
-      }>) | UnauthorizedResponse;
 
     /**
      * 科目を削除する
@@ -376,6 +563,15 @@ namespace AdminBFFService {
   @tag("Users")
   interface UsersV1 {
     /**
+     * ユーザーの一覧を取得する
+     * @returns ユーザーの一覧
+     */
+    @get list(): (OkResponse &
+      Body<{
+        users: UserService.User[];
+      }>) | UnauthorizedResponse;
+
+    /**
      * ユーザーを取得する
      * @param id ユーザーID
      * @returns ユーザーの情報
@@ -384,5 +580,48 @@ namespace AdminBFFService {
       Body<{
         user: UserService.User;
       }>) | NotFoundResponse | UnauthorizedResponse;
+
+    /**
+     * ユーザーを作成または更新する
+     * @param body 作成または更新するユーザーの情報
+     * @returns 作成または更新されたユーザー
+     */
+    @post upsert(@path id: string, @body body: UserService.UserRequest): (OkResponse &
+      Body<{
+        user: UserService.User;
+      }>) | UnauthorizedResponse;
+  }
+  
+  @route("/v1/fcmTokens")
+  @tag("FCM Tokens")
+  interface FCMTokenV1 {
+    /**
+     * FCMトークンの一覧を取得する
+     * @param userIds ユーザーIDの一覧
+     * @param tokens FCMトークンの一覧
+     * @param updatedAtFrom 更新日時の開始日時 (updatedAt >= updatedAtFrom)
+     * @param updatedAtTo 更新日時の終了日時 (updatedAt <= updatedAtTo)
+     * @returns FCMトークンの一覧
+     */
+    @get list(
+      @query userIds?: string[],
+      @query tokens?: string[],
+      @query updatedAtFrom?: utcDateTime,
+      @query updatedAtTo?: utcDateTime
+    ): (OkResponse &
+      Body<{
+        fcmTokens: UserService.FCMToken[];
+      }>) | UnauthorizedResponse;
+
+    /**
+     * FCMトークンを作成または更新する
+     * 存在しない場合は作成し、存在する場合は更新日時を更新する
+     * @param body 作成または更新するFCMトークンの情報
+     * @returns 作成または更新されたFCMトークン
+     */
+    @post upsert(@body body: UserService.FCMTokenRequest): (OkResponse &
+      Body<{
+        fcmToken: UserService.FCMToken;
+      }>) | UnauthorizedResponse;
   }
 }

@@ -64,10 +64,10 @@ namespace AcademicService {
   interface FacultiesV1 {
     /**
      * 教員一覧を取得する
-     * @param ids 教員IDのリスト; 指定した場合は指定した教員IDのみを取得する
+     * @param q 検索ワード; 教員の名前で部分一致検索される
      * @returns 教員のリスト
      */
-    @get list(@query ids?: string[]): OkResponse &
+    @get list(@query q?: string): OkResponse &
       Body<{
         faculties: Faculty[];
       }>;
@@ -126,18 +126,167 @@ namespace AcademicService {
       }>;
   }
 
+  @route("/v1/notifyIrregularities")
+  @tag("NotifyIrregularities")
+  interface NotifyIrregularitiesV1 {
+    /**
+     * 指定した日付に発生している時間割の変更を通知する
+     * 休講・補講・教室変更・振替授業
+     *
+     * @param userIds ユーザーIDのリスト; 指定しない場合は全ユーザーに通知する
+     * @param date 対象の日付
+     * @returns
+     */
+    @post notify(@query userIds?: string[], @query date: utcDateTime): NoContentResponse;
+  }
+
+  @route("/v1/cancelledClasses")
+  @tag("CancelledClasses")
+  interface CancelledClassesV1 {
+    /**
+     * 休講一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の休講のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 休講のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): OkResponse &
+      Body<{
+        cancelledClasses: CancelledClass[];
+      }>;
+
+    /**
+     * 休講を作成する
+     * @param body 作成する休講の情報
+     * @returns 作成された休講
+     */
+    @post create(@body body: CancelledClassRequest): CreatedResponse &
+      Body<{
+        cancelledClass: CancelledClass;
+      }>;
+
+    /**
+     * 教務システムから休講を取得する
+     * @returns 新たに取得された休講
+     */
+    @put fetch(): OkResponse &
+      Body<{
+        cancelledClasses: CancelledClass[];
+      }>;
+
+    /**
+     * 休講を削除する
+     * @param id 休講ID
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+  }
+
+  @route("/v1/makeupClasses")
+  @tag("MakeupClasses")
+  interface MakeupClassesV1 {
+    /**
+     * 補講一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の補講のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 補講のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): OkResponse &
+      Body<{
+        makeupClasses: MakeupClass[];
+      }>;
+
+    /**
+     * 補講を作成する
+     * @param body 作成する補講の情報
+     * @returns 作成された補講
+     */
+    @post create(@body body: MakeupClassRequest): CreatedResponse &
+      Body<{
+        makeupClass: MakeupClass;
+      }>;
+
+    /**
+     * 教務システムから補講を取得する
+     * @returns 新たに取得された補講
+     */
+    @put fetch(): OkResponse &
+      Body<{
+        makeupClasses: MakeupClass[];
+      }>;
+
+    /**
+     * 補講を削除する
+     * @param id 補講ID
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+  }
+
+  @route("/v1/roomChanges")
+  @tag("RoomChanges")
+  interface RoomChangesV1 {
+    /**
+     * 教室変更一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の教室変更のみを取得する
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 教室変更のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query from?: utcDateTime,
+      @query until?: utcDateTime,
+    ): OkResponse &
+      Body<{
+        roomChanges: RoomChange[];
+      }>;
+
+    /**
+     * 教室変更を作成する
+     * @param body 作成する教室変更の情報
+     * @returns 作成された教室変更
+     */
+    @post create(@body body: RoomChangeRequest): CreatedResponse &
+      Body<{
+        roomChange: RoomChange;
+      }>;
+
+    /**
+     * 教務システムから教室変更を取得する
+     * @returns 新たに取得された教室変更
+     */
+    @put fetch(): OkResponse &
+      Body<{
+        roomChanges: RoomChange[];
+      }>;
+
+    /**
+     * 教室変更を削除する
+     * @param id 教室変更ID
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+  }
+
   @route("/v1/rooms")
   @tag("Rooms")
   interface RoomsV1 {
     /**
      * 教室一覧を取得する
-     * @param ids 教室IDのリスト; 指定した場合は指定した教室IDのみを取得する
-     * @param floor 階数; 指定した場合は指定した階数の教室のみを取得する
+     * @param q 検索ワード; 部屋名・部屋番号・教員名の部分一致検索される
+     * @param floors 階数; 指定した場合は指定した階数の部屋のみを取得する
      * @returns 教室のリスト
      */
     @get list(
-      @query ids?: string[],
-      @query floor?: DottoFoundationV1.Floor[],
+      @query q?: string,
+      @query floors?: DottoFoundationV1.Floor[],
     ): OkResponse &
       Body<{
         rooms: Room[];
@@ -181,24 +330,51 @@ namespace AcademicService {
     @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
-  @route("/v1/rooms/{id}/reservations")
+  @route("/v1/reservations")
   @tag("Reservations")
   interface ReservationsV1 {
     /**
      * 教室の予約一覧を取得する
-     * @param id 教室ID
-     * @param from 開始日時
-     * @param until 終了日時
+     * 検索対象期間に一部でも重複する予約が取得される
+     * @param roomIds 教室IDのリスト
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
      * @returns 予約のリスト
      */
     @get list(
-      @path id: string,
+      @query roomIds?: string[],
       @query from?: utcDateTime,
       @query until?: utcDateTime,
     ): OkResponse &
       Body<{
         reservations: Reservation[];
       }>;
+
+    /**
+     * 予約を詳細取得する
+     * @param id 予約ID
+     * @returns 予約の詳細
+     */
+    @get detail(@path id: string): (OkResponse &
+      Body<{
+        reservation: Reservation;
+      }>) | NotFoundResponse;
+
+    /**
+      * 教室を予約する
+      * @param body 予約する教室の情報
+      * @returns 作成された予約
+      */
+    @post create(@body body: ReservationRequest): CreatedResponse &
+    Body<{
+      reservation: Reservation;
+    }>;
+
+    /**
+     * 予約を削除する
+     * @param id 予約ID
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
   @route("/v1/subjects")
@@ -236,7 +412,7 @@ namespace AcademicService {
       culturalSubjectCategories?: DottoFoundationV1.CulturalSubjectCategory[],
     ): OkResponse &
       Body<{
-        subjects: SubjectSummary[];
+        subjects: Subject[];
       }>;
 
     /**
@@ -248,16 +424,6 @@ namespace AcademicService {
       Body<{
         subject: Subject;
       }>) | NotFoundResponse;
-
-    /**
-     * 科目を作成または更新する
-     * @param body 作成または更新する科目の情報
-     * @returns 作成または更新された科目
-     */
-    @post upsert(@body body: SubjectRequest): (OkResponse &
-      Body<{
-        subject: Subject;
-      }>) | BadRequestResponse;
 
     /**
      * 科目を削除する

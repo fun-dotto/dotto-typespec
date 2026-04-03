@@ -238,5 +238,20 @@ namespace DottoFoundationV1 {
      * R7F
      */
     Floor7,
+
+    /**
+     * 仮想教室（オンラインなど）
+     */
+    Virtual,
+  }
+
+  /**
+   * 教室変更よりも休講・補講が優先される
+   */
+  enum PersonalCalendarItemStatus {
+    Normal,
+    Cancelled,
+    Makeup,
+    RoomChanged,
   }
 }

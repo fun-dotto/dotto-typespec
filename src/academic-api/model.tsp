@@ -2,7 +2,7 @@ namespace AcademicService {
   model CourseRegistration {
     id: string;
     userId: string;
-    subject: SubjectSummary;
+    subject: Subject;
   }
 
   model CourseRegistrationRequest {
@@ -21,30 +21,116 @@ namespace AcademicService {
     email: string;
   }
 
-  model PersonalCalendarItem {
+  /**
+   * 休講
+   */
+  model CancelledClass {
+    id: string;
+    subject: Subject;
     date: utcDateTime;
-    slot: DottoFoundationV1.TimetableSlot;
-    timetableItem: TimetableItem;
+    period: DottoFoundationV1.Period;
+    comment: string;
   }
 
-  model PersonalCalendarItemRequest {
+  model CancelledClassRequest {
+    subjectId: string;
     date: utcDateTime;
-    slot: DottoFoundationV1.TimetableSlot;
-    timetableItemId: string;
+    period: DottoFoundationV1.Period;
+    comment: string;
+  }
+
+  /**
+   * 補講
+   */
+  model MakeupClass {
+    id: string;
+    subject: Subject;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    comment: string;
+  }
+
+  model MakeupClassRequest {
+    subjectId: string;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    comment: string;
+  }
+
+  /**
+   * 教室変更
+   */
+  model RoomChange {
+    id: string;
+    subject: Subject;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    originalRooms: Room[];
+    newRooms: Room[];
+  }
+
+  model RoomChangeRequest {
+    subjectId: string;
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    originalRoomIds: string[];
+    newRoomIds: string[];
+  }
+
+  model PersonalCalendarItem {
+    date: utcDateTime;
+    period: DottoFoundationV1.Period;
+    subject: Subject;
+    rooms: Room[];
+    status: DottoFoundationV1.PersonalCalendarItemStatus;
   }
 
   model Room {
     id: string;
+
+    /**
+     * 部屋名
+     */
     name: string;
+
+    /**
+     * 部屋番号
+     * 
+     * 部屋番号が存在しない場合は空文字
+     */
+    number: string;
+
+    /**
+     * フロア
+     * 
+     * オンラインなどの仮想教室の場合はVirtualを使用
+     */
     floor: DottoFoundationV1.Floor;
+
+    /**
+     * 教員
+     * 
+     * 教員室でない場合は省略
+     */
+    faculty?: Faculty;
   }
 
   model RoomRequest {
     name: string;
     floor: DottoFoundationV1.Floor;
+    facultyId?: string;
   }
 
   model Reservation {
+    id: string;
+    roomId: string;
+    startAt: utcDateTime;
+    endAt: utcDateTime;
+    title: string;
+  }
+
+  model ReservationRequest {
+    roomId: string;
     startAt: utcDateTime;
     endAt: utcDateTime;
     title: string;
@@ -84,13 +170,17 @@ namespace AcademicService {
 
     /**
      * 授業名末尾の`学年-クラス`をもとに決定
+     * 
+     * 科目詳細取得でのみ必須
      */
-    eligibleAttributes: SubjectTargetClass[];
+    eligibleAttributes?: SubjectTargetClass[];
 
     /**
      * 科目群・科目区分をもとに決定
+     * 
+     * 科目詳細取得でのみ必須
      */
-    requirements: SubjectRequirement[];
+    requirements?: SubjectRequirement[];
   }
 
   model SubjectFaculty {
@@ -111,12 +201,6 @@ namespace AcademicService {
   model SubjectRequirementRequest {
     course: DottoFoundationV1.Course;
     requirementType: DottoFoundationV1.SubjectRequirementType;
-  }
-
-  model SubjectSummary {
-    id: string;
-    name: string;
-    faculties: SubjectFaculty[];
   }
 
   model Syllabus {
@@ -256,13 +340,9 @@ namespace AcademicService {
     dsopSubject: string;
   }
 
-  model SubjectRequest {
-    syllabusId: string;
-  }
-
   model TimetableItem {
     id: string;
-    subject: SubjectSummary;
+    subject: Subject;
 
     /**
      * 集中講義など、時間割に含まれていない場合はnull
