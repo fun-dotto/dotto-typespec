@@ -23,15 +23,6 @@ using OpenAPI;
 @server("http://localhost:8080", "Local")
 @useAuth(FoundationV1.FirebaseAppCheckAuth)
 namespace AppBFFService {
-  @route("/announcements")
-  @tag("Announcements")
-  interface AnnouncementsV0 {
-    /**
-     * @returns おしらせのリスト
-     */
-    @get list(): Announcement[];
-  }
-
   @route("/v1/announcements")
   @tag("Announcements")
   interface AnnouncementsV1 {
