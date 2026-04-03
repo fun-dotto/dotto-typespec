@@ -238,5 +238,10 @@ namespace DottoFoundationV1 {
      * R7F
      */
     Floor7,
+
+    /**
+     * 仮想教室（オンラインなど）
+     */
+    Virtual,
   }
 }
