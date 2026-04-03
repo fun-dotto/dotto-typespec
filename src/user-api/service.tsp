@@ -56,15 +56,15 @@ namespace UserService {
      * FCMトークンの一覧を取得する
      * @param userIds ユーザーIDの一覧
      * @param tokens FCMトークンの一覧
-     * @param lastUpdatedAtFrom 更新日時の開始日時 (lastUpdatedAt >= lastUpdatedAtFrom)
-     * @param lastUpdatedAtTo 更新日時の終了日時 (lastUpdatedAt <= lastUpdatedAtTo)
+     * @param updatedAtFrom 更新日時の開始日時 (updatedAt >= updatedAtFrom)
+     * @param updatedAtTo 更新日時の終了日時 (updatedAt <= updatedAtTo)
      * @returns FCMトークンの一覧
      */
     @get list(
       @query userIds?: string[],
       @query tokens?: string[],
-      @query lastUpdatedAtFrom?: utcDateTime,
-      @query lastUpdatedAtTo?: utcDateTime
+      @query updatedAtFrom?: utcDateTime,
+      @query updatedAtTo?: utcDateTime
     ): OkResponse &
       Body<{
         fcmTokens: FCMToken[];
