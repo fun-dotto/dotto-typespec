@@ -225,6 +225,15 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
 
     /**
+     * 教務システムから休講を取得する
+     * @returns 新たに取得された休講
+     */
+    @put fetch(): (OkResponse &
+      Body<{
+        cancelledClasses: AcademicService.CancelledClass[];
+      }>) | UnauthorizedResponse;
+
+    /**
      * 休講を削除する
      * @param id 休講ID
      */
@@ -265,6 +274,15 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
 
     /**
+     * 教務システムから補講を取得する
+     * @returns 新たに取得された補講
+     */
+    @put fetch(): (OkResponse &
+      Body<{
+        makeupClasses: AcademicService.MakeupClass[];
+      }>) | UnauthorizedResponse;
+
+    /**
      * 補講を削除する
      * @param id 補講ID
      */
@@ -302,6 +320,15 @@ namespace AdminBFFService {
     ): (CreatedResponse &
       Body<{
         roomChange: AcademicService.RoomChange;
+      }>) | UnauthorizedResponse;
+
+    /**
+     * 教務システムから教室変更を取得する
+     * @returns 新たに取得された教室変更
+     */
+    @put fetch(): (OkResponse &
+      Body<{
+        roomChanges: AcademicService.RoomChange[];
       }>) | UnauthorizedResponse;
 
     /**
