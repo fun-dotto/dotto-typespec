@@ -65,16 +65,16 @@ namespace AcademicService {
     subject: Subject;
     date: utcDateTime;
     period: DottoFoundationV1.Period;
-    originalRooms: Room[];
-    newRooms: Room[];
+    originalRoom: Room;
+    newRoom: Room;
   }
 
   model RoomChangeRequest {
     subjectId: string;
     date: utcDateTime;
     period: DottoFoundationV1.Period;
-    originalRoomIds: string[];
-    newRoomIds: string[];
+    originalRoomId: string;
+    newRoomId: string;
   }
 
   model PersonalCalendarItem {
