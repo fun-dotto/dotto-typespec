@@ -145,7 +145,7 @@ namespace AcademicService {
   interface CancelledClassesV1 {
     /**
      * 休講一覧を取得する
-     * @param subjectIds 科目IDのリスト; 指定した科目の休講のみを取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の休講のみを取得する; 指定しない場合は全科目を検索対象とする
      * @param from 検索対象開始日時
      * @param until 検索対象終了日時
      * @returns 休講のリスト
@@ -190,7 +190,7 @@ namespace AcademicService {
   interface MakeupClassesV1 {
     /**
      * 補講一覧を取得する
-     * @param subjectIds 科目IDのリスト; 指定した科目の補講のみを取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の補講のみを取得する; 指定しない場合は全科目を検索対象とする
      * @param from 検索対象開始日時
      * @param until 検索対象終了日時
      * @returns 補講のリスト
@@ -235,7 +235,7 @@ namespace AcademicService {
   interface RoomChangesV1 {
     /**
      * 教室変更一覧を取得する
-     * @param subjectIds 科目IDのリスト; 指定した科目の教室変更のみを取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の教室変更のみを取得する; 指定しない場合は全科目を検索対象とする
      * @param from 検索対象開始日時
      * @param until 検索対象終了日時
      * @returns 教室変更のリスト
