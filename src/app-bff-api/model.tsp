@@ -4,7 +4,12 @@ namespace AppBFFService {
   model Announcement {
     id: string;
     title: string;
+
+    /**
+     * 日時
+     */
     date: utcDateTime;
+
     url: url;
   }
 
@@ -18,7 +23,7 @@ namespace AppBFFService {
   }
 
   model PersonalCalendarItem {
-    date: utcDateTime;
+    date: plainDate;
     period: DottoFoundationV1.Period;
     subject: SubjectSummary;
     rooms: Room[];

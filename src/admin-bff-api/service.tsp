@@ -187,7 +187,7 @@ namespace AdminBFFService {
      * @param dates 日付のリスト; 指定した日付の個人カレンダーアイテムのみを取得する
      * @returns 個人カレンダーアイテムのリスト; 時間割、履修情報、休講補講、振替授業日情報から構築される
      */
-    @get list(@query userId: string, @query dates: utcDateTime[]): (OkResponse &
+    @get list(@query userId: string, @query dates: plainDate[]): (OkResponse &
       Body<{
         personalCalendarItems: AcademicService.PersonalCalendarItem[];
       }>) | UnauthorizedResponse;
@@ -206,7 +206,7 @@ namespace AdminBFFService {
      */
     @post notify(
       @query userIds?: string[],
-      @query(#{explode: true}) date: utcDateTime,
+      @query(#{ explode: true }) date: plainDate,
     ): NoContentResponse | UnauthorizedResponse;
   }
 
@@ -216,14 +216,14 @@ namespace AdminBFFService {
     /**
      * 休講一覧を取得する
      * @param subjectIds 科目IDのリスト; 指定した科目の休講のみを取得する; 指定しない場合は全科目を検索対象とする
-     * @param from 検索対象開始日時
-     * @param until 検索対象終了日時
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
      * @returns 休講のリスト
      */
     @get list(
       @query subjectIds?: string[],
-      @query(#{explode: true}) from?: utcDateTime,
-      @query(#{explode: true}) until?: utcDateTime,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): (OkResponse &
       Body<{
         cancelledClasses: AcademicService.CancelledClass[];
@@ -265,14 +265,14 @@ namespace AdminBFFService {
     /**
      * 補講一覧を取得する
      * @param subjectIds 科目IDのリスト; 指定した科目の補講のみを取得する; 指定しない場合は全科目を検索対象とする
-     * @param from 検索対象開始日時
-     * @param until 検索対象終了日時
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
      * @returns 補講のリスト
      */
     @get list(
       @query subjectIds?: string[],
-      @query(#{explode: true}) from?: utcDateTime,
-      @query(#{explode: true}) until?: utcDateTime,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): (OkResponse &
       Body<{
         makeupClasses: AcademicService.MakeupClass[];
@@ -314,14 +314,14 @@ namespace AdminBFFService {
     /**
      * 教室変更一覧を取得する
      * @param subjectIds 科目IDのリスト; 指定した科目の教室変更のみを取得する; 指定しない場合は全科目を検索対象とする
-     * @param from 検索対象開始日時
-     * @param until 検索対象終了日時
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
      * @returns 教室変更のリスト
      */
     @get list(
       @query subjectIds?: string[],
-      @query(#{explode: true}) from?: utcDateTime,
-      @query(#{explode: true}) until?: utcDateTime,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): (OkResponse &
       Body<{
         roomChanges: AcademicService.RoomChange[];
@@ -430,8 +430,8 @@ namespace AdminBFFService {
      */
     @get list(
       @query roomIds?: string[],
-      @query(#{explode: true}) from?: utcDateTime,
-      @query(#{explode: true}) until?: utcDateTime,
+      @query(#{ explode: true }) from?: utcDateTime,
+      @query(#{ explode: true }) until?: utcDateTime,
     ): (OkResponse &
       Body<{
         reservations: AcademicService.Reservation[];
@@ -448,20 +448,24 @@ namespace AdminBFFService {
       }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
-      * 教室を予約する
-      * @param body 予約する教室の情報
-      * @returns 作成された予約
-      */
-    @post create(@body body: AcademicService.ReservationRequest): (CreatedResponse &
-    Body<{
-      reservation: AcademicService.Reservation;
-    }>) | UnauthorizedResponse;
+     * 教室を予約する
+     * @param body 予約する教室の情報
+     * @returns 作成された予約
+     */
+    @post create(
+      @body body: AcademicService.ReservationRequest,
+    ): (CreatedResponse &
+      Body<{
+        reservation: AcademicService.Reservation;
+      }>) | UnauthorizedResponse;
 
     /**
      * 予約を削除する
      * @param id 予約ID
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 
   @route("/v1/subjects")
@@ -586,12 +590,15 @@ namespace AdminBFFService {
      * @param body 作成または更新するユーザーの情報
      * @returns 作成または更新されたユーザー
      */
-    @post upsert(@path id: string, @body body: UserService.UserRequest): (OkResponse &
+    @post upsert(
+      @path id: string,
+      @body body: UserService.UserRequest,
+    ): (OkResponse &
       Body<{
         user: UserService.User;
       }>) | UnauthorizedResponse;
   }
-  
+
   @route("/v1/fcmTokens")
   @tag("FCM Tokens")
   interface FCMTokenV1 {
@@ -606,8 +613,8 @@ namespace AdminBFFService {
     @get list(
       @query userIds?: string[],
       @query tokens?: string[],
-      @query(#{explode: true}) updatedAtFrom?: utcDateTime,
-      @query(#{explode: true}) updatedAtTo?: utcDateTime
+      @query(#{ explode: true }) updatedAtFrom?: utcDateTime,
+      @query(#{ explode: true }) updatedAtTo?: utcDateTime,
     ): (OkResponse &
       Body<{
         fcmTokens: UserService.FCMToken[];

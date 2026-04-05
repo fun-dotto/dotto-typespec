@@ -120,7 +120,7 @@ namespace AcademicService {
      * @param dates 日付のリスト; 指定した日付の個人カレンダーアイテムのみを取得する
      * @returns 個人カレンダーアイテムのリスト; 時間割、履修情報、休講補講、振替授業日情報から構築される
      */
-    @get list(@query userId: string, @query dates: utcDateTime[]): OkResponse &
+    @get list(@query userId: string, @query dates: plainDate[]): OkResponse &
       Body<{
         personalCalendarItems: PersonalCalendarItem[];
       }>;
@@ -137,7 +137,10 @@ namespace AcademicService {
      * @param date 対象の日付
      * @returns
      */
-    @post notify(@query userIds?: string[], @query(#{explode: true}) date: utcDateTime): NoContentResponse;
+    @post notify(
+      @query userIds?: string[],
+      @query(#{ explode: true }) date: plainDate,
+    ): NoContentResponse;
   }
 
   @route("/v1/cancelledClasses")
@@ -146,14 +149,14 @@ namespace AcademicService {
     /**
      * 休講一覧を取得する
      * @param subjectIds 科目IDのリスト; 指定した科目の休講のみを取得する; 指定しない場合は全科目を検索対象とする
-     * @param from 検索対象開始日時
-     * @param until 検索対象終了日時
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
      * @returns 休講のリスト
      */
     @get list(
       @query subjectIds?: string[],
-      @query(#{explode: true}) from?: utcDateTime,
-      @query(#{explode: true}) until?: utcDateTime,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): OkResponse &
       Body<{
         cancelledClasses: CancelledClass[];
@@ -191,14 +194,14 @@ namespace AcademicService {
     /**
      * 補講一覧を取得する
      * @param subjectIds 科目IDのリスト; 指定した科目の補講のみを取得する; 指定しない場合は全科目を検索対象とする
-     * @param from 検索対象開始日時
-     * @param until 検索対象終了日時
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
      * @returns 補講のリスト
      */
     @get list(
       @query subjectIds?: string[],
-      @query(#{explode: true}) from?: utcDateTime,
-      @query(#{explode: true}) until?: utcDateTime,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): OkResponse &
       Body<{
         makeupClasses: MakeupClass[];
@@ -236,14 +239,14 @@ namespace AcademicService {
     /**
      * 教室変更一覧を取得する
      * @param subjectIds 科目IDのリスト; 指定した科目の教室変更のみを取得する; 指定しない場合は全科目を検索対象とする
-     * @param from 検索対象開始日時
-     * @param until 検索対象終了日時
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
      * @returns 教室変更のリスト
      */
     @get list(
       @query subjectIds?: string[],
-      @query(#{explode: true}) from?: utcDateTime,
-      @query(#{explode: true}) until?: utcDateTime,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): OkResponse &
       Body<{
         roomChanges: RoomChange[];
@@ -343,8 +346,8 @@ namespace AcademicService {
      */
     @get list(
       @query roomIds?: string[],
-      @query(#{explode: true}) from?: utcDateTime,
-      @query(#{explode: true}) until?: utcDateTime,
+      @query(#{ explode: true }) from?: utcDateTime,
+      @query(#{ explode: true }) until?: utcDateTime,
     ): OkResponse &
       Body<{
         reservations: Reservation[];
@@ -361,14 +364,14 @@ namespace AcademicService {
       }>) | NotFoundResponse;
 
     /**
-      * 教室を予約する
-      * @param body 予約する教室の情報
-      * @returns 作成された予約
-      */
+     * 教室を予約する
+     * @param body 予約する教室の情報
+     * @returns 作成された予約
+     */
     @post create(@body body: ReservationRequest): CreatedResponse &
-    Body<{
-      reservation: Reservation;
-    }>;
+      Body<{
+        reservation: Reservation;
+      }>;
 
     /**
      * 予約を削除する
