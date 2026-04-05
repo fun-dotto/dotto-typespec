@@ -206,7 +206,7 @@ namespace AdminBFFService {
      */
     @post notify(
       @query userIds?: string[],
-      @query date: utcDateTime,
+      @query(#{explode: true}) date: utcDateTime,
     ): NoContentResponse | UnauthorizedResponse;
   }
 
@@ -222,8 +222,8 @@ namespace AdminBFFService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{explode: true}) from?: utcDateTime,
+      @query(#{explode: true}) until?: utcDateTime,
     ): (OkResponse &
       Body<{
         cancelledClasses: AcademicService.CancelledClass[];
@@ -271,8 +271,8 @@ namespace AdminBFFService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{explode: true}) from?: utcDateTime,
+      @query(#{explode: true}) until?: utcDateTime,
     ): (OkResponse &
       Body<{
         makeupClasses: AcademicService.MakeupClass[];
@@ -320,8 +320,8 @@ namespace AdminBFFService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{explode: true}) from?: utcDateTime,
+      @query(#{explode: true}) until?: utcDateTime,
     ): (OkResponse &
       Body<{
         roomChanges: AcademicService.RoomChange[];
@@ -430,8 +430,8 @@ namespace AdminBFFService {
      */
     @get list(
       @query roomIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{explode: true}) from?: utcDateTime,
+      @query(#{explode: true}) until?: utcDateTime,
     ): (OkResponse &
       Body<{
         reservations: AcademicService.Reservation[];
@@ -606,8 +606,8 @@ namespace AdminBFFService {
     @get list(
       @query userIds?: string[],
       @query tokens?: string[],
-      @query updatedAtFrom?: utcDateTime,
-      @query updatedAtTo?: utcDateTime
+      @query(#{explode: true}) updatedAtFrom?: utcDateTime,
+      @query(#{explode: true}) updatedAtTo?: utcDateTime
     ): (OkResponse &
       Body<{
         fcmTokens: UserService.FCMToken[];

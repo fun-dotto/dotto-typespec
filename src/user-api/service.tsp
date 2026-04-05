@@ -63,8 +63,8 @@ namespace UserService {
     @get list(
       @query userIds?: string[],
       @query tokens?: string[],
-      @query updatedAtFrom?: utcDateTime,
-      @query updatedAtTo?: utcDateTime
+      @query(#{explode: true}) updatedAtFrom?: utcDateTime,
+      @query(#{explode: true}) updatedAtTo?: utcDateTime
     ): OkResponse &
       Body<{
         fcmTokens: FCMToken[];

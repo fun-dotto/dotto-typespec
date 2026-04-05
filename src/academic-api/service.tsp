@@ -137,7 +137,7 @@ namespace AcademicService {
      * @param date 対象の日付
      * @returns
      */
-    @post notify(@query userIds?: string[], @query date: utcDateTime): NoContentResponse;
+    @post notify(@query userIds?: string[], @query(#{explode: true}) date: utcDateTime): NoContentResponse;
   }
 
   @route("/v1/cancelledClasses")
@@ -152,8 +152,8 @@ namespace AcademicService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{explode: true}) from?: utcDateTime,
+      @query(#{explode: true}) until?: utcDateTime,
     ): OkResponse &
       Body<{
         cancelledClasses: CancelledClass[];
@@ -197,8 +197,8 @@ namespace AcademicService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{explode: true}) from?: utcDateTime,
+      @query(#{explode: true}) until?: utcDateTime,
     ): OkResponse &
       Body<{
         makeupClasses: MakeupClass[];
@@ -242,8 +242,8 @@ namespace AcademicService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{explode: true}) from?: utcDateTime,
+      @query(#{explode: true}) until?: utcDateTime,
     ): OkResponse &
       Body<{
         roomChanges: RoomChange[];
@@ -343,8 +343,8 @@ namespace AcademicService {
      */
     @get list(
       @query roomIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{explode: true}) from?: utcDateTime,
+      @query(#{explode: true}) until?: utcDateTime,
     ): OkResponse &
       Body<{
         reservations: Reservation[];
