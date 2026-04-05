@@ -27,14 +27,14 @@ namespace AcademicService {
   model CancelledClass {
     id: string;
     subject: Subject;
-    date: utcDateTime;
+    date: plainDate;
     period: DottoFoundationV1.Period;
     comment: string;
   }
 
   model CancelledClassRequest {
     subjectId: string;
-    date: utcDateTime;
+    date: plainDate;
     period: DottoFoundationV1.Period;
     comment: string;
   }
@@ -45,14 +45,14 @@ namespace AcademicService {
   model MakeupClass {
     id: string;
     subject: Subject;
-    date: utcDateTime;
+    date: plainDate;
     period: DottoFoundationV1.Period;
     comment: string;
   }
 
   model MakeupClassRequest {
     subjectId: string;
-    date: utcDateTime;
+    date: plainDate;
     period: DottoFoundationV1.Period;
     comment: string;
   }
@@ -63,7 +63,7 @@ namespace AcademicService {
   model RoomChange {
     id: string;
     subject: Subject;
-    date: utcDateTime;
+    date: plainDate;
     period: DottoFoundationV1.Period;
     originalRoom: Room;
     newRoom: Room;
@@ -71,14 +71,14 @@ namespace AcademicService {
 
   model RoomChangeRequest {
     subjectId: string;
-    date: utcDateTime;
+    date: plainDate;
     period: DottoFoundationV1.Period;
     originalRoomId: string;
     newRoomId: string;
   }
 
   model PersonalCalendarItem {
-    date: utcDateTime;
+    date: plainDate;
     period: DottoFoundationV1.Period;
     subject: Subject;
     rooms: Room[];
