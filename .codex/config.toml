@@ -1,0 +1,15 @@
+approval_mode = "full-auto"
+
+[full_auto]
+allow = [
+  "* --version",
+  "* --help *",
+  "echo *",
+  "find *",
+  "gh *",
+  "git *",
+  "grep *",
+  "ls *",
+  "task *",
+  "wc *",
+]
