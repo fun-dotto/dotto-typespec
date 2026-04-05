@@ -139,7 +139,7 @@ namespace AcademicService {
      */
     @post notify(
       @query userIds?: string[],
-      @query date: plainDate,
+      @query(#{ explode: true }) date: plainDate,
     ): NoContentResponse;
   }
 
@@ -155,8 +155,8 @@ namespace AcademicService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: plainDate,
-      @query until?: plainDate,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): OkResponse &
       Body<{
         cancelledClasses: CancelledClass[];
@@ -200,8 +200,8 @@ namespace AcademicService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: plainDate,
-      @query until?: plainDate,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): OkResponse &
       Body<{
         makeupClasses: MakeupClass[];
@@ -245,8 +245,8 @@ namespace AcademicService {
      */
     @get list(
       @query subjectIds?: string[],
-      @query from?: plainDate,
-      @query until?: plainDate,
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
     ): OkResponse &
       Body<{
         roomChanges: RoomChange[];
@@ -346,8 +346,8 @@ namespace AcademicService {
      */
     @get list(
       @query roomIds?: string[],
-      @query from?: utcDateTime,
-      @query until?: utcDateTime,
+      @query(#{ explode: true }) from?: utcDateTime,
+      @query(#{ explode: true }) until?: utcDateTime,
     ): OkResponse &
       Body<{
         reservations: Reservation[];
