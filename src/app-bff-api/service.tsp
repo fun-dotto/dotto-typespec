@@ -89,6 +89,66 @@ namespace AppBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @route("/v1/cancelledClasses")
+  @tag("CancelledClasses")
+  interface CancelledClassesV1 {
+    /**
+     * 休講一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の休講のみを取得する; 指定しない場合は全科目を検索対象とする
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
+     * @returns 休講のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
+    ): (OkResponse &
+      Body<{
+        cancelledClasses: CancelledClass[];
+      }>) | UnauthorizedResponse;
+  }
+
+  @route("/v1/makeupClasses")
+  @tag("MakeupClasses")
+  interface MakeupClassesV1 {
+    /**
+     * 補講一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の補講のみを取得する; 指定しない場合は全科目を検索対象とする
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
+     * @returns 補講のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
+    ): (OkResponse &
+      Body<{
+        makeupClasses: MakeupClass[];
+      }>) | UnauthorizedResponse;
+  }
+
+  @route("/v1/roomChanges")
+  @tag("RoomChanges")
+  interface RoomChangesV1 {
+    /**
+     * 教室変更一覧を取得する
+     * @param subjectIds 科目IDのリスト; 指定した科目の教室変更のみを取得する; 指定しない場合は全科目を検索対象とする
+     * @param from 検索対象開始日付
+     * @param until 検索対象終了日付
+     * @returns 教室変更のリスト
+     */
+    @get list(
+      @query subjectIds?: string[],
+      @query(#{ explode: true }) from?: plainDate,
+      @query(#{ explode: true }) until?: plainDate,
+    ): (OkResponse &
+      Body<{
+        roomChanges: RoomChange[];
+      }>) | UnauthorizedResponse;
+  }
+
   @route("/v1/subjects")
   @tag("Subjects")
   interface SubjectsV1 {

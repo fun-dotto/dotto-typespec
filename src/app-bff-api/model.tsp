@@ -95,6 +95,40 @@ namespace AppBFFService {
     credit: integer;
   }
 
+  /**
+   * 休講
+   */
+  model CancelledClass {
+    id: string;
+    subject: SubjectSummary;
+    date: plainDate;
+    period: DottoFoundationV1.Period;
+    comment: string;
+  }
+
+  /**
+   * 補講
+   */
+  model MakeupClass {
+    id: string;
+    subject: SubjectSummary;
+    date: plainDate;
+    period: DottoFoundationV1.Period;
+    comment: string;
+  }
+
+  /**
+   * 教室変更
+   */
+  model RoomChange {
+    id: string;
+    subject: SubjectSummary;
+    date: plainDate;
+    period: DottoFoundationV1.Period;
+    originalRoom: Room;
+    newRoom: Room;
+  }
+
   model TimetableItem {
     id: string;
     subject: SubjectSummary;
