@@ -31,30 +31,38 @@ jobs:
     strategy:
       matrix:
         include:
-          - repo: dotto-flutter
+          - repo: dotto-app
             type: app
             schema: openapi.AppBFFService.yaml
+            openapi-dir: flutter/openapi
           - repo: dotto-admin-web
             type: app
             schema: openapi.AdminBFFService.yaml
+            openapi-dir: openapi
           - repo: app-bff-api
             type: bff
             schema: openapi.AppBFFService.yaml
+            openapi-dir: openapi
           - repo: admin-bff-api
             type: bff
             schema: openapi.AdminBFFService.yaml
+            openapi-dir: openapi
           - repo: academic-api
             type: backend
             schema: openapi.AcademicService.yaml
+            openapi-dir: openapi
           - repo: announcement-api
             type: backend
             schema: openapi.AnnouncementService.yaml
+            openapi-dir: openapi
           - repo: funch-api
             type: backend
             schema: openapi.FunchService.yaml
+            openapi-dir: openapi
           - repo: user-api
             type: backend
             schema: openapi.UserService.yaml
+            openapi-dir: openapi
     steps:
       - uses: actions/create-github-app-token@v2
         id: app-token
@@ -102,18 +110,18 @@ jobs:
             exit 1
           fi
 
-          mkdir -p target-repo/openapi
-          cp schemas/${{ matrix.schema }} target-repo/openapi/openapi.yaml
+          mkdir -p target-repo/${{ matrix.openapi-dir }}
+          cp schemas/${{ matrix.schema }} target-repo/${{ matrix.openapi-dir }}/openapi.yaml
 
           if [ "${{ matrix.type }}" = "bff" ]; then
-            mkdir -p target-repo/openapi/external/academic_api
-            mkdir -p target-repo/openapi/external/announcement_api
-            mkdir -p target-repo/openapi/external/funch_api
-            mkdir -p target-repo/openapi/external/user_api
-            cp schemas/openapi.AcademicService.yaml target-repo/openapi/external/academic_api/openapi.yaml
-            cp schemas/openapi.AnnouncementService.yaml target-repo/openapi/external/announcement_api/openapi.yaml
-            cp schemas/openapi.FunchService.yaml target-repo/openapi/external/funch_api/openapi.yaml
-            cp schemas/openapi.UserService.yaml target-repo/openapi/external/user_api/openapi.yaml
+            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/academic_api
+            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/announcement_api
+            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/funch_api
+            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/user_api
+            cp schemas/openapi.AcademicService.yaml target-repo/${{ matrix.openapi-dir }}/external/academic_api/openapi.yaml
+            cp schemas/openapi.AnnouncementService.yaml target-repo/${{ matrix.openapi-dir }}/external/announcement_api/openapi.yaml
+            cp schemas/openapi.FunchService.yaml target-repo/${{ matrix.openapi-dir }}/external/funch_api/openapi.yaml
+            cp schemas/openapi.UserService.yaml target-repo/${{ matrix.openapi-dir }}/external/user_api/openapi.yaml
           fi
       - name: Push to existing branch
         if: steps.check-existing.outputs.branch_exists == 'true' && steps.check-existing.outputs.pr_exists == 'true'
