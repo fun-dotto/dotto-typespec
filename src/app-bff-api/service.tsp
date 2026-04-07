@@ -89,6 +89,7 @@ namespace AppBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @useAuth([BearerAuth, FoundationV1.FirebaseAppCheckAuth])
   @route("/v1/cancelledClasses")
   @tag("CancelledClasses")
   interface CancelledClassesV1 {
@@ -109,6 +110,7 @@ namespace AppBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @useAuth([BearerAuth, FoundationV1.FirebaseAppCheckAuth])
   @route("/v1/makeupClasses")
   @tag("MakeupClasses")
   interface MakeupClassesV1 {
@@ -129,6 +131,7 @@ namespace AppBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @useAuth([BearerAuth, FoundationV1.FirebaseAppCheckAuth])
   @route("/v1/roomChanges")
   @tag("RoomChanges")
   interface RoomChangesV1 {
