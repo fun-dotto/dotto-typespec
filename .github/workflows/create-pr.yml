@@ -34,7 +34,7 @@ jobs:
           - repo: dotto-app
             type: app
             schema: openapi.AppBFFService.yaml
-            openapi-dir: flutter/openapi
+            openapi-dir: openapi
           - repo: dotto-admin-web
             type: app
             schema: openapi.AdminBFFService.yaml
