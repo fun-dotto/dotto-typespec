@@ -78,7 +78,7 @@ namespace UserService {
     /**
      * 通知予定日時
      */
-    notifyAt: string;
+    notifyAt: utcDateTime;
 
     /**
      * 通知が送信されたかどうか
@@ -95,7 +95,7 @@ namespace UserService {
     title: string;
     message: string;
     url?: string;
-    notifyAt: string;
+    notifyAt: utcDateTime;
     targetUserIds: string[];
   }
 }
