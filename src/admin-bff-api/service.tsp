@@ -193,23 +193,6 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
   }
 
-  @route("/v1/notifyIrregularities")
-  @tag("NotifyIrregularities")
-  interface NotifyIrregularitiesV1 {
-    /**
-     * 指定した日付に発生している時間割の変更を通知する
-     * 休講・補講・教室変更・振替授業
-     *
-     * @param userIds ユーザーIDのリスト; 指定しない場合は全ユーザーに通知する
-     * @param date 対象の日付
-     * @returns
-     */
-    @post notify(
-      @query userIds?: string[],
-      @query(#{ explode: true }) date: plainDate,
-    ): NoContentResponse | UnauthorizedResponse;
-  }
-
   @route("/v1/cancelledClasses")
   @tag("CancelledClasses")
   interface CancelledClassesV1 {
@@ -257,6 +240,58 @@ namespace AdminBFFService {
     @delete delete(
       @path id: string,
     ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+  }
+
+  @route("/v1/notifications")
+  @tag("Notifications")
+  interface NotificationV1 {
+    /**
+     * 通知の一覧を取得する
+     * @param notifyAtFrom 通知予定日時の開始日時 (notifyAt >= notifyAtFrom)
+     * @param notifyAtTo 通知予定日時の終了日時 (notifyAt <= notifyAtTo)
+     * @param isNotified 通知済みかどうか (true: 通知済みの通知のみ、false: 通知未済みの通知のみ、指定なし: 全ての通知)
+     * @returns 通知の一覧
+     */
+    @get list(
+      @query(#{ explode: true }) notifyAtFrom?: utcDateTime,
+      @query(#{ explode: true }) notifyAtTo?: utcDateTime,
+      @query isNotified?: boolean,
+    ): OkResponse &
+      Body<{
+        notifications: UserService.Notification[];
+      }>;
+
+    /**
+     * 通知を作成する
+     * 存在しない場合は作成し、存在する場合は更新日時を更新する
+     * @param body 作成する通知の情報
+     * @returns 作成された通知
+     */
+    @post create(@body body: UserService.NotificationRequest): CreatedResponse &
+      Body<{
+        notification: UserService.Notification;
+      }>;
+
+    /**
+     * 通知を更新する
+     * @param id 通知ID
+     * @param body 更新する通知の情報
+     * @returns 更新された通知
+     */
+    @put update(
+      @path id: string,
+      @body body: UserService.NotificationRequest,
+    ): (OkResponse &
+      Body<{
+        notification: UserService.Notification;
+      }>) | NotFoundResponse;
+
+    /**
+     * 通知を削除する
+     * @param id 通知ID
+     * @returns
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 
   @route("/v1/makeupClasses")
