@@ -9,7 +9,7 @@ namespace UserService {
 
     /**
      * メールアドレス
-     * 
+     *
      * Firebase Authentication のメールアドレス
      */
     email: string;
@@ -62,5 +62,40 @@ namespace UserService {
   model FCMTokenRequest {
     userId: string;
     token: string;
+  }
+
+  model Notification {
+    id: string;
+    title: string;
+    message: string;
+
+    /**
+     * 通知をタップした時に開くURL
+     * アプリを開くのみの場合はnull
+     */
+    url?: string;
+
+    /**
+     * 通知予定日時
+     */
+    notifyAt: string;
+
+    /**
+     * 通知が送信されたかどうか
+     */
+    isNotified: boolean;
+
+    /**
+     * 対象ユーザーIDのリスト
+     */
+    targetUserIds: string[];
+  }
+
+  model NotificationRequest {
+    title: string;
+    message: string;
+    url?: string;
+    notifyAt: string;
+    targetUserIds: string[];
   }
 }

@@ -48,7 +48,7 @@ namespace UserService {
         user: User;
       }>;
   }
-  
+
   @route("/v1/fcmTokens")
   @tag("FCM Tokens")
   interface FCMTokenV1 {
@@ -63,8 +63,8 @@ namespace UserService {
     @get list(
       @query userIds?: string[],
       @query tokens?: string[],
-      @query(#{explode: true}) updatedAtFrom?: utcDateTime,
-      @query(#{explode: true}) updatedAtTo?: utcDateTime
+      @query(#{ explode: true }) updatedAtFrom?: utcDateTime,
+      @query(#{ explode: true }) updatedAtTo?: utcDateTime,
     ): OkResponse &
       Body<{
         fcmTokens: FCMToken[];
@@ -80,5 +80,57 @@ namespace UserService {
       Body<{
         fcmToken: FCMToken;
       }>;
+  }
+
+  @route("/v1/notifications")
+  @tag("Notifications")
+  interface NotificationV1 {
+    /**
+     * 通知の一覧を取得する
+     * @param notifyAtFrom 通知予定日時の開始日時 (notifyAt >= notifyAtFrom)
+     * @param notifyAtTo 通知予定日時の終了日時 (notifyAt <= notifyAtTo)
+     * @param isNotified 通知済みかどうか (true: 通知済みの通知のみ、false: 通知未済みの通知のみ、指定なし: 全ての通知)
+     * @returns 通知の一覧
+     */
+    @get list(
+      @query(#{ explode: true }) notifyAtFrom?: utcDateTime,
+      @query(#{ explode: true }) notifyAtTo?: utcDateTime,
+      @query isNotified?: boolean,
+    ): OkResponse &
+      Body<{
+        notifications: Notification[];
+      }>;
+
+    /**
+     * 通知を作成する
+     * 存在しない場合は作成し、存在する場合は更新日時を更新する
+     * @param body 作成する通知の情報
+     * @returns 作成された通知
+     */
+    @post create(@body body: NotificationRequest): CreatedResponse &
+      Body<{
+        notification: Notification;
+      }>;
+
+    /**
+     * 通知を更新する
+     * @param id 通知ID
+     * @param body 更新する通知の情報
+     * @returns 更新された通知
+     */
+    @put update(
+      @path id: string,
+      @body body: NotificationRequest,
+    ): (OkResponse &
+      Body<{
+        notification: Notification;
+      }>) | NotFoundResponse;
+
+    /**
+     * 通知を削除する
+     * @param id 通知ID
+     * @returns
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
   }
 }
