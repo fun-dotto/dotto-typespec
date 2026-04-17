@@ -281,6 +281,16 @@ namespace AdminBFFService {
      * @returns
      */
     @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+
+    /**
+     * 通知キューに溜まっている通知のうち、予定時刻を過ぎている通知をまとめて送信する
+     * @returns 送信された通知の一覧
+     */
+    @route("/dispatch")
+    @post dispatch(): (OkResponse &
+      Body<{
+        notifications: UserService.Notification[];
+      }>) | UnauthorizedResponse;
   }
 
   @route("/v1/makeupClasses")
