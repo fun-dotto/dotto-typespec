@@ -359,6 +359,7 @@ namespace AcademicService {
   }
 
   model FacultyRoom {
+    id: string;
     faculty: Faculty;
     room: Room;
     year: integer;
