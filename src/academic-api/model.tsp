@@ -116,7 +116,7 @@ namespace AcademicService {
 
   model Reservation {
     id: string;
-    roomId: string;
+    room: Room;
     startAt: utcDateTime;
     endAt: utcDateTime;
     title: string;
