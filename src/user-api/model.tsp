@@ -76,9 +76,14 @@ namespace UserService {
     url?: string;
 
     /**
-     * 通知予定日時
+     * 通知送信可能になる日時（この時刻以降に送信対象となる）
      */
-    notifyAt: utcDateTime;
+    notifyAfter: utcDateTime;
+
+    /**
+     * 通知送信期限日時（この時刻を過ぎた場合は送信しない）
+     */
+    notifyBefore: utcDateTime;
 
     /**
      * 通知が送信されたかどうか
@@ -95,7 +100,8 @@ namespace UserService {
     title: string;
     message: string;
     url?: string;
-    notifyAt: utcDateTime;
+    notifyAfter: utcDateTime;
+    notifyBefore: utcDateTime;
     targetUserIds: string[];
   }
 }
