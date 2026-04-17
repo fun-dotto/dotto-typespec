@@ -156,15 +156,6 @@ namespace AcademicService {
       }>;
 
     /**
-     * 教務システムから休講を取得する
-     * @returns 新たに取得された休講
-     */
-    @put fetch(): OkResponse &
-      Body<{
-        cancelledClasses: CancelledClass[];
-      }>;
-
-    /**
      * 休講を削除する
      * @param id 休講ID
      */
@@ -201,15 +192,6 @@ namespace AcademicService {
       }>;
 
     /**
-     * 教務システムから補講を取得する
-     * @returns 新たに取得された補講
-     */
-    @put fetch(): OkResponse &
-      Body<{
-        makeupClasses: MakeupClass[];
-      }>;
-
-    /**
      * 補講を削除する
      * @param id 補講ID
      */
@@ -243,15 +225,6 @@ namespace AcademicService {
     @post create(@body body: RoomChangeRequest): CreatedResponse &
       Body<{
         roomChange: RoomChange;
-      }>;
-
-    /**
-     * 教務システムから教室変更を取得する
-     * @returns 新たに取得された教室変更
-     */
-    @put fetch(): OkResponse &
-      Body<{
-        roomChanges: RoomChange[];
       }>;
 
     /**
