@@ -104,6 +104,7 @@ namespace AcademicService {
      * 教員
      *
      * 空室の教員室や教員室でない場合は省略
+     * 基準は現在の年度
      */
     faculty?: Faculty;
   }
