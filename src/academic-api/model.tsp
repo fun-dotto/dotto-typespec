@@ -118,7 +118,6 @@ namespace AcademicService {
   model RoomRequest {
     name: string;
     floor: DottoFoundationV1.Floor;
-    facultyId?: string;
   }
 
   model Reservation {
