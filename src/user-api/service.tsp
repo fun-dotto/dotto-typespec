@@ -134,11 +134,16 @@ namespace UserService {
     @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
 
     /**
-     * 通知キューに溜まっている通知のうち、予定時刻を過ぎている通知をまとめて送信する
+     * 指定したIDの通知を、送信状態や送信可能期間に関わらずまとめて送信する
+     * @param body 送信対象の通知IDリスト
      * @returns 送信された通知の一覧
      */
     @route("/dispatch")
-    @post dispatch(): OkResponse &
+    @post dispatch(
+      @body body: {
+        notificationIds: string[];
+      },
+    ): OkResponse &
       Body<{
         notifications: Notification[];
       }>;
