@@ -32,8 +32,31 @@ namespace AppBFFService {
 
   model Room {
     id: string;
+
+    /**
+     * 部屋名
+     */
     name: string;
+
+    /**
+     * フロア
+     *
+     * オンラインなどの仮想教室の場合はVirtualを使用
+     */
     floor: DottoFoundationV1.Floor;
+
+    /**
+     * 教員
+     *
+     * 空室の教員室や教員室でない場合は省略
+     */
+    faculty?: Faculty;
+  }
+
+  model Faculty {
+    id: string;
+    name: string;
+    email: string;
   }
 
   model SubjectDetail {
