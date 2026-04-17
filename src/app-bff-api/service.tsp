@@ -253,4 +253,18 @@ namespace AppBFFService {
         fcmToken: FCMToken;
       }>) | UnauthorizedResponse;
   }
+
+  @route("/v1/menuItems")
+  @tag("MenuItems")
+  interface MenuItemsV1 {
+    /**
+     * メニューを取得する
+     * @param date メニューを取得する日付
+     * @returns メニューのリスト
+     */
+    @get list(@query date: plainDate): (OkResponse &
+      Body<{
+        menuItems: MenuItem[];
+      }>) | UnauthorizedResponse;
+  }
 }
