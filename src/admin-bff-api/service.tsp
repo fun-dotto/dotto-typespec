@@ -1,7 +1,5 @@
 import "@typespec/http";
 import "@typespec/openapi";
-import "../academic-api/model.tsp";
-import "../announcement-api/model.tsp";
 
 using Http;
 using OpenAPI;
@@ -664,6 +662,20 @@ namespace AdminBFFService {
     @post upsert(@body body: UserService.FCMTokenRequest): (OkResponse &
       Body<{
         fcmToken: UserService.FCMToken;
+      }>) | UnauthorizedResponse;
+  }
+
+  @route("/v1/menuItems")
+  @tag("MenuItems")
+  interface MenuItemsV1 {
+    /**
+     * メニューを取得する
+     * @param date メニューを取得する日付
+     * @returns メニューのリスト
+     */
+    @get list(@query date: plainDate): (OkResponse &
+      Body<{
+        menuItems: FunchService.MenuItem[];
       }>) | UnauthorizedResponse;
   }
 }

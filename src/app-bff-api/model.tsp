@@ -167,4 +167,32 @@ namespace AppBFFService {
   model FCMTokenRequest {
     token: string;
   }
+
+  model MenuItem {
+    id: string;
+    date: plainDate;
+    name: string;
+    imageUrl: url;
+    category: Category;
+    prices: Price[];
+  }
+
+  model Price {
+    size: Size;
+    price: int32;
+  }
+
+  enum Size {
+    Small,
+    Medium,
+    Large,
+  }
+
+  enum Category {
+    SetAndSingle,
+    BowlAndCurry,
+    Noodle,
+    Side,
+    Dessert,
+  }
 }
