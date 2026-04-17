@@ -688,10 +688,10 @@ namespace AdminBFFService {
      * @param year 年度; 指定しない場合は今年度が選択される
      * @returns 教員室のリスト
      */
-    @get list(@query year?: integer): OkResponse &
+    @get list(@query year?: integer): (OkResponse &
       Body<{
         facultyRooms: AcademicService.FacultyRoom[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 教員室を追加する
@@ -700,16 +700,18 @@ namespace AdminBFFService {
      */
     @post create(
       @body body: AcademicService.FacultyRoomRequest,
-    ): CreatedResponse &
+    ): (CreatedResponse &
       Body<{
         facultyRoom: AcademicService.FacultyRoom;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 教員室を削除する
      * @param id 教員室ID
      * @returns 削除された教員室
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
 }
