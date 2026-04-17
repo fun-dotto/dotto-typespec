@@ -94,13 +94,6 @@ namespace AcademicService {
     name: string;
 
     /**
-     * 部屋番号
-     *
-     * 部屋番号が存在しない場合は空文字
-     */
-    number: string;
-
-    /**
      * フロア
      *
      * オンラインなどの仮想教室の場合はVirtualを使用
@@ -110,7 +103,7 @@ namespace AcademicService {
     /**
      * 教員
      *
-     * 教員室でない場合は省略
+     * 空室の教員室や教員室でない場合は省略
      */
     faculty?: Faculty;
   }
