@@ -1,7 +1,5 @@
 import "@typespec/http";
 import "@typespec/openapi";
-import "../academic-api/model.tsp";
-import "../announcement-api/model.tsp";
 
 using Http;
 using OpenAPI;
