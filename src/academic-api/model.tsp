@@ -95,21 +95,21 @@ namespace AcademicService {
 
     /**
      * 部屋番号
-     * 
+     *
      * 部屋番号が存在しない場合は空文字
      */
     number: string;
 
     /**
      * フロア
-     * 
+     *
      * オンラインなどの仮想教室の場合はVirtualを使用
      */
     floor: DottoFoundationV1.Floor;
 
     /**
      * 教員
-     * 
+     *
      * 教員室でない場合は省略
      */
     faculty?: Faculty;
@@ -170,14 +170,14 @@ namespace AcademicService {
 
     /**
      * 授業名末尾の`学年-クラス`をもとに決定
-     * 
+     *
      * 科目詳細取得でのみ必須
      */
     eligibleAttributes?: SubjectTargetClass[];
 
     /**
      * 科目群・科目区分をもとに決定
-     * 
+     *
      * 科目詳細取得でのみ必須
      */
     requirements?: SubjectRequirement[];
@@ -356,5 +356,17 @@ namespace AcademicService {
     subjectId: string;
     slot?: DottoFoundationV1.TimetableSlot;
     roomIds: string[];
+  }
+
+  model FacultyRoom {
+    faculty: Faculty;
+    room: Room;
+    year: integer;
+  }
+
+  model FacultyRoomRequest {
+    facultyId: string;
+    roomId: string;
+    year: integer;
   }
 }
