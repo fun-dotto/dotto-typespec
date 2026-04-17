@@ -678,4 +678,38 @@ namespace AdminBFFService {
         menuItems: FunchService.MenuItem[];
       }>) | UnauthorizedResponse;
   }
+
+  @route("/v1/facultyRooms")
+  @tag("FacultyRooms")
+  interface FacultyRoomsV1 {
+    /**
+     * 教員室を取得する
+     *
+     * @param year 年度; 指定しない場合は今年度が選択される
+     * @returns 教員室のリスト
+     */
+    @get list(@query year?: integer): OkResponse &
+      Body<{
+        facultyRooms: AcademicService.FacultyRoom[];
+      }>;
+
+    /**
+     * 教員室を追加する
+     * @param body 追加する教員室の情報
+     * @returns 作成された教員室
+     */
+    @post create(
+      @body body: AcademicService.FacultyRoomRequest,
+    ): CreatedResponse &
+      Body<{
+        facultyRoom: AcademicService.FacultyRoom;
+      }>;
+
+    /**
+     * 教員室を削除する
+     * @param id 教員室ID
+     * @returns 削除された教員室
+     */
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+  }
 }
