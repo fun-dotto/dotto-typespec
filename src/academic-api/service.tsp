@@ -107,7 +107,7 @@ namespace AcademicService {
      * 教員を削除する
      * @param id 教員ID
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | ConflictResponse;
   }
 
   @route("/v1/personalCalendarItems")
@@ -313,7 +313,7 @@ namespace AcademicService {
      * 教室を削除する
      * @param id 教室ID
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | ConflictResponse;
   }
 
   @route("/v1/reservations")
@@ -415,7 +415,7 @@ namespace AcademicService {
      * 科目を削除する
      * @param id 科目ID
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | ConflictResponse;
   }
 
   @route("/v1/subjects/{id}/syllabus")
@@ -484,13 +484,15 @@ namespace AcademicService {
 
     /**
      * 教員室を追加する
+     *
+     * 同一年度で同じ教員または同じ教室が既に登録されている場合は409を返す。
      * @param body 追加する教員室の情報
      * @returns 作成された教員室
      */
-    @post create(@body body: FacultyRoomRequest): CreatedResponse &
+    @post create(@body body: FacultyRoomRequest): (CreatedResponse &
       Body<{
         facultyRoom: FacultyRoom;
-      }>;
+      }>) | ConflictResponse;
 
     /**
      * 教員室を削除する
