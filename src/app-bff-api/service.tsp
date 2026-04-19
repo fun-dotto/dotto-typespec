@@ -283,9 +283,9 @@ namespace AppBFFService {
       @query roomIds?: string[],
       @query(#{ explode: true }) from?: utcDateTime,
       @query(#{ explode: true }) until?: utcDateTime,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         reservations: Reservation[];
-      }>;
+      }>) | UnauthorizedResponse;
   }
 }
