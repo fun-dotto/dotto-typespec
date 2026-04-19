@@ -245,10 +245,10 @@ namespace AdminBFFService {
       @query(#{ explode: true }) notifyAtFrom?: utcDateTime,
       @query(#{ explode: true }) notifyAtTo?: utcDateTime,
       @query isNotified?: boolean,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         notifications: UserService.Notification[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 通知を作成する
@@ -256,10 +256,12 @@ namespace AdminBFFService {
      * @param body 作成する通知の情報
      * @returns 作成された通知
      */
-    @post create(@body body: UserService.NotificationRequest): CreatedResponse &
+    @post create(
+      @body body: UserService.NotificationRequest,
+    ): (CreatedResponse &
       Body<{
         notification: UserService.Notification;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 通知を更新する
@@ -273,7 +275,7 @@ namespace AdminBFFService {
     ): (OkResponse &
       Body<{
         notification: UserService.Notification;
-      }>) | NotFoundResponse;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 通知を削除する
