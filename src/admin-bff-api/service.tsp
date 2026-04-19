@@ -464,16 +464,6 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
 
     /**
-     * 予約を詳細取得する
-     * @param id 予約ID
-     * @returns 予約の詳細
-     */
-    @get detail(@path id: string): (OkResponse &
-      Body<{
-        reservation: AcademicService.Reservation;
-      }>) | NotFoundResponse | UnauthorizedResponse;
-
-    /**
      * 教室を予約する
      * @param body 予約する教室の情報
      * @returns 作成された予約
