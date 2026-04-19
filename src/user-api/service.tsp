@@ -135,17 +135,20 @@ namespace UserService {
 
     /**
      * 指定したIDの通知を、送信状態や送信可能期間に関わらずまとめて送信する
+     *
+     * `notificationIds` が空配列の場合は `400 Bad Request` を返す。
+     * 存在しないIDが含まれる場合でもエラーにはせず、送信に成功した通知のみをレスポンスに含める。
      * @param body 送信対象の通知IDリスト
-     * @returns 送信された通知の一覧
+     * @returns 送信に成功した通知の一覧
      */
     @route("/dispatch")
     @post dispatch(
       @body body: {
         notificationIds: string[];
       },
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         notifications: Notification[];
-      }>;
+      }>) | BadRequestResponse;
   }
 }
