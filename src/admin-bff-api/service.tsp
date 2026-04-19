@@ -172,7 +172,11 @@ namespace AdminBFFService {
      */
     @delete delete(
       @path id: string,
-    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+    ):
+      | NoContentResponse
+      | NotFoundResponse
+      | ConflictResponse
+      | UnauthorizedResponse;
   }
 
   @route("/v1/personalCalendarItems")
@@ -447,7 +451,11 @@ namespace AdminBFFService {
      */
     @delete delete(
       @path id: string,
-    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+    ):
+      | NoContentResponse
+      | NotFoundResponse
+      | ConflictResponse
+      | UnauthorizedResponse;
   }
 
   @route("/v1/reservations")
@@ -553,7 +561,11 @@ namespace AdminBFFService {
      */
     @delete delete(
       @path id: string,
-    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+    ):
+      | NoContentResponse
+      | NotFoundResponse
+      | ConflictResponse
+      | UnauthorizedResponse;
   }
 
   @route("/v1/timetableItmes")
@@ -695,15 +707,20 @@ namespace AdminBFFService {
 
     /**
      * 教員室を追加する
+     *
+     * 同一年度で同じ教員または同じ教室が既に登録されている場合は409を返す。
      * @param body 追加する教員室の情報
      * @returns 作成された教員室
      */
     @post create(
       @body body: AcademicService.FacultyRoomRequest,
-    ): (CreatedResponse &
-      Body<{
-        facultyRoom: AcademicService.FacultyRoom;
-      }>) | UnauthorizedResponse;
+    ):
+      | (CreatedResponse &
+          Body<{
+            facultyRoom: AcademicService.FacultyRoom;
+          }>)
+      | ConflictResponse
+      | UnauthorizedResponse;
 
     /**
      * 教員室を削除する
