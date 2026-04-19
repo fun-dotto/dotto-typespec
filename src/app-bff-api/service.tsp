@@ -267,4 +267,25 @@ namespace AppBFFService {
         menuItems: MenuItem[];
       }>) | UnauthorizedResponse;
   }
+
+  @route("/v1/reservations")
+  @tag("Reservations")
+  interface ReservationsV1 {
+    /**
+     * 教室の予約一覧を取得する
+     * 検索対象期間に一部でも重複する予約が取得される
+     * @param roomIds 教室IDのリスト
+     * @param from 検索対象開始日時
+     * @param until 検索対象終了日時
+     * @returns 予約のリスト
+     */
+    @get list(
+      @query roomIds?: string[],
+      @query(#{ explode: true }) from?: utcDateTime,
+      @query(#{ explode: true }) until?: utcDateTime,
+    ): (OkResponse &
+      Body<{
+        reservations: Reservation[];
+      }>) | UnauthorizedResponse;
+  }
 }

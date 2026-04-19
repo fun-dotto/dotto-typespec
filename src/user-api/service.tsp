@@ -87,8 +87,8 @@ namespace UserService {
   interface NotificationV1 {
     /**
      * 通知の一覧を取得する
-     * @param notifyAtFrom 通知予定日時の開始日時 (notifyAt >= notifyAtFrom)
-     * @param notifyAtTo 通知予定日時の終了日時 (notifyAt <= notifyAtTo)
+     * @param notifyAtFrom 通知予定期間の開始日時（通知ウィンドウがこの範囲と重なるものを抽出: notifyBefore >= notifyAtFrom）
+     * @param notifyAtTo 通知予定期間の終了日時（通知ウィンドウがこの範囲と重なるものを抽出: notifyAfter <= notifyAtTo）
      * @param isNotified 通知済みかどうか (true: 通知済みの通知のみ、false: 通知未済みの通知のみ、指定なし: 全ての通知)
      * @returns 通知の一覧
      */
@@ -132,5 +132,23 @@ namespace UserService {
      * @returns
      */
     @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+
+    /**
+     * 指定したIDの通知を、送信状態や送信可能期間に関わらずまとめて送信する
+     *
+     * `notificationIds` が空配列の場合は `400 Bad Request` を返す。
+     * 存在しないIDが含まれる場合でもエラーにはせず、送信に成功した通知のみをレスポンスに含める。
+     * @param body 送信対象の通知IDリスト
+     * @returns 送信に成功した通知の一覧
+     */
+    @route("/dispatch")
+    @post dispatch(
+      @body body: {
+        notificationIds: string[];
+      },
+    ): (OkResponse &
+      Body<{
+        notifications: Notification[];
+      }>) | BadRequestResponse;
   }
 }

@@ -227,15 +227,6 @@ namespace AdminBFFService {
       }>) | UnauthorizedResponse;
 
     /**
-     * 教務システムから休講を取得する
-     * @returns 新たに取得された休講
-     */
-    @put fetch(): (OkResponse &
-      Body<{
-        cancelledClasses: AcademicService.CancelledClass[];
-      }>) | UnauthorizedResponse;
-
-    /**
      * 休講を削除する
      * @param id 休講ID
      */
@@ -249,8 +240,8 @@ namespace AdminBFFService {
   interface NotificationV1 {
     /**
      * 通知の一覧を取得する
-     * @param notifyAtFrom 通知予定日時の開始日時 (notifyAt >= notifyAtFrom)
-     * @param notifyAtTo 通知予定日時の終了日時 (notifyAt <= notifyAtTo)
+     * @param notifyAtFrom 通知予定期間の開始日時（通知ウィンドウがこの範囲と重なるものを抽出: notifyBefore >= notifyAtFrom）
+     * @param notifyAtTo 通知予定期間の終了日時（通知ウィンドウがこの範囲と重なるものを抽出: notifyAfter <= notifyAtTo）
      * @param isNotified 通知済みかどうか (true: 通知済みの通知のみ、false: 通知未済みの通知のみ、指定なし: 全ての通知)
      * @returns 通知の一覧
      */
@@ -258,10 +249,10 @@ namespace AdminBFFService {
       @query(#{ explode: true }) notifyAtFrom?: utcDateTime,
       @query(#{ explode: true }) notifyAtTo?: utcDateTime,
       @query isNotified?: boolean,
-    ): OkResponse &
+    ): (OkResponse &
       Body<{
         notifications: UserService.Notification[];
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 通知を作成する
@@ -269,10 +260,12 @@ namespace AdminBFFService {
      * @param body 作成する通知の情報
      * @returns 作成された通知
      */
-    @post create(@body body: UserService.NotificationRequest): CreatedResponse &
+    @post create(
+      @body body: UserService.NotificationRequest,
+    ): (CreatedResponse &
       Body<{
         notification: UserService.Notification;
-      }>;
+      }>) | UnauthorizedResponse;
 
     /**
      * 通知を更新する
@@ -286,14 +279,34 @@ namespace AdminBFFService {
     ): (OkResponse &
       Body<{
         notification: UserService.Notification;
-      }>) | NotFoundResponse;
+      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 通知を削除する
      * @param id 通知ID
      * @returns
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
+
+    /**
+     * 指定したIDの通知を、送信状態や送信可能期間に関わらずまとめて送信する
+     *
+     * `notificationIds` が空配列の場合は `400 Bad Request` を返す。
+     * 存在しないIDが含まれる場合でもエラーにはせず、送信に成功した通知のみをレスポンスに含める。
+     * @param body 送信対象の通知IDリスト
+     * @returns 送信に成功した通知の一覧
+     */
+    @route("/dispatch")
+    @post dispatch(
+      @body body: {
+        notificationIds: string[];
+      },
+    ): (OkResponse &
+      Body<{
+        notifications: UserService.Notification[];
+      }>) | BadRequestResponse | UnauthorizedResponse;
   }
 
   @route("/v1/makeupClasses")
@@ -325,15 +338,6 @@ namespace AdminBFFService {
     ): (CreatedResponse &
       Body<{
         makeupClass: AcademicService.MakeupClass;
-      }>) | UnauthorizedResponse;
-
-    /**
-     * 教務システムから補講を取得する
-     * @returns 新たに取得された補講
-     */
-    @put fetch(): (OkResponse &
-      Body<{
-        makeupClasses: AcademicService.MakeupClass[];
       }>) | UnauthorizedResponse;
 
     /**
@@ -374,15 +378,6 @@ namespace AdminBFFService {
     ): (CreatedResponse &
       Body<{
         roomChange: AcademicService.RoomChange;
-      }>) | UnauthorizedResponse;
-
-    /**
-     * 教務システムから教室変更を取得する
-     * @returns 新たに取得された教室変更
-     */
-    @put fetch(): (OkResponse &
-      Body<{
-        roomChanges: AcademicService.RoomChange[];
       }>) | UnauthorizedResponse;
 
     /**
@@ -477,16 +472,6 @@ namespace AdminBFFService {
       Body<{
         reservations: AcademicService.Reservation[];
       }>) | UnauthorizedResponse;
-
-    /**
-     * 予約を詳細取得する
-     * @param id 予約ID
-     * @returns 予約の詳細
-     */
-    @get detail(@path id: string): (OkResponse &
-      Body<{
-        reservation: AcademicService.Reservation;
-      }>) | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 教室を予約する

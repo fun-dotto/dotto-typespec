@@ -53,6 +53,14 @@ namespace AppBFFService {
     faculty?: Faculty;
   }
 
+  model Reservation {
+    id: string;
+    room: Room;
+    startAt: utcDateTime;
+    endAt: utcDateTime;
+    title: string;
+  }
+
   model Faculty {
     id: string;
     name: string;
