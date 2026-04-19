@@ -280,12 +280,17 @@ namespace AdminBFFService {
      * @param id 通知ID
      * @returns
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
 
     /**
      * 指定したIDの通知を、送信状態や送信可能期間に関わらずまとめて送信する
+     *
+     * `notificationIds` が空配列の場合は `400 Bad Request` を返す。
+     * 存在しないIDが含まれる場合でもエラーにはせず、送信に成功した通知のみをレスポンスに含める。
      * @param body 送信対象の通知IDリスト
-     * @returns 送信された通知の一覧
+     * @returns 送信に成功した通知の一覧
      */
     @route("/dispatch")
     @post dispatch(
@@ -295,7 +300,7 @@ namespace AdminBFFService {
     ): (OkResponse &
       Body<{
         notifications: UserService.Notification[];
-      }>) | UnauthorizedResponse;
+      }>) | BadRequestResponse | UnauthorizedResponse;
   }
 
   @route("/v1/makeupClasses")
