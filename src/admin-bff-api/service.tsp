@@ -670,7 +670,7 @@ namespace AdminBFFService {
      * @param date メニューを取得する日付
      * @returns メニューのリスト
      */
-    @get list(@query date: plainDate): (OkResponse &
+    @get list(@query(#{ explode: true }) date: plainDate): (OkResponse &
       Body<{
         menuItems: FunchService.MenuItem[];
       }>) | UnauthorizedResponse;
