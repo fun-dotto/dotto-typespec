@@ -268,6 +268,7 @@ namespace AppBFFService {
       }>) | UnauthorizedResponse;
   }
 
+  @useAuth([BearerAuth, FoundationV1.FirebaseAppCheckAuth])
   @route("/v1/reservations")
   @tag("Reservations")
   interface ReservationsV1 {
