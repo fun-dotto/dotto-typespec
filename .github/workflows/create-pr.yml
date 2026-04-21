@@ -35,6 +35,10 @@ jobs:
             type: app
             schema: openapi.AppBFFService.yaml
             openapi-dir: openapi
+          - repo: dotto-web
+            type: app
+            schema: openapi.AppBFFService.yaml
+            openapi-dir: openapi
           - repo: dotto-admin-web
             type: app
             schema: openapi.AdminBFFService.yaml
@@ -102,7 +106,9 @@ jobs:
           repository: fun-dotto/${{ matrix.repo }}
           token: ${{ steps.app-token.outputs.token }}
           path: target-repo
-          ref: ${{ steps.check-existing.outputs.branch_exists == 'true' && steps.check-existing.outputs.pr_exists == 'true' && 'update-openapi-schema' || '' }}
+          ref: ${{ steps.check-existing.outputs.branch_exists == 'true' &&
+            steps.check-existing.outputs.pr_exists == 'true' &&
+            'update-openapi-schema' || '' }}
       - name: Copy schemas
         run: |
           if [ -z "${{ matrix.schema }}" ]; then
@@ -124,7 +130,8 @@ jobs:
             cp schemas/openapi.UserService.yaml target-repo/${{ matrix.openapi-dir }}/external/user_api/openapi.yaml
           fi
       - name: Push to existing branch
-        if: steps.check-existing.outputs.branch_exists == 'true' && steps.check-existing.outputs.pr_exists == 'true'
+        if: steps.check-existing.outputs.branch_exists == 'true' &&
+          steps.check-existing.outputs.pr_exists == 'true'
         working-directory: target-repo
         run: |
           git config user.name "github-actions[bot]"
@@ -137,7 +144,8 @@ jobs:
             git push
           fi
       - uses: peter-evans/create-pull-request@v7
-        if: steps.check-existing.outputs.branch_exists != 'true' || steps.check-existing.outputs.pr_exists != 'true'
+        if: steps.check-existing.outputs.branch_exists != 'true' ||
+          steps.check-existing.outputs.pr_exists != 'true'
         with:
           token: ${{ steps.app-token.outputs.token }}
           path: target-repo
