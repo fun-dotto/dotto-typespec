@@ -83,7 +83,7 @@ namespace UserService {
     /**
      * 通知に表示する画像のURL
      */
-    imageURL?: string;
+    imageUrl?: string;
 
   	/**
   	 * Firebase Analytics に記録する分析ラベル
