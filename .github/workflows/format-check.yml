@@ -1,0 +1,46 @@
+name: Verify task format
+
+on:
+  pull_request:
+    paths:
+      - "src/**"
+      - "main.tsp"
+      - "tspconfig.yaml"
+      - "Taskfile.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "mise.toml"
+      - ".github/workflows/format-check.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "main.tsp"
+      - "tspconfig.yaml"
+      - "Taskfile.yml"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "mise.toml"
+      - ".github/workflows/format-check.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.repository }}-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}-${{ github.event.inputs.environment_name }}
+  cancel-in-progress: true
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          submodules: true
+      - uses: jdx/mise-action@v3
+      - name: Install dependencies
+        run: task install
+      - name: Run format
+        run: task format
+      - name: Verify no diff
+        run: git diff --exit-code
