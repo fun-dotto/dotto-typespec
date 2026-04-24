@@ -121,7 +121,7 @@ namespace UserService {
   	 *
   	 * Android 8.0 以降、通知はチャンネル単位で管理される
   	 */
-  	androidChannelID?: string;
+  	androidChannelId?: string;
 
   	/**
   	 * Android の通知優先度
