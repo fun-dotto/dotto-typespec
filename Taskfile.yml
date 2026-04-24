@@ -21,6 +21,10 @@ tasks:
     desc: Watch for changes and compile
     cmds:
       - "{{.PNPM}} watch"
+  format:
+    desc: Format the code
+    cmds:
+      - "{{.PNPM}} format"
   preview:
     desc: Preview the documentation
     cmds:
