@@ -186,48 +186,48 @@ namespace UserService {
     imageUrl?: string;
 
     /**
-    * Firebase Analytics に記録する分析ラベル
-    */
+     * Firebase Analytics に記録する分析ラベル
+     */
     analyticsLabel?: string;
 
     /**
-    * APNs のバッジ数
-    */
+     * APNs のバッジ数
+     */
     apnsBadge?: int32;
 
     /**
-    * APNs の通知音
-    *
-    * - "default": OS 標準の通知音
-    * - "" または省略: 無音
-    * - 任意のファイル名（例: "alert.caf"）: アプリバンドルまたは Library/Sounds/ に同梱されたカスタムサウンド
-    *   対応フォーマットは .caf / .aiff / .wav（Linear PCM, MA4, µ-law, a-law）、最大30秒
-    */
+     * APNs の通知音
+     *
+     * - "default": OS 標準の通知音
+     * - "" または省略: 無音
+     * - 任意のファイル名（例: "alert.caf"）: アプリバンドルまたは Library/Sounds/ に同梱されたカスタムサウンド
+     *   対応フォーマットは .caf / .aiff / .wav（Linear PCM, MA4, µ-law, a-law）、最大30秒
+     */
     apnsSound?: string;
 
     /**
-    * APNs の content-available フラグ（true でサイレントプッシュ）
-    */
+     * APNs の content-available フラグ（true でサイレントプッシュ）
+     */
     apnsContentAvailable?: boolean;
 
     /**
-    * Android の通知チャンネルID
-    */
+     * Android の通知チャンネルID
+     */
     androidChannelId?: string;
 
     /**
-    * Android の通知優先度（"normal" または "high"）
-    */
+     * Android の通知優先度（"normal" または "high"）
+     */
     androidPriority?: string;
 
     /**
-    * Android の通知TTL（秒）
-    */
+     * Android の通知TTL（秒）
+     */
     androidTTLSeconds?: int32;
 
     /**
-    * Web Push 通知をクリックした際に開くURL
-    */
+     * Web Push 通知をクリックした際に開くURL
+     */
     webpushLink?: string;
 
     /**
