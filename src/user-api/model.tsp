@@ -183,7 +183,7 @@ namespace UserService {
     /**
      * 通知に表示する画像のURL
      */
-    imageURL?: string;
+    imageUrl?: string;
 
   	/**
   	 * Firebase Analytics に記録する分析ラベル
@@ -213,7 +213,7 @@ namespace UserService {
   	/**
   	 * Android の通知チャンネルID
   	 */
-  	androidChannelID?: string;
+  	androidChannelId?: string;
 
   	/**
   	 * Android の通知優先度（"normal" または "high"）
