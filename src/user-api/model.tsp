@@ -97,7 +97,7 @@ namespace UserService {
      *
      * アプリアイコンに表示される数値。0 でバッジを消去
      */
-    apnsBadge?: int32;
+    apnsBadge?: integer;
 
     /**
      * APNs の通知音
@@ -135,7 +135,7 @@ namespace UserService {
      *
      * FCM がメッセージを保持する最大時間。期限切れで破棄される
      */
-    androidTtlSeconds?: int32;
+    androidTtlSeconds?: integer;
 
     /**
      * Web Push 通知をクリックした際に開くURL
@@ -193,7 +193,7 @@ namespace UserService {
     /**
      * APNs のバッジ数
      */
-    apnsBadge?: int32;
+    apnsBadge?: integer;
 
     /**
      * APNs の通知音
@@ -223,7 +223,7 @@ namespace UserService {
     /**
      * Android の通知TTL（秒）
      */
-    androidTtlSeconds?: int32;
+    androidTtlSeconds?: integer;
 
     /**
      * Web Push 通知をクリックした際に開くURL
