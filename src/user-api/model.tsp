@@ -135,7 +135,7 @@ namespace UserService {
      *
      * FCM がメッセージを保持する最大時間。期限切れで破棄される
      */
-    androidTTLSeconds?: int32;
+    androidTtlSeconds?: int32;
 
     /**
      * Web Push 通知をクリックした際に開くURL
@@ -144,7 +144,7 @@ namespace UserService {
 
     /**
      * 通知をタップした時に開くURL
-     * アプリを開くのみの場合はnull
+     * アプリを開くのみの場合は未指定
      */
     url?: string;
 
@@ -223,7 +223,7 @@ namespace UserService {
     /**
      * Android の通知TTL（秒）
      */
-    androidTTLSeconds?: int32;
+    androidTtlSeconds?: int32;
 
     /**
      * Web Push 通知をクリックした際に開くURL
@@ -232,7 +232,7 @@ namespace UserService {
 
     /**
      * 通知をタップした時に開くURL
-     * アプリを開くのみの場合はnull
+     * アプリを開くのみの場合は未指定
      */
     url?: string;
 
