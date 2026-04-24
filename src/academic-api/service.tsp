@@ -107,7 +107,9 @@ namespace AcademicService {
      * 教員を削除する
      * @param id 教員ID
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | ConflictResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | ConflictResponse;
   }
 
   @route("/v1/personalCalendarItems")
@@ -286,7 +288,9 @@ namespace AcademicService {
      * 教室を削除する
      * @param id 教室ID
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | ConflictResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | ConflictResponse;
   }
 
   @route("/v1/reservations")
@@ -378,7 +382,9 @@ namespace AcademicService {
      * 科目を削除する
      * @param id 科目ID
      */
-    @delete delete(@path id: string): NoContentResponse | NotFoundResponse | ConflictResponse;
+    @delete delete(
+      @path id: string,
+    ): NoContentResponse | NotFoundResponse | ConflictResponse;
   }
 
   @route("/v1/subjects/{id}/syllabus")

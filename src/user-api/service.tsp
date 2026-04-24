@@ -142,7 +142,8 @@ namespace UserService {
      * @returns 送信に成功した通知の一覧
      */
     @route("/dispatch")
-    @post dispatch(
+    @post
+    dispatch(
       @body body: {
         notificationIds: string[];
       },

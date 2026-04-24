@@ -170,9 +170,7 @@ namespace AdminBFFService {
      * 教員を削除する
      * @param id 教員ID
      */
-    @delete delete(
-      @path id: string,
-    ):
+    @delete delete(@path id: string):
       | NoContentResponse
       | NotFoundResponse
       | ConflictResponse
@@ -299,7 +297,8 @@ namespace AdminBFFService {
      * @returns 送信に成功した通知の一覧
      */
     @route("/dispatch")
-    @post dispatch(
+    @post
+    dispatch(
       @body body: {
         notificationIds: string[];
       },
@@ -444,9 +443,7 @@ namespace AdminBFFService {
      * 教室を削除する
      * @param id 教室ID
      */
-    @delete delete(
-      @path id: string,
-    ):
+    @delete delete(@path id: string):
       | NoContentResponse
       | NotFoundResponse
       | ConflictResponse
@@ -544,9 +541,7 @@ namespace AdminBFFService {
      * 科目を削除する
      * @param id 科目ID
      */
-    @delete delete(
-      @path id: string,
-    ):
+    @delete delete(@path id: string):
       | NoContentResponse
       | NotFoundResponse
       | ConflictResponse
@@ -699,13 +694,10 @@ namespace AdminBFFService {
      */
     @post create(
       @body body: AcademicService.FacultyRoomRequest,
-    ):
-      | (CreatedResponse &
-          Body<{
-            facultyRoom: AcademicService.FacultyRoom;
-          }>)
-      | ConflictResponse
-      | UnauthorizedResponse;
+    ): (CreatedResponse &
+      Body<{
+        facultyRoom: AcademicService.FacultyRoom;
+      }>) | ConflictResponse | UnauthorizedResponse;
 
     /**
      * 教員室を削除する
