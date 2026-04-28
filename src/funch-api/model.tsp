@@ -8,13 +8,13 @@ namespace FunchService {
     prices: Price[];
   }
 
-  model MenuItemRequest(
+  model MenuItemRequest{
     date: plainDate;
     name: string;
     imageUrl: url;
     category: Category;
     prices: Price[];
-  )
+  }
 
   model Price {
     /**
