@@ -669,6 +669,16 @@ namespace AdminBFFService {
       Body<{
         menuItems: FunchService.MenuItem[];
       }>) | UnauthorizedResponse;
+
+    /**
+     * メニューを作成する
+     * @param body 作成するメニューの情報
+     * @returns 作成されたメニュー
+     */
+    @post create(@body body: FunchService.MenuItemRequest): (CreatedResponse &
+      Body<{
+        menuItem: FunchService.MenuItem;
+      }>) | UnauthorizedResponse;
   }
 
   @route("/v1/facultyRooms")
