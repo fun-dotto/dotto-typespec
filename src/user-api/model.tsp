@@ -159,14 +159,23 @@ namespace UserService {
     notifyBefore: utcDateTime;
 
     /**
-     * 通知が送信されたかどうか
+     * 対象ユーザーのリスト
      */
-    isNotified: boolean;
+    targetUsers: NotificationTargetUser[];
+  }
+
+  model NotificationTargetUser {
+    /**
+     * ユーザーID
+     */
+    userId: string;
 
     /**
-     * 対象ユーザーIDのリスト
+     * 通知送信日時
+     *
+     * 通知が送信された日時。送信前は null
      */
-    targetUserIds: string[];
+    notifiedAt?: utcDateTime;
   }
 
   model NotificationRequest {
