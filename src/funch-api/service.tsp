@@ -30,5 +30,10 @@ namespace FunchService {
       Body<{
         menuItems: MenuItem[];
       }>;
+
+    @post create(@body body: MenuItemRequest): CreatedResponse &
+      Body<{
+        menuItem: MenuItem;
+      }>;
   }
 }
