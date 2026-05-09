@@ -2,6 +2,7 @@ import "./src/academic-api/service.tsp";
 import "./src/announcement-api/service.tsp";
 import "./src/app-bff-api/service.tsp";
 import "./src/admin-bff-api/service.tsp";
+import "./src/bus-api/service.tsp";
 import "./src/dotto-foundation/model.tsp";
 import "./src/foundation/firebaseAppCheckAuth.tsp";
 import "./src/foundation/sortDirection.tsp";
