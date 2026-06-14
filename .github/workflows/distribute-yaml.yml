@@ -1,13 +1,6 @@
-name: Create PR on Schema Change
+name: Distribute YAML
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "src/**"
-      - "main.tsp"
-      - "tspconfig.yaml"
   workflow_dispatch:
 
 jobs:
@@ -15,11 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: jdx/mise-action@v3
-      - name: Install
-        run: task install
+      - uses: jdx/mise-action@v4
+        with:
+          github_token: ${{ github.token }}
+          cache: true
+      - name: Setup
+        run: mise setup
       - name: Compile
-        run: task compile
+        run: mise run compile
       - uses: actions/upload-artifact@v4
         with:
           name: schemas
