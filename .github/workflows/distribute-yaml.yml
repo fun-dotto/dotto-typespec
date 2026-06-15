@@ -39,29 +39,8 @@ jobs:
             type: app
             schema: openapi.AdminBFFService.yaml
             openapi-dir: openapi
-          - repo: app-bff-api
-            type: bff
-            schema: openapi.AppBFFService.yaml
-            openapi-dir: openapi
-          - repo: admin-bff-api
-            type: bff
-            schema: openapi.AdminBFFService.yaml
-            openapi-dir: openapi
-          - repo: academic-api
-            type: backend
-            schema: openapi.AcademicService.yaml
-            openapi-dir: openapi
-          - repo: announcement-api
-            type: backend
-            schema: openapi.AnnouncementService.yaml
-            openapi-dir: openapi
-          - repo: funch-api
-            type: backend
-            schema: openapi.FunchService.yaml
-            openapi-dir: openapi
-          - repo: user-api
-            type: backend
-            schema: openapi.UserService.yaml
+          - repo: server
+            type: server
             openapi-dir: openapi
     steps:
       - uses: actions/create-github-app-token@v2
@@ -107,23 +86,26 @@ jobs:
             'update-openapi-schema' || '' }}
       - name: Copy schemas
         run: |
-          if [ -z "${{ matrix.schema }}" ]; then
-            echo "Error: matrix.schema is required"
-            exit 1
-          fi
+          if [ "${{ matrix.type }}" = "server" ]; then
+            # bff と backend のスキーマをサービス名ごとのディレクトリへ集約する
+            copy_schema() {
+              mkdir -p "target-repo/${{ matrix.openapi-dir }}/$2"
+              cp "schemas/$1" "target-repo/${{ matrix.openapi-dir }}/$2/openapi.yaml"
+            }
+            copy_schema openapi.AppBFFService.yaml app_bff
+            copy_schema openapi.AdminBFFService.yaml admin_bff
+            copy_schema openapi.AcademicService.yaml academic
+            copy_schema openapi.AnnouncementService.yaml announcement
+            copy_schema openapi.FunchService.yaml funch
+            copy_schema openapi.UserService.yaml user
+          else
+            if [ -z "${{ matrix.schema }}" ]; then
+              echo "Error: matrix.schema is required"
+              exit 1
+            fi
 
-          mkdir -p target-repo/${{ matrix.openapi-dir }}
-          cp schemas/${{ matrix.schema }} target-repo/${{ matrix.openapi-dir }}/openapi.yaml
-
-          if [ "${{ matrix.type }}" = "bff" ]; then
-            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/academic_api
-            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/announcement_api
-            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/funch_api
-            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/user_api
-            cp schemas/openapi.AcademicService.yaml target-repo/${{ matrix.openapi-dir }}/external/academic_api/openapi.yaml
-            cp schemas/openapi.AnnouncementService.yaml target-repo/${{ matrix.openapi-dir }}/external/announcement_api/openapi.yaml
-            cp schemas/openapi.FunchService.yaml target-repo/${{ matrix.openapi-dir }}/external/funch_api/openapi.yaml
-            cp schemas/openapi.UserService.yaml target-repo/${{ matrix.openapi-dir }}/external/user_api/openapi.yaml
+            mkdir -p target-repo/${{ matrix.openapi-dir }}
+            cp schemas/${{ matrix.schema }} target-repo/${{ matrix.openapi-dir }}/openapi.yaml
           fi
       - name: Push to existing branch
         if: steps.check-existing.outputs.branch_exists == 'true' &&
