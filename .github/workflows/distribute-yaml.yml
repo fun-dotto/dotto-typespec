@@ -25,23 +25,35 @@ jobs:
     needs: compile
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - repo: dotto-app
-            type: app
-            schema: openapi.AppBFFService.yaml
-            openapi-dir: openapi
-          - repo: dotto-web
-            type: app
-            schema: openapi.AppBFFService.yaml
-            openapi-dir: openapi
-          - repo: dotto-admin-web
-            type: app
-            schema: openapi.AdminBFFService.yaml
-            openapi-dir: openapi
+          - repo: app
+            mappings:
+              - source: tsp-output/schema/openapi.AppBFFService.yaml
+                target: openapi/openapi.yaml
+          - repo: web
+            mappings:
+              - source: tsp-output/schema/openapi.AppBFFService.yaml
+                target: openapi/openapi.yaml
+          - repo: admin-web
+            mappings:
+              - source: tsp-output/schema/openapi.AdminBFFService.yaml
+                target: openapi/openapi.yaml
           - repo: server
-            type: server
-            openapi-dir: openapi
+            mappings:
+              - source: tsp-output/schema/openapi.AcademicService.yaml
+                target: api/openapi/academic/openapi.yaml
+              - source: tsp-output/schema/openapi.AdminBFFService.yaml
+                target: api/openapi/admin/openapi.yaml
+              - source: tsp-output/schema/openapi.AnnouncementService.yaml
+                target: api/openapi/announcement/openapi.yaml
+              - source: tsp-output/schema/openapi.AppBFFService.yaml
+                target: api/openapi/app/openapi.yaml
+              - source: tsp-output/schema/openapi.FunchService.yaml
+                target: api/openapi/funch/openapi.yaml
+              - source: tsp-output/schema/openapi.UserService.yaml
+                target: api/openapi/user/openapi.yaml
     steps:
       - uses: actions/create-github-app-token@v2
         id: app-token
@@ -53,7 +65,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: schemas
-          path: schemas
+          path: tsp-output/schema
       - name: Check if branch and PR exist
         id: check-existing
         env:
@@ -85,28 +97,21 @@ jobs:
             steps.check-existing.outputs.pr_exists == 'true' &&
             'update-openapi-schema' || '' }}
       - name: Copy schemas
+        env:
+          MAPPINGS: ${{ toJson(matrix.mappings) }}
         run: |
-          if [ "${{ matrix.type }}" = "server" ]; then
-            # bff と backend のスキーマをサービス名ごとのディレクトリへ集約する
-            copy_schema() {
-              mkdir -p "target-repo/${{ matrix.openapi-dir }}/$2"
-              cp "schemas/$1" "target-repo/${{ matrix.openapi-dir }}/$2/openapi.yaml"
-            }
-            copy_schema openapi.AppBFFService.yaml app_bff
-            copy_schema openapi.AdminBFFService.yaml admin_bff
-            copy_schema openapi.AcademicService.yaml academic
-            copy_schema openapi.AnnouncementService.yaml announcement
-            copy_schema openapi.FunchService.yaml funch
-            copy_schema openapi.UserService.yaml user
-          else
-            if [ -z "${{ matrix.schema }}" ]; then
-              echo "Error: matrix.schema is required"
+          echo "$MAPPINGS" | jq -c '.[]' | while read -r mapping; do
+            source_path=$(echo "$mapping" | jq -r '.source')
+            target_path=$(echo "$mapping" | jq -r '.target')
+
+            if [ ! -f "$source_path" ]; then
+              echo "Error: source schema not found: $source_path"
               exit 1
             fi
 
-            mkdir -p target-repo/${{ matrix.openapi-dir }}
-            cp schemas/${{ matrix.schema }} target-repo/${{ matrix.openapi-dir }}/openapi.yaml
-          fi
+            mkdir -p "target-repo/$(dirname "$target_path")"
+            cp "$source_path" "target-repo/$target_path"
+          done
       - name: Push to existing branch
         if: steps.check-existing.outputs.branch_exists == 'true' &&
           steps.check-existing.outputs.pr_exists == 'true'
