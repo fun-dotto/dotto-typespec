@@ -1,13 +1,6 @@
-name: Create PR on Schema Change
+name: Distribute YAML
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "src/**"
-      - "main.tsp"
-      - "tspconfig.yaml"
   workflow_dispatch:
 
 jobs:
@@ -15,11 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: jdx/mise-action@v3
-      - name: Install
-        run: task install
+      - uses: jdx/mise-action@v4
+        with:
+          github_token: ${{ github.token }}
+          cache: true
+      - name: Setup
+        run: mise setup
       - name: Compile
-        run: task compile
+        run: mise run compile
       - uses: actions/upload-artifact@v4
         with:
           name: schemas
@@ -29,44 +25,35 @@ jobs:
     needs: compile
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         include:
-          - repo: dotto-app
-            type: app
-            schema: openapi.AppBFFService.yaml
-            openapi-dir: openapi
-          - repo: dotto-web
-            type: app
-            schema: openapi.AppBFFService.yaml
-            openapi-dir: openapi
-          - repo: dotto-admin-web
-            type: app
-            schema: openapi.AdminBFFService.yaml
-            openapi-dir: openapi
-          - repo: app-bff-api
-            type: bff
-            schema: openapi.AppBFFService.yaml
-            openapi-dir: openapi
-          - repo: admin-bff-api
-            type: bff
-            schema: openapi.AdminBFFService.yaml
-            openapi-dir: openapi
-          - repo: academic-api
-            type: backend
-            schema: openapi.AcademicService.yaml
-            openapi-dir: openapi
-          - repo: announcement-api
-            type: backend
-            schema: openapi.AnnouncementService.yaml
-            openapi-dir: openapi
-          - repo: funch-api
-            type: backend
-            schema: openapi.FunchService.yaml
-            openapi-dir: openapi
-          - repo: user-api
-            type: backend
-            schema: openapi.UserService.yaml
-            openapi-dir: openapi
+          - repo: app
+            mappings:
+              - source: tsp-output/schema/openapi.AppBFFService.yaml
+                target: openapi/openapi.yaml
+          - repo: web
+            mappings:
+              - source: tsp-output/schema/openapi.AppBFFService.yaml
+                target: openapi/openapi.yaml
+          - repo: admin-web
+            mappings:
+              - source: tsp-output/schema/openapi.AdminBFFService.yaml
+                target: openapi/openapi.yaml
+          - repo: server
+            mappings:
+              - source: tsp-output/schema/openapi.AcademicService.yaml
+                target: api/openapi/academic/openapi.yaml
+              - source: tsp-output/schema/openapi.AdminBFFService.yaml
+                target: api/openapi/admin/openapi.yaml
+              - source: tsp-output/schema/openapi.AnnouncementService.yaml
+                target: api/openapi/announcement/openapi.yaml
+              - source: tsp-output/schema/openapi.AppBFFService.yaml
+                target: api/openapi/app/openapi.yaml
+              - source: tsp-output/schema/openapi.FunchService.yaml
+                target: api/openapi/funch/openapi.yaml
+              - source: tsp-output/schema/openapi.UserService.yaml
+                target: api/openapi/user/openapi.yaml
     steps:
       - uses: actions/create-github-app-token@v2
         id: app-token
@@ -78,7 +65,7 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: schemas
-          path: schemas
+          path: tsp-output/schema
       - name: Check if branch and PR exist
         id: check-existing
         env:
@@ -110,25 +97,21 @@ jobs:
             steps.check-existing.outputs.pr_exists == 'true' &&
             'update-openapi-schema' || '' }}
       - name: Copy schemas
+        env:
+          MAPPINGS: ${{ toJson(matrix.mappings) }}
         run: |
-          if [ -z "${{ matrix.schema }}" ]; then
-            echo "Error: matrix.schema is required"
-            exit 1
-          fi
+          echo "$MAPPINGS" | jq -c '.[]' | while read -r mapping; do
+            source_path=$(echo "$mapping" | jq -r '.source')
+            target_path=$(echo "$mapping" | jq -r '.target')
 
-          mkdir -p target-repo/${{ matrix.openapi-dir }}
-          cp schemas/${{ matrix.schema }} target-repo/${{ matrix.openapi-dir }}/openapi.yaml
+            if [ ! -f "$source_path" ]; then
+              echo "Error: source schema not found: $source_path"
+              exit 1
+            fi
 
-          if [ "${{ matrix.type }}" = "bff" ]; then
-            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/academic_api
-            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/announcement_api
-            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/funch_api
-            mkdir -p target-repo/${{ matrix.openapi-dir }}/external/user_api
-            cp schemas/openapi.AcademicService.yaml target-repo/${{ matrix.openapi-dir }}/external/academic_api/openapi.yaml
-            cp schemas/openapi.AnnouncementService.yaml target-repo/${{ matrix.openapi-dir }}/external/announcement_api/openapi.yaml
-            cp schemas/openapi.FunchService.yaml target-repo/${{ matrix.openapi-dir }}/external/funch_api/openapi.yaml
-            cp schemas/openapi.UserService.yaml target-repo/${{ matrix.openapi-dir }}/external/user_api/openapi.yaml
-          fi
+            mkdir -p "target-repo/$(dirname "$target_path")"
+            cp "$source_path" "target-repo/$target_path"
+          done
       - name: Push to existing branch
         if: steps.check-existing.outputs.branch_exists == 'true' &&
           steps.check-existing.outputs.pr_exists == 'true'
