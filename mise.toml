@@ -29,53 +29,5 @@ run = "pnpm preview"
 description = "Watch for changes and preview the documentation"
 depends = ["watch", "preview"]
 
-[tasks.build]
-description = "Clean and build the documentation"
-run = [
-  "mise run clean",
-  "mise run compile-and-build-docs",
-]
-
-[tasks.compile-and-build-docs]
-run = [
-  "mise run compile",
-  "mise run build-docs",
-]
-
-[tasks.build-docs]
-depends = [
-  "build-docs:academic-api",
-  "build-docs:admin-bff-api",
-  "build-docs:app-bff-api",
-  "build-docs:announcement-api",
-  "build-docs:funch-api",
-  "build-docs:user-api",
-]
-
-[tasks."build-docs:academic-api"]
-run = "pnpm build-docs:academic-api"
-
-[tasks."build-docs:admin-bff-api"]
-run = "pnpm build-docs:admin-bff-api"
-
-[tasks."build-docs:app-bff-api"]
-run = "pnpm build-docs:app-bff-api"
-
-[tasks."build-docs:announcement-api"]
-run = "pnpm build-docs:announcement-api"
-
-[tasks."build-docs:funch-api"]
-run = "pnpm build-docs:funch-api"
-
-[tasks."build-docs:user-api"]
-run = "pnpm build-docs:user-api"
-
 [tasks.clean]
-description = "Clean the schema and documentation"
-depends = ["clean-schema", "clean-docs"]
-
-[tasks.clean-schema]
 run = "rm -rf ./tsp-output/schema"
-
-[tasks.clean-docs]
-run = "rm -rf ./dist"
