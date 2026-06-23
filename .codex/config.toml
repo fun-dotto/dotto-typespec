@@ -1,15 +1,5 @@
-approval_mode = "full-auto"
+[mcp_servers.dotto-notion]
+url = "https://mcp.notion.com/mcp"
 
-[full_auto]
-allow = [
-  "* --version",
-  "* --help *",
-  "echo *",
-  "find *",
-  "gh *",
-  "git *",
-  "grep *",
-  "ls *",
-  "task *",
-  "wc *",
-]
+[plugins."context7@context7-marketplace"]
+enabled = true
