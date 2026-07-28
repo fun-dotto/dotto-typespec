@@ -718,4 +718,36 @@ namespace AdminBFFService {
       @path id: string,
     ): NoContentResponse | NotFoundResponse | UnauthorizedResponse;
   }
+
+  @route("/v1/busTrips")
+  @tag("BusTrips")
+  interface BusTripsV1 {
+    /**
+     * バスの運行情報を取得する
+     *
+     * @param date バスの運行情報を取得する日付
+     *
+     * @returns バスの運行情報のリスト
+     */
+    @get list(@query(#{ explode: true }) date: plainDate): (OkResponse &
+      Body<{
+        busTrips: BusService.BusTrip[];
+      }>) | UnauthorizedResponse;
+  }
+
+  @route("/v1/busTrips/{tripId}/busTimetableStops")
+  @tag("BusTimetableStops")
+  interface BusTimetableStopsV1 {
+    /**
+     * バスの停車情報を取得する
+     *
+     * @param tripId 運行ID
+     *
+     * @returns バスの停車情報のリスト
+     */
+    @get list(@path tripId: string): (OkResponse &
+      Body<{
+        busTimetableStops: BusService.BusTimetableStop[];
+      }>) | UnauthorizedResponse;
+  }
 }
